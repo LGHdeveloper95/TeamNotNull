@@ -14,6 +14,7 @@ public class TestController {
       @ResponseBody
       public String test() {
     	  return "<h2>Test</h2>";
+    	  
       }
       
       
