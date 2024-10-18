@@ -1,4 +1,4 @@
-package com.board.login;
+package com.guguin.login;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
