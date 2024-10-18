@@ -5,9 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="icon" type="image/png" href="/img/favicon.ico" />
+<link rel="stylesheet"  href="/css/common.css" />
 </head>
 <body>
-     <h2>test Bo</h2>
-     
+  <%@include file = "/WEB-INF/include/head.jsp" %>
 </body>
 </html>
