@@ -1,3 +1,4 @@
+
 @charset "UTF-8";
 
 *{
@@ -13,6 +14,7 @@ a{ text-decoration: none; }
     height: auto;
 }
 header{ text-align: center; }
+
 #session-timer {
     display: flex;
     justify-content: flex-end;
@@ -42,6 +44,7 @@ header{ text-align: center; }
 #menus div {
 	flex: 1;
 	text-align: center;
+;
 }
 #menus a {
     color: white;
