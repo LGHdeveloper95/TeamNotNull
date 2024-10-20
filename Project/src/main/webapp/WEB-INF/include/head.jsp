@@ -1,18 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <header>
+  <div>
     <a href="/"><img alt="title" src="/img/banner.png" id="banner"></a>
-</header>
-<div id="session-timer">
-  남은 시간: <span id="timer">30:00</span>&nbsp;&nbsp;
-  <button id="loginTenstioin" onclick="extendSession()">로그인 연장</button>
-</div>
+  </div>
+<c:if test="${ not empty sessionScope.userid || not empty sessionScope.comid }">
+  <div id="session-timer">
+    남은 시간: <span id="timer">30:00</span>&nbsp;&nbsp;
+    <button id="loginTenstioin" onclick="extendSession()">로그인 연장</button>
+  </div>
+</c:if>
 <div id="menus">
     <div><a href="/Guin/Board">구인정보</a></div>
     <div><a href="/Gusik/Board">구직정보</a></div>
     <div><a href="/Comp/Board">기업정보</a></div>
     <div><a href="/Cs/Board">고객센터</a></div>
 </div>
+</header>
 <script>
   // 30분 타이머 설정 (1800초 = 30분)
   var sessionTimeout = 1800; 
