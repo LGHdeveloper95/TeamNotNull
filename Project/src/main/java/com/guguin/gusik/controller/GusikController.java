@@ -28,7 +28,7 @@ public class GusikController {
             mv.addObject("loginreq", true);
             mv.setViewName("redirect:/Login/");
         } else {
-            List<GusikVo> resList = gusikMapper.getResList();
+            List<GusikVo> resList = gusikMapper.getResumeList();
             mv.setViewName("gusik/board");
             mv.addObject("resList",resList);
         }

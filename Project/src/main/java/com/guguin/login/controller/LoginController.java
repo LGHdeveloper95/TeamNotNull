@@ -21,8 +21,6 @@ public class LoginController {
     public ModelAndView login(LoginVo loginVo){
         ModelAndView mv = new ModelAndView();
         mv.setViewName("login/loginPage");
-        mv.addObject("loginfail",loginVo);
-        mv.addObject("loginreq",loginVo);
         return mv;
     }
 

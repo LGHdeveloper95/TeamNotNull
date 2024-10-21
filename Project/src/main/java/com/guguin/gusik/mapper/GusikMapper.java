@@ -7,6 +7,6 @@ import java.util.List;
 
 @Mapper
 public interface GusikMapper {
-    public List<GusikVo> getResList();
+    public List<GusikVo> getResumeList();
 
 }
