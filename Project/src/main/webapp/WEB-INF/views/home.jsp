@@ -113,12 +113,14 @@ main {
       <div>
         <c:if test="${not empty sessionScope.userid}">${ sessionScope.userid }님 환영합니다</c:if>
         <c:if test="${not empty sessionScope.comid}">${ sessionScope.comid }님 환영합니다</c:if>
-        <c:if test="${ empty sessionScope.userid && empty sessionScope.comid }">로그인이 필요합니다</c:if>
+        <c:if test="${ empty sessionScope.userid && empty sessionScope.comid }">로그인이 필요합니다
+        <div><a href="/Login/">로그인</a></div>
+        </c:if>
       </div>
       <div>
         <c:if test="${not empty sessionScope.userid || not empty sessionScope.comid}">
           <a href="">Mypage</a>
-          <a href="">logout</a>
+          <a href="/Login/Logout">logout</a>
         </c:if>
       </div>
     </div>

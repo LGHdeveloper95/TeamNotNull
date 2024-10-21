@@ -9,8 +9,8 @@
 <link rel="stylesheet"  href="/css/common.css" />
 </head>
 <body>
-    <%--<%@include file = "/webapp/WEB-INF/include/header.jsp" %>
-    --%><div class="big-div">
+
+   <div class="big-div">
         <div class="form-box">
             <h2>기업 회원가입</h2>
             <form action="/join" method="post" >
