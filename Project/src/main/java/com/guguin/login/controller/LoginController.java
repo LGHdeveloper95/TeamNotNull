@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -17,10 +18,11 @@ public class LoginController {
     private LoginMapper loginMapper;
 
     @RequestMapping("/")
-    public ModelAndView login(Boolean loginFail){
+    public ModelAndView login(LoginVo loginVo){
         ModelAndView mv = new ModelAndView();
         mv.setViewName("login/loginPage");
-        mv.addObject("loginFail",loginFail);
+        mv.addObject("loginfail",loginVo);
+        mv.addObject("loginreq",loginVo);
         return mv;
     }
 
@@ -31,7 +33,7 @@ public class LoginController {
         LoginVo user= loginMapper.getUser(loginVo);
         if(user==null){
             mv.setViewName("login/loginPage");
-            mv.addObject("loginFail",false);
+            mv.addObject("loginfail",true);
         }
         else if(user!=null){
             session.setAttribute("userid",user.getUserid());
@@ -48,7 +50,7 @@ public class LoginController {
         LoginVo user= loginMapper.getCom(loginVo);
         if(user==null){
             mv.setViewName("redirect:/Login/");
-            mv.addObject("loginFail",false);
+            mv.addObject("loginfail",true);
         }
         else if(user!=null){
             session.setAttribute("comid",user.getComid());

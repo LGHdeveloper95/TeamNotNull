@@ -90,27 +90,27 @@
         <table>
             <thead>
             <tr>
-                <td>구인공고</td>
+                <td>구직공고</td>
             </tr>
             </thead>
-            <c:if test= "${ empty recList }">
+            <c:if test= "${ empty resList }">
                 <tr>
-                    <td>모집중인 공고가 없습니다 😢</td>
+                    <td>구인공고가 없습니다 😢</td>
                 </tr>
             </c:if>
-            <c:if test="${ not empty recList }">
-                <c:forEach items="${ recList }" var="rec">
+            <c:if test="${ not empty resList }">
+                <c:forEach items="${ resList }" var="res">
                     <!-- ${ rec } userid=null, userpw=null, username=null, RECNUM=rec001, COMID=null, RECTITLE=소프트웨어 개발자 모집 -->
                     <tr>
                         <td>
-                            <a href="/Guin/View/recnum=${ rec.recnum }">${ rec.rectitle }</a>
+                            <a href="/Gusik/View/resnum=${ res.resnum }">${ res.restitle }</a>
                         </td>
                     </tr>
                 </c:forEach>
             </c:if>
         </table>
-        <c:if test="${not empty sessionScope.comid}">
-            <a href="/Guin/Write?comid=${sessionScope.comid}" id ="write">글쓰기</a>
+        <c:if test="${not empty sessionScope.userid}">
+            <a href="/Gusik/Write?comid=${sessionScope.userid}" id ="write">글쓰기</a>
         </c:if>
     </div>
     <div class="profile">

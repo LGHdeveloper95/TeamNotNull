@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guguin.guin.mapper.GuinMapper">
+
+    <select id = "getRecruitList">
+        SELECT RECNUM
+             ,COMID
+             ,RECTITLE
+             ,SUBTITLE
+             ,BOSS
+             ,GCONTENT
+             ,REG_DATE
+             ,DEADLINE
+             ,SIDO_CODE
+             ,GUGUN_CODE
+             ,CAREER_CODE
+             ,EDU_CODE
+             ,BOOK_COUNT
+        FROM RECRUIT
+    </select>
+</mapper>
