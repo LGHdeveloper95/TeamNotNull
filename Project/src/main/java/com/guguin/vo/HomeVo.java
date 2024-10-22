@@ -11,41 +11,28 @@ public class HomeVo {
 	
 	//PERSONAL_MEMBERS 개인회원
 	private String userid;
-	private String userpw;
 	private String username;
-	//private String birth;
-	//private String uphone;
-	//private String uaddr;
-	//private String email;
 	
 	//RECRUIT 공고
 	private String recnum;
-	private String comid;
+	//private String comid;
 	private String rectitle;
-	//private String subtitle;
-	//private String boss;
-	//private String gcontent;
-	/*
-	private String reg_date;
-	private String deadline;
-	private int sido_code;
-	private int gugun_code;
-	private int career_code;
-	private int edu_code;
-	private int book_count;
-	*/
     
 	//BUSINESS_MEMBERS 기업회원
-    //private String comid;
-    //private String comnum;
-    private String compw;
+	private String comid;
     private String comname;
-    private String boss;
-    //private String cphone;
-    //private String caddr;
-    //private int starrating;
-    //private String bossemail;
     
 	//RECRUIT 지원받은 이력서 목록
+    private String resnum;
+    //private String recnum;
     
+    //PERSONAL_RESUME 이력서
+    //private String resnum;
+    private String restitle;
+    private String reg_date;
+    //private int edu;
+    //private int career;
+    //skill varchar2(50) 흠 skill code랑 resnum을 연결해서 resume_skill table이 있는데 필요한가? 추가설명이였나?
+    
+    //왕대박! cascade 설정 안 함! 자살~!
 }
