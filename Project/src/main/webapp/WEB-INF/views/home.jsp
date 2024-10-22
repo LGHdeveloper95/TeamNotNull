@@ -80,7 +80,6 @@
 <body>
 <%@include file = "/WEB-INF/include/head.jsp" %>
 <main>
-  <h2>MY PAGE</h2>
   <div id="listtable"><!-- 공고/이력서 리스트 -->
     <table>
       <!-- 기업로그인 O, 이력서리스트 O -->

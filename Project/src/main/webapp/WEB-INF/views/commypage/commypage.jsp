@@ -107,6 +107,7 @@
 <body>
 <%@include file = "/WEB-INF/include/head.jsp" %>
 <main>
+  <h2>My Page</h2>
   <div class="mypage">
     <div class="menu">
       <table id="menu_button">
@@ -118,7 +119,7 @@
     </div>
     <div id ="listtable" class="pagecontent">
       <table>
-        <tr><th>지원한 이력서</th></tr>
+        <tr><th colspan="2">지원한 이력서</th></tr>
       <c:choose>
         <c:when test="${resList eq null} ">
           <tr><td>지원한 공고가 없습니다 😢</td></tr>
@@ -152,7 +153,7 @@
         <a href="/Login/Logout" class="abutton">logout</a>
       </c:if>
       <c:if test="${ not empty sessionScope.comid}">
-        <a href="/CompPage/Board" class="abutton">Mypage</a>
+        <a href="/ComMyPage/" class="abutton">Mypage</a>
         <a href="/Login/Logout" class="abutton">logout</a>
       </c:if>
     </div>

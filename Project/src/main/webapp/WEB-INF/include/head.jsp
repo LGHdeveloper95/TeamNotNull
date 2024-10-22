@@ -14,7 +14,7 @@
     <div id="menus">
         <c:if test="${ not empty sessionScope.comid }"><!-- 기업아이디로 로그인 했을경우 -->
         <div><a href="/Gusik/Board">구직정보</a></div>
-        <div><a href="/Gusik/Board">공고관리</a></div>
+        <div><a href="/Post/Board">공고관리</a></div>
         </c:if>
         <c:if test="${ empty sessionScope.comid }">
             <div><a href="/Guin/Board">구인정보</a></div>
