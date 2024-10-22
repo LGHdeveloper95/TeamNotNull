@@ -88,8 +88,8 @@
             /* Flex-grow로 크기 조정 */
         }
 
-        td:nth-child(2) {
-            width: 80%;
+        td:nth-child(1) {
+            width: 70%;
 
         }
         td img{
@@ -120,16 +120,19 @@
     <div id="rectable">
         <table>
             <tr>
-                <th>Title:</th>
-                <td>${res.restitle}</td>
+                <h4>Title:</h4>
+                <td colspan="2">${res.restitle}</td>
             </tr>
             <tr>
                 <th colspan="2">ConTent</th>
             </tr>
             <tr>
                 <td><h4>인적사항</h4>
-                    <div> 이름: ${res.username}</div>
-
+                    <div> 이름: ${user.username}</div>
+                    <div> 생년월일: ${user.birth}</div>
+                    <div> 휴대폰: ${user.uphone}</div>
+                    <div> 주소: ${user.uaddr}</div>
+                    <div> 이메일: ${user.email}</div>
                 </td>
                 <td>사진:<img src="/img/profile.png">${res.picture}</td>
             </tr>

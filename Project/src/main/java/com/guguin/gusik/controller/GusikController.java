@@ -41,8 +41,10 @@ public class GusikController {
     public ModelAndView view(GusikVo gusikVo) {
         ModelAndView mv  = new ModelAndView();
         GusikVo res = gusikMapper.getResume(gusikVo.getResnum());
+        GusikVo user = gusikMapper.getUser(res.getUserid());
         mv.setViewName("gusik/view");
         mv.addObject("res",res);
+        mv.addObject("user",user);
         return mv;
     }
 }

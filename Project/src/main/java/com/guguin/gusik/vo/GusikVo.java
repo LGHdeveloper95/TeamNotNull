@@ -23,4 +23,10 @@ public class GusikVo {
     private String skill;
     private String sido_code;
     private String gugun_code;
+
+    private String birth;
+    private String uphone;
+    private String uaddr;
+    private String email;
+
 }

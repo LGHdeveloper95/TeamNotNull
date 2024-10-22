@@ -40,4 +40,10 @@
         FROM PERSONAL_RESUME
         WHERE RESNUM=#{resnum}
     </select>
+
+    <select id="getUser">
+        SELECT USERNAME,TO_CHAR(BIRTH,'YYYY-MM-DD') BIRTH,UPHONE,UADDR,EMAIL
+        FROM PERSONAL_MEMBERS
+        WHERE USERID=#{userid}
+    </select>
 </mapper>
