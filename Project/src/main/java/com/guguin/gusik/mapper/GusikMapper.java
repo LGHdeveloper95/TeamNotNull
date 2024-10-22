@@ -9,4 +9,5 @@ import java.util.List;
 public interface GusikMapper {
     public List<GusikVo> getResumeList();
 
+    GusikVo getResume(String resnum);
 }

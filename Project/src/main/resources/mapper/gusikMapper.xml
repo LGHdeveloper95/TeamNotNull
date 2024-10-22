@@ -21,4 +21,23 @@
             ,GUGUN_CODE
         FROM PERSONAL_RESUME
     </select>
+    <select id ="getResume">
+        SELECT RESNUM
+             ,RESTITLE
+             ,USERID
+             ,USERNAME
+             ,UCONTENT
+             ,REG_DATE
+             ,PICTURE
+             ,EDU_CODE
+             ,EDU_CONTENT
+             ,LICENSE
+             ,CAREER_CODE
+             ,CAREER_CONTENT
+             ,SKILL
+             ,SIDO_CODE
+             ,GUGUN_CODE
+        FROM PERSONAL_RESUME
+        WHERE RESNUM=#{resnum}
+    </select>
 </mapper>
