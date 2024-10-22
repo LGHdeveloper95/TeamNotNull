@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <header>
   <div>
     <a href="/"><img alt="title" src="/img/banner.png" id="banner"></a>
@@ -18,7 +18,7 @@
   </c:if>
   <c:if test="${ empty sessionScope.comid }">
     <div><a href="/Guin/Board">구인정보</a></div>
-    <div><a href="/Guin/Board" id="loginCheck">이력서관리</a></div>
+    <div><a href="/Resume/Board" id="loginCheck">이력서관리</a></div>
   </c:if>
   <div><a href="/Comp/Board">기업정보</a></div>
   <div><a href="/Cs/Board">고객센터</a></div>
@@ -35,7 +35,7 @@
 		  //alert('ok');
 		  event.preventDefault();
 		  alert('로그인이 필요합니다');
-		  window.location.href = '/Login/LoginPage';
+		  window.location.href = '/Login/';
 	  })
   }
   // 30분 타이머 설정 (1800초 = 30분)

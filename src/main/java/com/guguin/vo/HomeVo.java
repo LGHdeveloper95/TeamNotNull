@@ -11,7 +11,6 @@ public class HomeVo {
 	
 	//PERSONAL_MEMBERS 개인회원
 	private String userid;
-	private String userpw;
 	private String username;
 	
 	//RECRUIT 공고
@@ -21,9 +20,7 @@ public class HomeVo {
     
 	//BUSINESS_MEMBERS 기업회원
 	private String comid;
-    private String compw;
     private String comname;
-    private String boss;
     
 	//RECRUIT 지원받은 이력서 목록
     private String resnum;
