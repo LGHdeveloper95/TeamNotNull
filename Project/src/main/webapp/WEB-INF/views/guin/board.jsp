@@ -131,9 +131,13 @@
             </c:if>
         </div>
         <div>
-            <c:if test="${not empty sessionScope.userid || not empty sessionScope.comid}">
-                <a href="">Mypage</a>
-                <a href="/Login/Logout">logout</a>
+            <c:if test="${ not empty sessionScope.userid }">
+                <a href="/MyPage/Board" class="abutton">Mypage</a>
+                <a href="/Login/Logout" class="abutton">logout</a>
+            </c:if>
+            <c:if test="${ not empty sessionScope.comid}">
+                <a href="/ComMyPage/" class="abutton">Mypage</a>
+                <a href="/Login/Logout" class="abutton">logout</a>
             </c:if>
         </div>
     </div>

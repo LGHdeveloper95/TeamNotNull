@@ -80,6 +80,7 @@
 <body>
 <%@include file = "/WEB-INF/include/head.jsp" %>
 <main>
+  <h2>MY PAGE</h2>
   <div id="listtable"><!-- 공고/이력서 리스트 -->
     <table>
       <!-- 기업로그인 O, 이력서리스트 O -->
@@ -138,7 +139,7 @@
         <a href="/Login/Logout" class="abutton">logout</a>
       </c:if>
       <c:if test="${ not empty sessionScope.comid}">
-        <a href="/CompPage/Board" class="abutton">Mypage</a>
+        <a href="/ComMyPage/" class="abutton">Mypage</a>
         <a href="/Login/Logout" class="abutton">logout</a>
       </c:if>
     </div>
