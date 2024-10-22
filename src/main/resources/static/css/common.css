@@ -1,0 +1,68 @@
+@charset "UTF-8";
+
+*{
+	padding : 0;
+	margin : 0;
+	box-sizing: border-box;
+}
+a{ text-decoration: none; }
+
+/*head-------------------------*/
+#banner{
+	width: 20%;
+    height: auto;
+}
+header{ text-align: center; }
+#session-timer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 0 30px 15px;
+}
+#loginTenstioin {
+    background: none;
+    color: black;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 10px 12px;
+    font-size: 16px;
+    cursor: pointer;
+}
+#loginTenstioin:hover{
+	background-color: black;
+	color: white;
+	transition: background-color 0.3s, color 0.3s, transform 0.2s;
+}
+#menus {
+	display: flex;
+	justify-content: space-between;
+	background-color: black;
+	padding: 15px 30px;
+}
+#menus div {
+	flex: 1;
+	text-align: center;
+}
+#menus a {
+    color: white;
+    font-weight: 600;
+    position: relative;
+}
+#menus a:hover{ text-decoration: none; }
+#menus a::after {
+    content: "";
+    display: block;
+    height: 2px;
+    background: white;
+    transition: width 0.3s ease, opacity 0.3s ease;
+    width: 0;
+    opacity: 0;
+    position: absolute;
+    left: 50%;
+    bottom: -5px;
+    transform: translateX(-50%);
+}
+#menus a:hover::after {
+    width: 100%;
+    opacity: 1;
+}
