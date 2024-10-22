@@ -12,4 +12,8 @@ public interface PostMapper {
     List<PostVo> getPostList(String comid);
 
     PostVo getPost(String recnum);
+
+    void updatePost(PostVo postVo);
+
+    void deletePost(PostVo postVo);
 }

@@ -99,6 +99,7 @@
 <main>
     <div id="posttable">
         <form action="/Post/Update" method="POST">
+            <input type="hidden" name="recnum" value="${post.recnum}">
         <table>
             <tr>
                 <th>Title:</th>
@@ -106,7 +107,7 @@
             </tr>
             <tr>
                 <th>SubTitle</th>
-                <td><input type="text" name="rectitle" value="${post.subtitle}"/></td>
+                <td><input type="text" name="subtitle" value="${post.subtitle}"/></td>
             </tr>
             <tr>
                 <th>Content</th>

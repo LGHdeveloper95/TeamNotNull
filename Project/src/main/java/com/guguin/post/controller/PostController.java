@@ -70,5 +70,37 @@ public class PostController {
         return mv;
     }
 
+    @RequestMapping("/Update")
+    public ModelAndView update(HttpServletRequest request, PostVo postVo){
+        ModelAndView mv = new ModelAndView();
+        HttpSession session  = request.getSession(false);
+        String comid = (String) session.getAttribute("comid");
+        if(comid==null){
+            mv.addObject("loginReq",true);
+            mv.setViewName("redirect:/Login/");
+        }
+        else{
+           postMapper.updatePost(postVo);
+           mv.setViewName("redirect:/Post/View?recnum="+postVo.getRecnum());
+        }
+        return mv;
+    }
+
+    @RequestMapping("/Delete")
+    public ModelAndView delete(HttpServletRequest request,PostVo postVo){
+        ModelAndView mv = new ModelAndView();
+        HttpSession session  = request.getSession(false);
+        String comid = (String) session.getAttribute("comid");
+        if(comid==null){
+            mv.addObject("loginReq",true);
+            mv.setViewName("redirect:/Login/");
+        }
+        else{
+            postMapper.deletePost(postVo);
+            mv.setViewName("redirect:/Post/Board");
+        }
+        return mv;
+
+    }
 
 }

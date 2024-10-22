@@ -41,4 +41,14 @@
         ON BM.COMID = REC.COMID
         WHERE  REC.RECNUM = #{recnum}
     </select>
+
+    <update id="updatePost">
+        UPDATE RECRUIT
+        SET RECTITLE=#{rectitle}, SUBTITLE=#{subtitle}, GCONTENT=#{gcontent}
+        WHERE RECNUM=#{recnum}
+    </update>
+
+    <delete id="deletePost">
+        DELETE RECRUIT WHERE RECNUM=#{recnum}
+    </delete>
 </mapper>
