@@ -16,6 +16,7 @@
     <div><a href="/Gusik/Board">구직정보</a></div>
     <div><a href="/Comp/Board">기업정보</a></div>
     <div><a href="/Cs/Board">고객센터</a></div>
+    <div><a href="/Mypage/Board">임시마이</a></div>
 </div>
 </header>
 <script>

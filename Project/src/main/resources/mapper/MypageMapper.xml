@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guguin.mypage.mapper.MypageMapper">
+
+<select id="getMyList">
+SELECT PERSONAL_RESUME.RESNUM, PERSONAL_RESUME.USERID, PERSONAL_RESUME.USERNAME, PERSONAL_RESUME.RESTITLE, MANAGEMENT_BOOKMARK.TYPE_SELECT
+   FROM PERSONAL_RESUME INNER
+    JOIN MANAGEMENT_BOOKMARK ON PERSONAL_RESUME.USERID = MANAGEMENT_BOOKMARK.USERID
+</select>
+
+
+</mapper>

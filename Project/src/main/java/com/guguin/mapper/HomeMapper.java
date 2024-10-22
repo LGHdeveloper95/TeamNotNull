@@ -11,8 +11,10 @@ public interface HomeMapper {
 
 	List<HomeVo> getRecList();
 
-	HomeVo getUser(Object attribute);
+	HomeVo getUserById(String userid);
 
-	HomeVo getComp(Object attribute);
+	List<HomeVo> getResList(String comid);
+
+	HomeVo getComp(String comid);
 
 }

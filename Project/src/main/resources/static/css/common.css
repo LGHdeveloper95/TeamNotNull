@@ -68,3 +68,6 @@ header{ text-align: center; }
     width: 100%;
     opacity: 1;
 }
+#menus a:hover{
+	text-decoration: none;
+} 

@@ -6,11 +6,11 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>사람과 기업을 이어주는 구구인 입니다.</title>
     <link rel="icon" type="image/png" href="/img/favicon.ico" />
     <link rel="stylesheet"  href="/css/common.css" />
     <style>
-        #rectable {
+        #mytable {
             margin: 20px auto;
             max-width: 800px;
             border: 1px solid #ccc;
@@ -59,7 +59,7 @@
             justify-content: space-between; /* 요소들 사이의 공간 조정 */
         }
 
-        #rectable {
+        #mytable {
             max-width: 800px; /* 최대 너비 설정 */
             border: 1px solid #ccc;
             border-radius: 8px;
@@ -89,7 +89,6 @@
   width: 90%; /* 프로필 이미지 너비를 80px로 설정 */
   height: auto; /* 비율 유지 */
 }
-
         #write{
             text-align: center;
         }
@@ -98,24 +97,31 @@
 <body>
 <%@include file = "/WEB-INF/include/head.jsp" %>
 <main>
-    <div id="rectable">
+	<div>
+		<table>
+		
+		</table>
+	</div>
+    <div id="mytable">
         <table>
             <thead>
             <tr>
-                <td>구인공고</td>
-                <td>회사명</td>
+                <td>지원이력</td>
+                <td>제목</td>
+                <td>작성자</td>
+                <td>구분</td>
             </tr>
             </thead>
-            <c:if test= "${ empty recList }">
+            <c:if test= "${ empty myList }">
                 <tr>
                     <td>모집중인 공고가 없습니다 😢</td>
                 </tr>
             </c:if>
-            <c:if test="${ not empty recList }">
-                <c:forEach items="${ recList }" var="rec">
+            <c:if test="${ not empty myList }">
+                <c:forEach items="${ myList }" var="my">
                     <!-- ${ rec } userid=null, userpw=null, username=null, RECNUM=rec001, COMID=null, RECTITLE=소프트웨어 개발자 모집 -->
                     <tr>
-                        <td><a href="/Guin/View?recnum=${ rec.recnum }">${ rec.rectitle }</a></td>
+                        <td><a href="/Resume/View?resnum=${ res.resnum }">${ res.restitle }</a></td>
 
                         <td><a href="/Comp/View?comid=${rec.comname}">${rec.comname}</a></td>
                     </tr>
@@ -149,4 +155,3 @@
   </main>
 </body>
 </html>
-
