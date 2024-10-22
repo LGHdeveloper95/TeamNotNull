@@ -92,6 +92,7 @@
 </head>
 <body>
 <%@include file = "/WEB-INF/include/head.jsp" %>
+<%@include file = "/WEB-INF/include/footer.jsp" %>
 <main>
     <div id="rectable">
         <table>

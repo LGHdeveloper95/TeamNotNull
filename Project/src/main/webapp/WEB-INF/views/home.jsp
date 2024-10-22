@@ -33,6 +33,7 @@
       display: flex; /* Flexbox 사용 */
       align-items: flex-start; /* 위쪽 정렬 */
       margin: 20px auto; /* 메인 마진 추가 */
+      min-height: calc(70vh - 5rem); /* footer 높이를 빼준다. */
     }
     .profile {
       width: 20%;
@@ -77,8 +78,9 @@
     }
   </style>
 </head>
-<body>
+
 <%@include file = "/WEB-INF/include/head.jsp" %>
+
 <main>
   <div id="listtable"><!-- 공고/이력서 리스트 -->
     <table>
@@ -174,6 +176,7 @@
     </div>
   </div>
 </div>
+<%@include file = "/WEB-INF/include/footer.jsp" %>
 <script>
   const loginBtnEl = document.querySelector('#loginBtn');
   loginBtnEl.addEventListener('click',function(){
