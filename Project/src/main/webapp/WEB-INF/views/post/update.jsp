@@ -10,7 +10,7 @@
     <link rel="icon" type="image/png" href="/img/favicon.ico" />
     <link rel="stylesheet"  href="/css/common.css" />
     <style>
-        #rectable {
+        #posttable {
             margin: 20px auto;
             max-width: 800px;
             border: 1px solid #ccc;
@@ -59,7 +59,7 @@
             justify-content: space-between; /* 요소들 사이의 공간 조정 */
         }
 
-        #rectable {
+        #posttable {
             max-width: 800px; /* 최대 너비 설정 */
             border: 1px solid #ccc;
             border-radius: 8px;
@@ -67,9 +67,13 @@
 
             /* Flex-grow로 크기 조정 */
         }
-        td:nth-child(1) {
+        td:nth-child(2) {
             width:80%;
         }
+        input[type="text"]{
+            width: 80%;
+        }
+
 
 
 
@@ -92,35 +96,32 @@
 </head>
 <body>
 <%@include file = "/WEB-INF/include/head.jsp" %>
-<%@include file = "/WEB-INF/include/footer.jsp" %>
 <main>
-    <div id="rectable">
+    <div id="posttable">
+        <form action="/Post/Update" method="POST">
+            <input type="hidden" name="recnum" value="${post.recnum}">
         <table>
-            <thead>
             <tr>
-                <td>구인공고</td>
-                <td>회사명</td>
+                <th>Title:</th>
+                <td><input type="text" name="rectitle" value="${post.rectitle}"/></td>
             </tr>
-            </thead>
-            <c:if test= "${ empty recList }">
-                <tr>
-                    <td>모집중인 공고가 없습니다 😢</td>
-                </tr>
-            </c:if>
-            <c:if test="${ not empty recList }">
-                <c:forEach items="${ recList }" var="rec">
-                    <!-- ${ rec } userid=null, userpw=null, username=null, RECNUM=rec001, COMID=null, RECTITLE=소프트웨어 개발자 모집 -->
-                    <tr>
-                        <td><a href="/Guin/View?recnum=${ rec.recnum }">${ rec.rectitle }</a></td>
-
-                        <td><a href="/Comp/View?comid=${rec.comname}">${rec.comname}</a></td>
-                    </tr>
-                </c:forEach>
-            </c:if>
+            <tr>
+                <th>SubTitle</th>
+                <td><input type="text" name="subtitle" value="${post.subtitle}"/></td>
+            </tr>
+            <tr>
+                <th>Content</th>
+                <td><textarea cols="80" rows="40" name="gcontent"> ${post.gcontent}</textarea></td>
+            </tr>
+            <tr><td colspan="2">
+                <a href="/Post/Board">목록</a>
+                <c:if test="${sessionScope.comid eq post.comid}">
+                    <input type="submit" value="수정" class="btn btn-success"/>
+                </c:if>
+            </td>
+            </tr>
         </table>
-        <c:if test="${not empty sessionScope.comid}">
-            <a href="/Guin/Write?comid=${sessionScope.comid}" id ="write">글쓰기</a>
-        </c:if>
+        </form>
     </div>
     <div class="profile">
         <div><img src="/img/profile.png" alt="profile"></div>

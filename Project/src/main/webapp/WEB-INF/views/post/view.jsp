@@ -9,8 +9,9 @@
     <title>Insert title here</title>
     <link rel="icon" type="image/png" href="/img/favicon.ico" />
     <link rel="stylesheet"  href="/css/common.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
-        #rectable {
+        #posttable {
             margin: 20px auto;
             max-width: 800px;
             border: 1px solid #ccc;
@@ -59,7 +60,7 @@
             justify-content: space-between; /* 요소들 사이의 공간 조정 */
         }
 
-        #rectable {
+        #posttable {
             max-width: 800px; /* 최대 너비 설정 */
             border: 1px solid #ccc;
             border-radius: 8px;
@@ -92,35 +93,30 @@
 </head>
 <body>
 <%@include file = "/WEB-INF/include/head.jsp" %>
-<%@include file = "/WEB-INF/include/footer.jsp" %>
 <main>
-    <div id="rectable">
-        <table>
-            <thead>
-            <tr>
-                <td>구인공고</td>
-                <td>회사명</td>
-            </tr>
-            </thead>
-            <c:if test= "${ empty recList }">
-                <tr>
-                    <td>모집중인 공고가 없습니다 😢</td>
-                </tr>
-            </c:if>
-            <c:if test="${ not empty recList }">
-                <c:forEach items="${ recList }" var="rec">
-                    <!-- ${ rec } userid=null, userpw=null, username=null, RECNUM=rec001, COMID=null, RECTITLE=소프트웨어 개발자 모집 -->
-                    <tr>
-                        <td><a href="/Guin/View?recnum=${ rec.recnum }">${ rec.rectitle }</a></td>
-
-                        <td><a href="/Comp/View?comid=${rec.comname}">${rec.comname}</a></td>
-                    </tr>
-                </c:forEach>
-            </c:if>
-        </table>
-        <c:if test="${not empty sessionScope.comid}">
-            <a href="/Guin/Write?comid=${sessionScope.comid}" id ="write">글쓰기</a>
-        </c:if>
+    <div id="posttable">
+       <table>
+           <tr>
+               <th>Title:</th>
+               <td>${post.rectitle}</td>
+           </tr>
+           <tr>
+               <th>SubTitle</th>
+               <td>${post.subtitle}</td>
+           </tr>
+           <tr>
+               <th>Content</th>
+               <td>${post.gcontent}</td>
+           </tr>
+           <tr><td colspan="2">
+               <a href="/Post/Board">목록</a>
+               <c:if test="${sessionScope.comid eq post.comid}">
+               <a href="/Post/UpdateForm?recnum=${post.recnum}">수정 </a>
+               <a href="/Post/Delete?recnum=${post.recnum}">삭제 </a>
+               </c:if>
+           </td>
+           </tr>
+       </table>
     </div>
     <div class="profile">
         <div><img src="/img/profile.png" alt="profile"></div>

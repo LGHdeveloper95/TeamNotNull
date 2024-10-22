@@ -10,6 +10,7 @@
     <link rel="icon" type="image/png" href="/img/favicon.ico" />
     <link rel="stylesheet"  href="/css/common.css" />
     <style>
+
         #rectable {
             margin: 20px auto;
             max-width: 800px;
@@ -63,15 +64,8 @@
             max-width: 800px; /* 최대 너비 설정 */
             border: 1px solid #ccc;
             border-radius: 8px;
-            flex: 1;
-
-            /* Flex-grow로 크기 조정 */
+            flex: 1; /* Flex-grow로 크기 조정 */
         }
-        td:nth-child(1) {
-            width:80%;
-        }
-
-
 
         .profile {
             flex: 0 0 150px; /* 고정 너비를 120px로 설정 */
@@ -92,34 +86,32 @@
 </head>
 <body>
 <%@include file = "/WEB-INF/include/head.jsp" %>
-<%@include file = "/WEB-INF/include/footer.jsp" %>
 <main>
     <div id="rectable">
         <table>
             <thead>
             <tr>
-                <td>구인공고</td>
-                <td>회사명</td>
+                <td>구직공고</td>
             </tr>
             </thead>
-            <c:if test= "${ empty recList }">
+            <c:if test= "${ empty resList }">
                 <tr>
-                    <td>모집중인 공고가 없습니다 😢</td>
+                    <td>구인공고가 없습니다 😢</td>
                 </tr>
             </c:if>
-            <c:if test="${ not empty recList }">
-                <c:forEach items="${ recList }" var="rec">
+            <c:if test="${ not empty resList }">
+                <c:forEach items="${ resList }" var="res">
                     <!-- ${ rec } userid=null, userpw=null, username=null, RECNUM=rec001, COMID=null, RECTITLE=소프트웨어 개발자 모집 -->
                     <tr>
-                        <td><a href="/Guin/View?recnum=${ rec.recnum }">${ rec.rectitle }</a></td>
-
-                        <td><a href="/Comp/View?comid=${rec.comname}">${rec.comname}</a></td>
+                        <td>
+                            <a href="/Gusik/View?resnum=${ res.resnum }">${ res.restitle }</a>
+                        </td>
                     </tr>
                 </c:forEach>
             </c:if>
         </table>
-        <c:if test="${not empty sessionScope.comid}">
-            <a href="/Guin/Write?comid=${sessionScope.comid}" id ="write">글쓰기</a>
+        <c:if test="${not empty sessionScope.userid}">
+            <a href="/Gusik/Write?comid=${sessionScope.userid}" id ="write">글쓰기</a>
         </c:if>
     </div>
     <div class="profile">

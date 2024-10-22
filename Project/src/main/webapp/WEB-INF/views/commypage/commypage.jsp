@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +9,30 @@
   <title>Insert title here</title>
   <link rel="icon" type="image/png" href="/img/favicon.ico" />
   <link rel="stylesheet"  href="/css/common.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <style>
+    #menu_button {
+    td{
+      text-align: center;
+      background: #333;
+      color:white;
+      font-weight: bold;
+      border: 1px solid silver;
+      padding: 0;
+    }
+    td:hover{
+      background: #c0c0c0;
+      color:white;
+    }
+    a{
+      text-decoration:none;
+      color:white;
+      display:block;
+      padding:15px 65px;
+      width:100%;
+    }
+
+    }
     #listtable {
       margin: 20px auto;
       border: 1px solid #ccc;
@@ -33,7 +57,6 @@
       display: flex; /* Flexbox 사용 */
       align-items: flex-start; /* 위쪽 정렬 */
       margin: 20px auto; /* 메인 마진 추가 */
-      min-height: calc(70vh - 5rem); /* footer 높이를 빼준다. */
     }
     .profile {
       width: 20%;
@@ -76,55 +99,45 @@
       padding: 2px;
       background-color: #f2f2f2;
     }
+    .mypage{
+      width:80%;
+    }
   </style>
 </head>
-
+<body>
 <%@include file = "/WEB-INF/include/head.jsp" %>
-
 <main>
-  <div id="listtable"><!-- 공고/이력서 리스트 -->
-    <table>
-      <!-- 기업로그인 O, 이력서리스트 O -->
-      <c:if test="${ not empty sessionScope.comid && not empty resList}">
-        <thead><tr>
-          <td style="text-align: center;">입사지원서</td>
-        </tr></thead>
-        <c:forEach items="${ resList }" var="res">
-          <tr>
-            <td><a href="/Gusik/View?resnum=${ res.resnum }">${ res.restitle }</a></td>
-          </tr>
-        </c:forEach>
-      </c:if>
-      <!-- 기업로그인 O, 이력서리스트 X -->
-      <c:if test="${ not empty sessionScope.comid && empty resList}">
-        <thead><tr>
-          <td style="text-align: center;">입사지원서</td>
-          <td style="text-align: center; width: 200px;">지원날짜</td>
-        </tr></thead>
-      </c:if>
-      <!-- 이력서리스트 X, 공고리스트 O -->
-      <c:if test="${ empty resList && not empty recList }">
-        <thead><tr>
-          <td style="text-align: center;">구인공고</td>
-          <td style="text-align: center; width: 200px;">회사명</td>
-        </tr></thead>
-        <c:forEach items="${ recList }" var="rec">
-          <tr>
-            <td><a href="/Guin/View?recnum=${ rec.recnum }">${ rec.rectitle }</a></td>
-            <td>${ rec.comname }</td>
-          </tr>
-        </c:forEach>
-      </c:if>
-      <!-- 기업로그인 X, 공고리스트 X -->
-      <c:if test= "${ empty sessionScope.comid && empty recList }">
-        <thead><tr>
-          <td style="text-align: center;">구인공고</td>
-          <td style="text-align: center; width: 200px;">회사명</td>
-        </tr></thead>
-        <tr><td colspan="2">모집중인 공고가 없습니다 😢</td></tr>
-      </c:if>
-    </table>
+  <h2>My Page</h2>
+  <div class="mypage">
+    <div class="menu">
+      <table id="menu_button">
+        <tr>
+          <td><a href="#" onclick="return false" id="res_search" >지원자 조회</a></td>
+          <td><a href="#" onclick="return false" id="book">북마크</a></td>
+        </tr>
+      </table>
+    </div>
+    <div id ="listtable" class="pagecontent">
+      <table>
+        <tr><th colspan="2">지원한 이력서</th></tr>
+      <c:choose>
+        <c:when test="${resList eq null} ">
+          <tr><td>지원한 공고가 없습니다 😢</td></tr>
+        </c:when>
+        <c:otherwise>
+          <c:forEach items="${resList}" var="res">
+            <tr>
+              <td><a href="/ComMyPage/View?resnum=${res.resnum}"
+                     onclick="window.open(this.href, '_blank', 'width=800, height=600'); return false;">
+              ${res.restitle}</a></td>
+            </tr>
+          </c:forEach>
+        </c:otherwise>
+      </c:choose>
+      </table>
+    </div>
   </div>
+
   <div class="profile"><!-- 로그인 프로필 -->
     <div><img src="/img/profile.png" alt="profile"></div>
     <div>
@@ -146,37 +159,6 @@
     </div>
   </div>
 </main>
-<div id="compInformList"><!-- 기업정보 -->
-  <div>
-    <div class="compInform">
-      <a href="https://www.samsungcareers.com/"><img src="/img/samsung.png"/>Samsung 채용</a>
-    </div>
-    <div class="compInform">
-      <a href="https://careers.lg.com/main/IndexProxy.rpi"><img src="/img/lg.png"/>LG 채용</a>
-    </div>
-    <div class="compInform">
-      <a href="https://careers.hyundaigroup.com/"><img src="/img/samplelogo.jpeg"/>HYUNDAI 채용</a>
-    </div>
-    <div class="compInform">
-      <a href="https://www.skcareers.com/"><img src="/img/samplelogo.jpeg"/>SK 채용</a>
-    </div>
-  </div>
-  <div>
-    <div class="compInform">
-      <a href="https://career.nexon.com/user/recruit/member/postList?joinCorp=NX"><img src="/img/samplelogo.jpeg"/>NEXON 채용</a>
-    </div>
-    <div class="compInform">
-      <a href="https://recruit.lotte.co.kr/"><img src="/img/samplelogo.jpeg"/>Lotte 채용</a>
-    </div>
-    <div class="compInform">
-      <a href="https://recruit.navercorp.com/"><img src="/img/samplelogo.jpeg"/>NAVER 채용</a>
-    </div>
-    <div class="compInform">
-      <a href="https://recruit.cj.net/"><img src="/img/samplelogo.jpeg"/>CJ 채용</a>
-    </div>
-  </div>
-</div>
-<%@include file = "/WEB-INF/include/footer.jsp" %>
 <script>
   const loginBtnEl = document.querySelector('#loginBtn');
   loginBtnEl.addEventListener('click',function(){

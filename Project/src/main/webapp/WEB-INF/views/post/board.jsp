@@ -86,40 +86,38 @@
             border-radius: 50%; /* 원형으로 만들기 (선택 사항) */
         }
         #write{
-            text-align: center;
+            display: block;
+            float: right;
+            padding: 20px 30px;
         }
     </style>
 </head>
 <body>
 <%@include file = "/WEB-INF/include/head.jsp" %>
-<%@include file = "/WEB-INF/include/footer.jsp" %>
 <main>
     <div id="rectable">
         <table>
             <thead>
             <tr>
-                <td>구인공고</td>
-                <td>회사명</td>
+                <td colspan="2">나의 공고</td>
             </tr>
             </thead>
-            <c:if test= "${ empty recList }">
+            <c:if test= "${ empty postList }">
                 <tr>
-                    <td>모집중인 공고가 없습니다 😢</td>
+                    <td>작성한 공고가 없습니다.</td>
                 </tr>
             </c:if>
-            <c:if test="${ not empty recList }">
-                <c:forEach items="${ recList }" var="rec">
-                    <!-- ${ rec } userid=null, userpw=null, username=null, RECNUM=rec001, COMID=null, RECTITLE=소프트웨어 개발자 모집 -->
+            <c:if test="${ not empty postList }">
+                <c:forEach items="${ postList }" var="post">
+                    <!-- ${ post } userid=null, userpw=null, username=null, RECNUM=rec001, COMID=null, RECTITLE=소프트웨어 개발자 모집 -->
                     <tr>
-                        <td><a href="/Guin/View?recnum=${ rec.recnum }">${ rec.rectitle }</a></td>
-
-                        <td><a href="/Comp/View?comid=${rec.comname}">${rec.comname}</a></td>
+                        <td colspan="2"><a href="/Post/View?recnum=${ post.recnum }">${ post.rectitle }</a></td>
                     </tr>
                 </c:forEach>
             </c:if>
         </table>
         <c:if test="${not empty sessionScope.comid}">
-            <a href="/Guin/Write?comid=${sessionScope.comid}" id ="write">글쓰기</a>
+            <a href="/Post/Write" id ="write">글쓰기</a>
         </c:if>
     </div>
     <div class="profile">

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
@@ -7,8 +7,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Insert title here</title>
-    <link rel="icon" type="image/png" href="/img/favicon.ico" />
-    <link rel="stylesheet"  href="/css/common.css" />
+    <link rel="icon" type="image/png" href="/img/favicon.ico"/>
+    <link rel="stylesheet" href="/css/common.css"/>
     <style>
         #rectable {
             margin: 20px auto;
@@ -16,39 +16,59 @@
             border: 1px solid #ccc;
             border-radius: 8px;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
         }
+
         thead {
             background-color: #f2f2f2;
         }
+
         thead td {
             font-weight: bold;
             padding: 12px;
             text-align: left;
             border-bottom: 2px solid #ccc;
         }
+
         tbody tr {
             transition: background-color 0.3s;
         }
+
         tbody td {
             padding: 12px;
             border-bottom: 1px solid #ccc;
         }
+
         a {
             text-decoration: none;
             color: #333;
         }
+
         a:hover {
             text-decoration: underline;
         }
-        body>*not(header){
-            display: flex;
-            justify-content: center; /* 수평 중앙 정렬 */
-            align-items: center; /* 수직 중앙 정렬 */
-            min-height: 100vh; /* 화면 전체 높이 사용 */
-            background-color: #f9f9f9; /* 배경색 (선택 사항) */
+
+        body > *
+
+        not
+        (
+        header
+
+        )
+        {
+            display: flex
+        ;
+            justify-content: center
+        ; /* 수평 중앙 정렬 */
+            align-items: center
+        ; /* 수직 중앙 정렬 */
+            min-height: 100vh
+        ; /* 화면 전체 높이 사용 */
+            background-color: #f9f9f9
+        ; /* 배경색 (선택 사항) */
         }
         main {
             width: 80%;
@@ -67,11 +87,14 @@
 
             /* Flex-grow로 크기 조정 */
         }
+
         td:nth-child(1) {
-            width:80%;
+            width: 70%;
+
         }
-
-
+        td img{
+             width:20%;
+        }
 
         .profile {
             flex: 0 0 150px; /* 고정 너비를 120px로 설정 */
@@ -85,42 +108,59 @@
             height: auto; /* 비율 유지 */
             border-radius: 50%; /* 원형으로 만들기 (선택 사항) */
         }
-        #write{
+
+        #write {
             text-align: center;
         }
     </style>
 </head>
 <body>
-<%@include file = "/WEB-INF/include/head.jsp" %>
-<%@include file = "/WEB-INF/include/footer.jsp" %>
+<%@include file="/WEB-INF/include/head.jsp" %>
 <main>
     <div id="rectable">
         <table>
-            <thead>
             <tr>
-                <td>구인공고</td>
-                <td>회사명</td>
+                <h4>Title:</h4>
+                <td colspan="2">${res.restitle}</td>
             </tr>
-            </thead>
-            <c:if test= "${ empty recList }">
-                <tr>
-                    <td>모집중인 공고가 없습니다 😢</td>
-                </tr>
-            </c:if>
-            <c:if test="${ not empty recList }">
-                <c:forEach items="${ recList }" var="rec">
-                    <!-- ${ rec } userid=null, userpw=null, username=null, RECNUM=rec001, COMID=null, RECTITLE=소프트웨어 개발자 모집 -->
-                    <tr>
-                        <td><a href="/Guin/View?recnum=${ rec.recnum }">${ rec.rectitle }</a></td>
-
-                        <td><a href="/Comp/View?comid=${rec.comname}">${rec.comname}</a></td>
-                    </tr>
-                </c:forEach>
-            </c:if>
+            <tr>
+                <th colspan="2">ConTent</th>
+            </tr>
+            <tr>
+                <td><h4>인적사항</h4>
+                    <div> 이름: ${user.username}</div>
+                    <div> 생년월일: ${user.birth}</div>
+                    <div> 휴대폰: ${user.uphone}</div>
+                    <div> 주소: ${user.uaddr}</div>
+                    <div> 이메일: ${user.email}</div>
+                </td>
+                <td>사진:<img src="/img/profile.png">${res.picture}</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div>학력:${res.edu_content}</div>
+                    <div>경력:${res.career_content}</div>
+                    <div>자격증:${res.license}</div>
+                    <div>스킬:${res.skill} </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                 <textarea cols="100" rows="40">${res.ucontent}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <a href="/Gusik/Board">목록</a>
+                    <c:if test="${sessionScope.comid ne null}">
+                        <a href="/Gusik/Apply?comid=${sessionScope.comid}">헤드헌트</a>
+                    </c:if>
+                    <c:if test="${sessionScope.userid eq res.userid}">
+                        <a href="/Gusik/Delete?userid=${res.userid}"> 삭제</a>
+                    </c:if>
+                </td>
+            </tr>
         </table>
-        <c:if test="${not empty sessionScope.comid}">
-            <a href="/Guin/Write?comid=${sessionScope.comid}" id ="write">글쓰기</a>
-        </c:if>
     </div>
     <div class="profile">
         <div><img src="/img/profile.png" alt="profile"></div>
@@ -132,13 +172,9 @@
             </c:if>
         </div>
         <div>
-            <c:if test="${ not empty sessionScope.userid }">
-                <a href="/MyPage/Board" class="abutton">Mypage</a>
-                <a href="/Login/Logout" class="abutton">logout</a>
-            </c:if>
-            <c:if test="${ not empty sessionScope.comid}">
-                <a href="/ComMyPage/" class="abutton">Mypage</a>
-                <a href="/Login/Logout" class="abutton">logout</a>
+            <c:if test="${not empty sessionScope.userid || not empty sessionScope.comid}">
+                <a href="">Mypage</a>
+                <a href="/Login/Logout">logout</a>
             </c:if>
         </div>
     </div>
