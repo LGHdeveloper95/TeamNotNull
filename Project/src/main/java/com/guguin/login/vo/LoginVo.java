@@ -10,5 +10,8 @@ public class LoginVo {
     private String compw;
     private String userid;
     private String userpw;
+    private Boolean loginReq;
+    private Boolean loginFail;
+
 
 }

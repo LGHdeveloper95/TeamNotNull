@@ -4,11 +4,12 @@
 <mapper namespace="com.guguin.guin.mapper.GuinMapper">
 
     <select id = "getRecruitList">
-        SELECT RECNUM
-             ,COMID
+        SELECT BM.COMNAME AS COMNAME
+             ,RECNUM
+             ,REC.COMID  AS COMID
              ,RECTITLE
              ,SUBTITLE
-             ,BOSS
+             ,REC.BOSS  AS BOSS
              ,GCONTENT
              ,REG_DATE
              ,DEADLINE
@@ -17,6 +18,26 @@
              ,CAREER_CODE
              ,EDU_CODE
              ,BOOK_COUNT
-        FROM RECRUIT
+        FROM RECRUIT REC LEFT JOIN BUSINESS_MEMBERS BM
+         ON BM.COMID = REC.COMID
+    </select>
+    <select id="getRecruit">
+        SELECT BM.COMNAME AS COMNAME
+             ,RECNUM
+             ,REC.COMID  AS COMID
+             ,RECTITLE
+             ,SUBTITLE
+             ,REC.BOSS  AS BOSS
+             ,GCONTENT
+             ,REG_DATE
+             ,DEADLINE
+             ,SIDO_CODE
+             ,GUGUN_CODE
+             ,CAREER_CODE
+             ,EDU_CODE
+             ,BOOK_COUNT
+        FROM RECRUIT REC LEFT JOIN BUSINESS_MEMBERS BM
+        ON BM.COMID = REC.COMID
+        WHERE  REC.RECNUM = #{recnum}
     </select>
 </mapper>

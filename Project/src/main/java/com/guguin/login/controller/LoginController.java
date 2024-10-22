@@ -20,6 +20,8 @@ public class LoginController {
     @RequestMapping("/")
     public ModelAndView login(LoginVo loginVo){
         ModelAndView mv = new ModelAndView();
+        mv.addObject("loginReq",loginVo.getLoginReq());
+        mv.addObject("loginFail",loginVo.getLoginFail());
         mv.setViewName("login/loginPage");
         return mv;
     }
@@ -31,7 +33,7 @@ public class LoginController {
         LoginVo user= loginMapper.getUser(loginVo);
         if(user==null){
             mv.setViewName("login/loginPage");
-            mv.addObject("loginfail",true);
+            mv.addObject("loginFail",true);
         }
         else if(user!=null){
             session.setAttribute("userid",user.getUserid());
@@ -48,7 +50,7 @@ public class LoginController {
         LoginVo user= loginMapper.getCom(loginVo);
         if(user==null){
             mv.setViewName("redirect:/Login/");
-            mv.addObject("loginfail",true);
+            mv.addObject("loginFail",true);
         }
         else if(user!=null){
             session.setAttribute("comid",user.getComid());

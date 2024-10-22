@@ -55,10 +55,10 @@
 
 </main>
 <script>
-    <c:if test="${loginfail}">
+    <c:if test="${loginVo.loginFail}">
     alert("로그인 정보가 일치하지 않습니다.");
     </c:if>
-    <c:if test="${loginreq}">
+    <c:if test="${loginVo.loginReq}">
     alert("로그인이 필요합니다.");
     </c:if>
 

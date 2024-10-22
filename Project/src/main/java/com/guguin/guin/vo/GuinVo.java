@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class GuinVo {
     private String recnum;
     private String comid;
+    private String comname;
     private String rectitle;
     private String subtitle;
     private String boss;

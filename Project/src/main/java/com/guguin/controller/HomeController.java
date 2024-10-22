@@ -18,16 +18,15 @@ import jakarta.servlet.http.HttpServletRequest;
 @Controller
 public class HomeController {
 
-    private final HomeMapper homeMapper;
+    @Autowired
+    private HomeMapper homeMapper;
 
-    public HomeController(HomeMapper homeMapper) {
-        this.homeMapper = homeMapper;
-    }
 
     @RequestMapping("/")
     public ModelAndView home(HttpServletRequest request) {
 
         List<HomeVo> recList = homeMapper.getRecList(); //공고리스트
+        //System.out.println(recList);
         List<HomeVo> limitedRec = recList.stream().limit(7).collect(Collectors.toList());
         //출력 7개로 제한한 공고 리스트
 
@@ -36,12 +35,12 @@ public class HomeController {
 
         if (session != null) {
             String userid = (String) session.getAttribute("userid");
-            System.out.println(userid);
             String comid = (String) session.getAttribute("comid");
 
             if (userid != null) {
-                System.out.println(userid);
+                //System.out.println(userid);
                 HomeVo user = homeMapper.getUserById(userid);
+                //System.out.println(user);
                 mv.addObject("user", user);
             }
             else if (comid != null) {

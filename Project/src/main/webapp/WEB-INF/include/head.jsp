@@ -35,7 +35,7 @@
             //alert('ok');
             event.preventDefault();
             alert('로그인이 필요합니다');
-            window.location.href = '/Login/LoginPage';
+            window.location.href = '/Login/';
         })
     }
     // 30분 타이머 설정 (1800초 = 30분)

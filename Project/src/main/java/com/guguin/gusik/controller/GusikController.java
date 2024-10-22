@@ -25,7 +25,7 @@ public class GusikController {
 
         HttpSession session = request.getSession(false);
         if (session == null) {
-            mv.addObject("loginreq", true);
+            mv.addObject("loginReq", true);
             mv.setViewName("redirect:/Login/");
         } else {
             List<GusikVo> resList = gusikMapper.getResumeList();

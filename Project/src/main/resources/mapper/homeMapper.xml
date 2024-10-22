@@ -8,10 +8,25 @@
         FROM RECRUIT INNER
                          JOIN BUSINESS_MEMBERS ON RECRUIT.COMID = BUSINESS_MEMBERS.COMID
     </select>
+
+    <select id="getResList" resultType="com.guguin.vo.HomeVo">
+        SELECT PERSONAL_RESUME.RESNUM, PERSONAL_RESUME.RESTITLE, PERSONAL_RESUME.USERID
+        FROM PERSONAL_RESUME
+                 JOIN APPLIED_RESUME ON PERSONAL_RESUME.RESNUM = APPLIED_RESUME.RESNUM
+                 JOIN RECRUIT ON APPLIED_RESUME.RECNUM = RECRUIT.RECNUM
+        WHERE RECRUIT.COMID = #{ comid }
+    </select>
+
     <select id="getUserById">
         SELECT USERID, USERNAME
         FROM PERSONAL_MEMBERS
-        WHERE USERID = 'user001'
+        WHERE USERID = #{ userid }
+    </select>
+
+    <select id="getComp">
+        SELECT COMID, COMNAME
+        FROM BUSINESS_MEMBERS
+        WHERE COMID = #{	comid }
     </select>
 
 </mapper>

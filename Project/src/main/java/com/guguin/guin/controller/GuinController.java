@@ -16,28 +16,28 @@ import java.util.List;
 @RequestMapping("/Guin")
 public class GuinController {
 
-        @Autowired
-        private GuinMapper guinMapper;
+    @Autowired
+    private GuinMapper guinMapper;
 
     @RequestMapping("/Board")
     public ModelAndView board(HttpServletRequest request) {
 
         ModelAndView mv = new ModelAndView();
         HttpSession session = request.getSession(false);
-        if (session == null) {
-            mv.addObject("loginReq", true);
-            mv.setViewName("redirect:/Login/");
-        } else {
-                List<GuinVo> recList = guinMapper.getRecruitList();
-                mv.addObject("recList",recList);
-                mv.setViewName("guin/board");
-        }
+
+        List<GuinVo> recList = guinMapper.getRecruitList();
+        mv.addObject("recList", recList);
+        mv.setViewName("guin/board");
         return mv;
     }
 
 
     @RequestMapping("/View")
-    public ModelAndView view(){
-        return new ModelAndView();
+    public ModelAndView view(GuinVo guinVo) {
+        ModelAndView mv = new ModelAndView();
+        GuinVo rec = guinMapper.getRecruit(guinVo.getRecnum());
+        mv.setViewName("guin/view");
+        mv.addObject("rec", rec);
+        return mv;
     }
 }

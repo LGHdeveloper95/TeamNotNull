@@ -8,4 +8,6 @@ import java.util.List;
 @Mapper
 public interface GuinMapper {
     List<GuinVo> getRecruitList();
+
+    GuinVo getRecruit(String recnum);
 }

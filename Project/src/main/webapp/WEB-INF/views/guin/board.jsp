@@ -63,8 +63,15 @@
             max-width: 800px; /* 최대 너비 설정 */
             border: 1px solid #ccc;
             border-radius: 8px;
-            flex: 1; /* Flex-grow로 크기 조정 */
+            flex: 1;
+
+            /* Flex-grow로 크기 조정 */
         }
+        td:nth-child(1) {
+            width:80%;
+        }
+
+
 
         .profile {
             flex: 0 0 150px; /* 고정 너비를 120px로 설정 */
@@ -91,6 +98,7 @@
             <thead>
             <tr>
                 <td>구인공고</td>
+                <td>회사명</td>
             </tr>
             </thead>
             <c:if test= "${ empty recList }">
@@ -102,9 +110,9 @@
                 <c:forEach items="${ recList }" var="rec">
                     <!-- ${ rec } userid=null, userpw=null, username=null, RECNUM=rec001, COMID=null, RECTITLE=소프트웨어 개발자 모집 -->
                     <tr>
-                        <td>
-                            <a href="/Guin/View/recnum=${ rec.recnum }">${ rec.rectitle }</a>
-                        </td>
+                        <td><a href="/Guin/View?recnum=${ rec.recnum }">${ rec.rectitle }</a></td>
+
+                        <td><a href="/Comp/View?comid=${rec.comname}">${rec.comname}</a></td>
                     </tr>
                 </c:forEach>
             </c:if>
