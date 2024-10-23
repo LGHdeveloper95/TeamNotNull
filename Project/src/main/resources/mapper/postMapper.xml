@@ -11,15 +11,19 @@
              ,SUBTITLE
              ,REC.BOSS  AS BOSS
              ,GCONTENT
-             ,REG_DATE
-             ,DEADLINE
+             ,TO_CHAR(REG_DATE,'YYYY-MM-DD') AS REG_DATE
+             ,TO_CHAR(DEADLINE,'YYYY-MM-DD') AS DEADLINE
              ,SIDO_CODE
              ,GUGUN_CODE
-             ,CAREER_CODE
-             ,EDU_CODE
+             ,REC.CAREER_CODE AS CAREER_CODE
+             ,REC.EDU_CODE AS EDU_CODE
              ,BOOK_COUNT
+             ,CA.CAREER_NAME AS CAREER_NAME
+             ,EL.EDU_NAME AS EDU_NAME
         FROM RECRUIT REC LEFT JOIN BUSINESS_MEMBERS BM
-         ON BM.COMID = REC.COMID
+        ON BM.COMID = REC.COMID JOIN CAREER CA
+        ON REC.CAREER_CODE = CA.CAREER_CODE JOIN EDU_LIST EL
+        ON REC.EDU_CODE = EL.EDU_CODE
         WHERE REC.COMID = #{comid}
     </select>
     <select id="getPost">
@@ -30,16 +34,30 @@
              ,SUBTITLE
              ,REC.BOSS  AS BOSS
              ,GCONTENT
-             ,REG_DATE
-             ,DEADLINE
+             ,TO_CHAR(REG_DATE,'YYYY-MM-DD') AS REG_DATE
+             ,TO_CHAR(DEADLINE,'YYYY-MM-DD') AS DEADLINE
              ,SIDO_CODE
              ,GUGUN_CODE
-             ,CAREER_CODE
-             ,EDU_CODE
+             ,REC.CAREER_CODE AS CAREER_CODE
+             ,REC.EDU_CODE AS EDU_CODE
              ,BOOK_COUNT
+             ,CA.CAREER_NAME AS CAREER_NAME
+             ,EL.EDU_NAME AS EDU_NAME
         FROM RECRUIT REC LEFT JOIN BUSINESS_MEMBERS BM
-        ON BM.COMID = REC.COMID
-        WHERE  REC.RECNUM = #{recnum}
+        ON BM.COMID = REC.COMID JOIN CAREER CA
+        ON REC.CAREER_CODE = CA.CAREER_CODE JOIN EDU_LIST EL
+        ON REC.EDU_CODE = EL.EDU_CODE
+        WHERE REC.RECNUM = #{recnum}
+    </select>
+
+    <select id="getCom">
+    SELECT COMNUM
+           ,CPHONE
+           ,CADDR
+           ,STARRATING
+           ,BOSSEMAIL
+     FROM BUSINESS_MEMBERS
+    WHERE COMID=#{comid}
     </select>
 
     <update id="updatePost">

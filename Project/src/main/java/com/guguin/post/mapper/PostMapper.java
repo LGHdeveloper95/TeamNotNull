@@ -16,4 +16,6 @@ public interface PostMapper {
     void updatePost(PostVo postVo);
 
     void deletePost(PostVo postVo);
+
+    PostVo getCom(String comid);
 }

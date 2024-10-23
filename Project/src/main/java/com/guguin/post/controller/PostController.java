@@ -47,7 +47,9 @@ public class PostController {
         }
         else{
             PostVo post = postMapper.getPost(postVo.getRecnum());
+            PostVo com = postMapper.getCom(post.getComid());
             mv.addObject("post", post);
+            mv.addObject("com", com);
             mv.setViewName("post/view");
         }
         return mv;

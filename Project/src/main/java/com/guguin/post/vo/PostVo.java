@@ -19,7 +19,17 @@ public class PostVo {
     private String deadline;
     private String sido_code;
     private String gugun_code;
-    private String career_code;
-    private String edu_code;
+    private int career_code;
+    private int edu_code;
     private String book_count;
+
+    private String comnum;
+    private String cphone;
+    private String caddr;
+    private String starrating;
+    private String bossemail;
+
+    private String edu_name;
+    private String career_name;
+
 }
