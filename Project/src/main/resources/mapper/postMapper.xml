@@ -56,17 +56,60 @@
            ,CADDR
            ,STARRATING
            ,BOSSEMAIL
+           ,COMNAME
+            ,BOSS
      FROM BUSINESS_MEMBERS
     WHERE COMID=#{comid}
+    </select>
+
+
+    <select id="getEduList">
+        SELECT EDU_CODE,EDU_NAME
+        FROM EDU_LIST
+    </select>
+
+    <select id="getCareerList">
+        SELECT CAREER_CODE,CAREER_NAME
+        FROM CAREER
+    </select>
+    <select id="getSkillCateList">
+        SELECT SCATE_CODE,SCATE
+        FROM SKILL_CATEGORY_LIST
+    </select>
+    <select id="getSkillList">
+        SELECT SKILL_CODE,SKILL,SCATE_CODE
+        FROM SKILL_LIST
     </select>
 
     <update id="updatePost">
         UPDATE RECRUIT
         SET RECTITLE=#{rectitle}, SUBTITLE=#{subtitle}, GCONTENT=#{gcontent}
+          ,DEADLINE=#{deadline},CAREER_CODE=#{career_code},EDU_CODE=#{edu_code}
         WHERE RECNUM=#{recnum}
     </update>
+
+    <update id="updateLicense">
+       MERGE INTO LICENSE
+        USING DUAL
+        ON(RECNUM=#{recnum})
+        WHEN MATCHED THEN
+        UPDATE SET LICENSE=#{license}
+        WHEN NOT MATCHED THEN
+        INSERT (RECNUM,LICENSE)
+        VALUES(#{recnum},#{license})
+    </update>
+
+    <insert id="insertSkill">
+        INSERT INTO RECRUIT_SKILL(RECNUM,SKILL_CODE)
+        VALUES (#{param1},#{param2})
+    </insert>
 
     <delete id="deletePost">
         DELETE RECRUIT WHERE RECNUM=#{recnum}
     </delete>
+
+    <delete id="deleteSkill">
+        DELETE RECRUIT_SKILL WHERE RECNUM=#{recnum}
+    </delete>
+
 </mapper>

@@ -53,79 +53,83 @@
     </style>
 
 </head>
-    <body>
-    <%@include file="/WEB-INF/include/head.jsp"%>
-    <main>
-        <div>
-            <table>
+<body>
+<%@include file="/WEB-INF/include/head.jsp"%>
+<main>
+    <div>
+        <table>
 
-                <thead>
-                <tr>
-                    <td colspan="2">공고 제목 : ${ post.rectitle }</td>
-                    <td>
+            <thead>
+            <tr>
+                <td colspan="2">공고 제목 : ${ post.rectitle }</td>
+                <td>
                     <a class = "btn btn-primary" href="/Post/Board">목록</a>
                     <c:if test="${sessionScope.comid eq post.comid}">
                         <a class = "btn btn-primary"  href="/Post/UpdateForm?recnum=${post.recnum}">수정 </a>
                         <a class = "btn btn-primary"  href="/Post/Delete?recnum=${post.recnum}">삭제 </a>
                     </c:if>
                 </td>
-                </tr>
-                </thead>
-                <tr>
-                    <td> 작성일 ${post.reg_date}</td>
-                    <td colspan="2"> 마감일 ${post.deadline}</td>
-                </tr>
-                <tr>
-                    <td rowspan="4" style="max-width: 130px; text-align: center;"><img src="/img/samsung.png" alt="pic" style="width: 80%;"/></td>
-                    <td>기업 이름</td>
-                    <td>${ com.comname } </td>
-                </tr>
-                <tr>
-                    <td>대표자</td>
-                    <td>${com.boss}</td>
-                </tr>
-                <tr>
-                    <td>회사 연락처</td>
-                    <td>${ com.cphone }</td>
-                </tr>
-                <tr>
-                    <td>주소</td>
-                    <td colspan="2">${ com.caddr }</td>
-                </tr>
-                <tr><td>필요 학력</td><td colspan="2">${ post.edu_name }</td></tr>
-                <tr><td>필요 경력</td><td colspan="2">${ post.career_name }</td></tr>
-                <tr>
-                    <td>우대 자격증</td>
-                    <c:if test="${ licenseList[0] != null }">
-                        <td colspan="2">
-                            <c:forEach items="${ licenseList }" var="license">
-                                ${ license } /
-                            </c:forEach>
-                        </td>
-                    </c:if>
-                    <c:if test="${licenseList[0] eq null}">
-                        <td colspan="2"> 없음</td>
-                    </c:if>
-                </tr>
-                <tr>
-                    <td>기술분야</td>
+            </tr>
+            </thead>
+            <tr>
+                <td>부제 </td>
+                <td colspan="2">${post.subtitle}</td>
+            </tr>
+            <tr>
+                <td colspan="2"> 작성일 ${post.reg_date}</td>
+                <td> 마감일 ${post.deadline}</td>
+            </tr>
+            <tr>
+                <td rowspan="4" style="max-width: 130px; text-align: center;"><img src="/img/samsung.png" alt="pic" style="width: 80%;"/></td>
+                <td>기업 이름</td>
+                <td>${ com.comname } </td>
+            </tr>
+            <tr>
+                <td>대표자</td>
+                <td>${com.boss}</td>
+            </tr>
+            <tr>
+                <td>회사 연락처</td>
+                <td>${ com.cphone }</td>
+            </tr>
+            <tr>
+                <td>주소</td>
+                <td colspan="2">${ com.caddr }</td>
+            </tr>
+            <tr><td>우대 학력</td><td colspan="2">${ post.edu_name }</td></tr>
+            <tr><td>우대 경력</td><td colspan="2">${ post.career_name }</td></tr>
+            <tr>
+                <td>우대 자격증</td>
+                <c:if test="${ licenseList[0] != null }">
                     <td colspan="2">
-                        <c:forEach items="${ skillList }" var="skill">
-                            ${ skill.skill } /
+                        <c:forEach items="${ licenseList }" var="license">
+                            ${ license } /
                         </c:forEach>
                     </td>
-                </tr>
-            </table>
-            <!-- 자기소개서--------------------------------------------------- -->
-            <table>
-                <thead>
-                <tr>
-                    <td colspan="3">회사 소개</td>
-                </tr>
-                </thead>
-                <tr class="content"><td colspan="3">${ post.gcontent }</td></tr>
-            </table>
-        </div>
+                </c:if>
+                <c:if test="${licenseList[0] eq null}">
+                    <td colspan="2"> 없음</td>
+                </c:if>
+            </tr>
+            <tr>
+                <td>기술분야</td>
+                <td colspan="2">
+                    <c:forEach items="${ skillList }" var="skill">
+                        ${ skill.skill } /
+                    </c:forEach>
+                </td>
+            </tr>
+        </table>
+        <!-- 자기소개서--------------------------------------------------- -->
+        <table>
+            <thead>
+            <tr>
+                <td colspan="3">회사 소개</td>
+            </tr>
+            </thead>
+            <tr class="content"><td colspan="3">${ post.gcontent }</td></tr>
+        </table>
+    </div>
     <div class="profile">
         <div><img src="/img/profile.png" alt="profile"></div>
         <div>
