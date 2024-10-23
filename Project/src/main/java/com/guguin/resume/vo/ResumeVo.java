@@ -15,6 +15,7 @@ public class ResumeVo {
 	private String username;
 	private String restitle;
 	private String reg_date;
+	private String gender;
 	
 	private String picture;
 	private int edu_code;       //학력 분류

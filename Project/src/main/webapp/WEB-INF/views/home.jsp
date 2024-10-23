@@ -155,10 +155,12 @@ button{ padding: 3px 10px; }
     </div>
   <script>
     const loginBtnEl = document.querySelector('#loginBtn');
-    loginBtnEl.addEventListener('click',function(){
+    if(loginBtnEl != null){
+      loginBtnEl.addEventListener('click',function(){
     	//alert('ok');
     	window.location.href = '/Login/';
-    });
+      });
+    }
   </script>
 </body>
 </html>

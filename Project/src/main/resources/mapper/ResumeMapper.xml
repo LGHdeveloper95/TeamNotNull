@@ -10,7 +10,7 @@
 </select>
 
 <select id="getUser">
-  SELECT USERNAME, BIRTH, UPHONE, UADDR, EMAIL
+  SELECT USERNAME, BIRTH, UPHONE, UADDR, EMAIL, GENDER
     FROM PERSONAL_MEMBERS
     WHERE USERID = #{ userid }
 </select>
@@ -20,7 +20,7 @@
    WHERE RESNUM = #{ resnum }
 </select>
 
-<select id="getSkillList">
+<select id="getSkill">
   SELECT RESNUM, SCATE_CODE, SCATE, SKILL_CODE, SKILL
     FROM SKILL_LIST
       JOIN RESUME_SKILL USING(SKILL_CODE)
@@ -43,6 +43,27 @@
 <select id="getLicense">
  SELECT LICENSE FROM PERSONAL_RESUME
    WHERE RESNUM = #{ resnum }
+</select>
+
+<delete id="deleteResume">
+  DELETE FROM RESUME WHERE RESNUM = #{ resnum }
+</delete>
+
+<select id="getEduList">
+  SELECT EDU_CODE,EDU_NAME
+   FROM EDU_LIST
+</select>
+<select id="getCareerList">
+  SELECT CAREER_CODE,CAREER_NAME
+   FROM CAREER
+</select>
+<select id="getSkillCateList">
+  SELECT SCATE_CODE,SCATE
+   FROM SKILL_CATEGORY_LIST
+</select>
+<select id="getSkillList">
+  SELECT SKILL_CODE,SKILL,SCATE_CODE
+   FROM SKILL_LIST
 </select>
 
 
