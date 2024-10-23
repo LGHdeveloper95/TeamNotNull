@@ -17,4 +17,5 @@ public interface HomeMapper {
 
 	List<HomeVo> getResList(String comid);
 
+
 }

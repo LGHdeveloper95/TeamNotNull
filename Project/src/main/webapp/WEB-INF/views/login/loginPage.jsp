@@ -55,9 +55,13 @@
 
 </main>
 <script>
-    <c:if test="${loginFail==false}">
+    <c:if test="${loginVo.loginFail}">
     alert("로그인 정보가 일치하지 않습니다.");
     </c:if>
+    <c:if test="${loginVo.loginReq}">
+    alert("로그인이 필요합니다.");
+    </c:if>
+
     document.getElementById("personal").onclick=()=>{
         let html ="<form action='/Login/User' method='POST'>";
         html+="<table>";
