@@ -22,5 +22,6 @@ public interface MyPageMapper {
 
 	List<ResumeVo> getSkillList(String sendnum);
 
+
 				
 	}
