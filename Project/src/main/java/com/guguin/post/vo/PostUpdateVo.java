@@ -26,4 +26,5 @@ public class PostUpdateVo {
     private String license;
 
     private String skill;
+    private String region;
 }

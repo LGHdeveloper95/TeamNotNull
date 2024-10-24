@@ -48,10 +48,12 @@ public class PostController {
         else{
             PostVo post = postMapper.getPost(postVo.getRecnum());
             PostVo com = postMapper.getCom(post.getComid());
+            PostVo region = postMapper.getRegion(post.getGugun_code());
             List<SkillVo> skillList = postMapper.getComSkillList(postVo.getRecnum());
             mv.addObject("skillList",skillList);
             mv.addObject("post", post);
             mv.addObject("com", com);
+            mv.addObject("region",region);
             mv.setViewName("post/view");
         }
         return mv;
@@ -73,12 +75,16 @@ public class PostController {
             List<CareerVo> careerList = postMapper.getCareerList();
             List<SkillCateVo> skillCateList = postMapper.getSkillCateList();
             List<SkillVo> skillList = postMapper.getSkillList();
+            List<GugunVo> gugunList = postMapper.getGugunList();
+            List<SidoVo> sidoList = postMapper.getSidoList();
             mv.addObject("post", post);
             mv.addObject("com", com);
             mv.addObject("eduList", eduList);
             mv.addObject("careerList", careerList);
             mv.addObject("skillCateList", skillCateList);
             mv.addObject("skillList", skillList);
+            mv.addObject("gugunList", gugunList);
+            mv.addObject("sidoList", sidoList);
             mv.setViewName("post/update");
         }
         return mv;
@@ -96,13 +102,13 @@ public class PostController {
         }
         else{
             postMapper.updatePost(postUpdateVo);
-//            postMapper.updateLicense(postUpdateVo);
             postMapper.deleteSkill(postUpdateVo);
             String []skillList = postUpdateVo.getSkill().split("/");
             List<String> list = Arrays.asList(skillList);
             Set<String> set = new HashSet<>(list);
             List<String> newSkillList = new ArrayList<>(set);
             for(int i=0;i< newSkillList.size();i++){
+                if(newSkillList.get(i)==""||newSkillList.get(i)==null) continue;
                 postMapper.insertSkill(postUpdateVo.getRecnum(),Integer.parseInt(newSkillList.get(i)));
             }
            mv.setViewName("redirect:/Post/View?recnum="+postUpdateVo.getRecnum());

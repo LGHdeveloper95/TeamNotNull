@@ -32,4 +32,6 @@ public class PostVo {
     private String edu_name;
     private String career_name;
 
+    private String sido;
+    private String gugun;
 }

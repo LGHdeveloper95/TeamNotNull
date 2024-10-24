@@ -33,4 +33,10 @@ public interface PostMapper {
     void insertSkill(String recnum, int skill_code);
 
     List<SkillVo> getComSkillList(String recnum);
+
+    List<GugunVo> getGugunList();
+
+    List<SidoVo> getSidoList();
+
+    PostVo getRegion(String gugun_code);
 }

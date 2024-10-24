@@ -119,6 +119,12 @@
                     </c:forEach>
                 </td>
             </tr>
+            <tr>
+                <td>근무 지역</td>
+                <td colspan="2">
+                    <div>${region.sido}  ${region.gugun}</div>
+                </td>
+            </tr>
         </table>
         <!-- 자기소개서--------------------------------------------------- -->
         <table>

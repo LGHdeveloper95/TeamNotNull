@@ -155,16 +155,43 @@
                 <td colspan="3">요구 기술분야</td>
             </tr>
             <tr>
-                <td style="height:130px;width:130px; overflow-y: scroll;">
+                <td>
+                    <div style="height:150px;width:200px; overflow-y: scroll;">
                     <c:forEach items="${ skillCateList }" var="scate">
                         <div id="skill${scate.scate_code}" class="skillCate"> ${scate.scate}</div>
                     </c:forEach>
+                    </div>
                 </td>
-                <td class="skill" style="height: 215px; width:500px;overflow-y: scroll;display: block">
+                <td>
+                    <div  class="skill" style="height: 150px; width:250px;overflow-y: scroll;display: block">
+                    </div>
                 </td>
                 <td class="skill_select"  style="vertical-align:top;horiz-align: left">
                     <div><h5>선택한 기술</h5></div>
                     <input type="hidden" name="skill" id="skillSubmit"/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">근무 지역</td>
+            </tr>
+            <tr>
+                <td>
+                    <div   style="max-height :150px;width:200px; overflow-y: scroll;">
+                    <c:forEach items="${sidoList}" var="sido" varStatus="status">
+                        <div id="sido${status.index}" value="${sido.sido_code}" class="sidoCate">${sido.sido}</div>
+                    </c:forEach>
+                    </div>
+                </td>
+                <td>
+                    <div class="gugun"
+                         style="max-height :150px; height:150px;width:250px; display:inline-block; overflow-y: scroll;"></div>
+                </td>
+                <td>
+                    <div style="vertical-align:top;horiz-align: left"><h5>선택한 지역</h5></div>
+                    <input type="hidden" name="gugun_code" id="regionSubmit"/>
+                    <h4  class="region_select">
+                        <div class="clicked_region" value=""> </div>
+                    </h4>
                 </td>
             </tr>
         </table>
@@ -204,11 +231,11 @@
 </main>
 <script>
     let temp = '<c:out value="${skillList}"/>';
+    let temp2 = '<c:out value="${gugunList}"/>';
     let skillList =temp.split(",");
+    let gugunList =temp2.split(",");
     let skill_count=0;
- /*   console.log(skill_code)
-    console.log(skill)
-    console.log(scate_code)*/
+
     for(let i=100;i<810;i=i+100){
         let skill="skill";
         skill+=i;
@@ -225,13 +252,13 @@
                let skillname=skillList[j+1].substring(7,);
                let scate_code = skillList[j+2].substring(12,15);
                if(skill_idx==scate_code){
-                   html+="<span value='"+skill_code+"'>"+skillname+"</span><br>";
+                   html+="<span class='skills' value='"+skill_code+"'>"+skillname+"</span><br>";
                }
            }
             document.getElementsByClassName("skill")[0].innerHTML = html;
 
             for (let j = 0; j < 30; j++) {
-               let span = document.getElementsByTagName("span")
+               let span = document.getElementsByClassName("skills")
                    span.item(j).onclick=()=>
                 {
                     for(let k =0;k<30;k++){
@@ -261,6 +288,44 @@
     }
 
 
+    for(let i=0;i<17;i++){
+        let sido="sido";
+        sido+=i;
+        let sido_idx=document.getElementById(sido).getAttribute("value");
+
+        document.getElementById(sido).onclick=()=>{
+            for(let j=0;j<17;j++){
+                document.getElementsByClassName("sidoCate").item(j).classList.remove("clicked");
+            }
+            document.getElementById(sido).classList.add("clicked");
+            let html ="";
+            for(let j = 0;j<gugunList.length;j+=3){
+                let gugun_code=gugunList[j+0].substring(20,);
+                let gugunname=gugunList[j+1].substring(7,);
+                let sido_code_temp = gugunList[j+2].substring(11,);
+                let sido_code = sido_code_temp.slice(0,-1);
+                if(sido_idx==sido_code){
+                    html+="<span class='guguns' value='"+gugun_code+"'>"+gugunname+"</span><br>";
+                }
+            }
+            document.getElementsByClassName("gugun")[0].innerHTML = html;
+
+            $(".guguns").each(function (index,item){
+                item.addEventListener("click",function (){
+                    $(".guguns").each(function (i,k){
+                        k.classList.remove("clicked");
+                    })
+                  item.classList.add("clicked");
+
+                    let html='<input type="hidden" class="find_region" value=""/>';
+                    html+='<div class="clicked_region" value="'+item.getAttribute("value")+'">'+ document.getElementById(sido).innerHTML+" "+item.innerHTML+'</div>';
+                    document.getElementsByClassName("region_select").item(0).innerHTML=html;
+                })
+            })
+        }
+    }
+
+
     const licenseListEl = document.querySelector('#licenseList');
     const resumeFormEl = document.querySelector('#resumeForm');
     const licenseSubmitEl = document.querySelector('#licenseSubmit');
@@ -283,6 +348,7 @@
     });
 
     resumeFormEl.addEventListener('submit',function(event){
+
         //event.preventDefault();
         let licenses = document.querySelectorAll('.license');
         //alert(licenses[0].value);
@@ -298,8 +364,30 @@
             skillList+=skills[i].getAttribute("value") +"/";
         }
         document.getElementById("skillSubmit").value=skillList;
+
+        let region = document.querySelector(".clicked_region").getAttribute("value");
+        document.getElementById("regionSubmit").value=region;
     })
 
+    document.getElementsByTagName('form').item(0).onsubmit=()=>{
+        if($('input[name=rectitle]').val()==null||$('input[name=rectitle]').val()==""){
+            alert("제목을 입력해주세요.");
+            return false;
+        }
+        if($('input[name=subtitle]').val()==null||$('input[name=subtitle]').val()==""){
+            alert("부제를 입력해주세요.");
+            return false;
+        }
+        if($('input[name=gugun_code]').val()==null||$('input[name=gugun_code]').val()==""){
+            alert("근무 지역을 선택해주세요.");
+            return false;
+        }
+        if($('textarea[name=gcontent]').val()==null||$('textarea[name=gcontent]').val()==""){
+            alert("내용을 입력해주세요.");
+            return false;
+        }
+        return true;
+    }
 
 </script>
 </body>

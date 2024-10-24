@@ -13,7 +13,6 @@
              ,GCONTENT
              ,TO_CHAR(REG_DATE,'YYYY-MM-DD') AS REG_DATE
              ,TO_CHAR(DEADLINE,'YYYY-MM-DD') AS DEADLINE
-             ,SIDO_CODE
              ,GUGUN_CODE
              ,REC.CAREER_CODE AS CAREER_CODE
              ,REC.EDU_CODE AS EDU_CODE
@@ -36,7 +35,6 @@
              ,GCONTENT
              ,TO_CHAR(REG_DATE,'YYYY-MM-DD') AS REG_DATE
              ,TO_CHAR(DEADLINE,'YYYY-MM-DD') AS DEADLINE
-             ,SIDO_CODE
              ,GUGUN_CODE
              ,REC.CAREER_CODE AS CAREER_CODE
              ,REC.EDU_CODE AS EDU_CODE
@@ -89,22 +87,28 @@
 
     </select>
 
+    <select id="getSidoList">
+        SELECT SIDO_CODE,SIDO
+        FROM SIDO_LIST
+    </select>
+
+    <select id="getGugunList">
+        SELECT GUGUN_CODE,GUGUN,SIDO_CODE
+        FROM GUGUN_LIST
+    </select>
+
+    <select id="getRegion">
+        SELECT SL.SIDO AS SIDO,GL.GUGUN AS GUGUN
+        FROM GUGUN_LIST GL JOIN SIDO_LIST SL
+        ON GL.SIDO_CODE = SL.SIDO_CODE
+        WHERE GL.GUGUN_CODE=#{gugun_code}
+    </select>
+
     <update id="updatePost">
         UPDATE RECRUIT
-        SET RECTITLE=#{rectitle}, SUBTITLE=#{subtitle}, GCONTENT=#{gcontent}
-          ,DEADLINE=#{deadline},CAREER_CODE=#{career_code},EDU_CODE=#{edu_code}
+        SET RECTITLE=#{rectitle}, SUBTITLE=#{subtitle}, GCONTENT=#{gcontent},GUGUN_CODE=#{gugun_code}
+          ,DEADLINE=#{deadline},CAREER_CODE=#{career_code},EDU_CODE=#{edu_code},LICENSE=#{license}
         WHERE RECNUM=#{recnum}
-    </update>
-
-    <update id="updateLicense">
-       MERGE INTO LICENSE
-        USING DUAL
-        ON(RECNUM=#{recnum})
-        WHEN MATCHED THEN
-        UPDATE SET LICENSE=#{license}
-        WHEN NOT MATCHED THEN
-        INSERT (RECNUM,LICENSE)
-        VALUES(#{recnum},#{license})
     </update>
 
     <insert id="insertSkill">
