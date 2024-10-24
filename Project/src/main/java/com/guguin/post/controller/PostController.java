@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/Post")
@@ -48,6 +48,8 @@ public class PostController {
         else{
             PostVo post = postMapper.getPost(postVo.getRecnum());
             PostVo com = postMapper.getCom(post.getComid());
+            List<SkillVo> skillList = postMapper.getComSkillList(postVo.getRecnum());
+            mv.addObject("skillList",skillList);
             mv.addObject("post", post);
             mv.addObject("com", com);
             mv.setViewName("post/view");
@@ -97,8 +99,11 @@ public class PostController {
 //            postMapper.updateLicense(postUpdateVo);
             postMapper.deleteSkill(postUpdateVo);
             String []skillList = postUpdateVo.getSkill().split("/");
-            for(int i=0;i<skillList.length;i++){
-                postMapper.insertSkill(postUpdateVo.getRecnum(),Integer.parseInt(skillList[i]));
+            List<String> list = Arrays.asList(skillList);
+            Set<String> set = new HashSet<>(list);
+            List<String> newSkillList = new ArrayList<>(set);
+            for(int i=0;i< newSkillList.size();i++){
+                postMapper.insertSkill(postUpdateVo.getRecnum(),Integer.parseInt(newSkillList.get(i)));
             }
            mv.setViewName("redirect:/Post/View?recnum="+postUpdateVo.getRecnum());
         }

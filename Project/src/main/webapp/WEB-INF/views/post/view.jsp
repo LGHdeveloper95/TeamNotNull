@@ -112,7 +112,7 @@
                 </c:if>
             </tr>
             <tr>
-                <td>기술분야</td>
+                <td>우대 기술</td>
                 <td colspan="2">
                     <c:forEach items="${ skillList }" var="skill">
                         ${ skill.skill } /

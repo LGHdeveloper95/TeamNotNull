@@ -81,6 +81,14 @@
         FROM SKILL_LIST
     </select>
 
+    <select id="getComSkillList">
+        SELECT SL.SKILL AS SKILL,SL.SKILL_CODE SKILL_CODE
+        FROM SKILL_LIST SL JOIN RECRUIT_SKILL RS
+        ON SL.SKILL_CODE = RS.SKILL_CODE
+        WHERE RECNUM=#{recnum}
+
+    </select>
+
     <update id="updatePost">
         UPDATE RECRUIT
         SET RECTITLE=#{rectitle}, SUBTITLE=#{subtitle}, GCONTENT=#{gcontent}

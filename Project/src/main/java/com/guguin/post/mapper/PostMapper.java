@@ -31,4 +31,6 @@ public interface PostMapper {
     void deleteSkill(PostUpdateVo postUpdateVo);
 
     void insertSkill(String recnum, int skill_code);
+
+    List<SkillVo> getComSkillList(String recnum);
 }

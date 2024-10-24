@@ -77,9 +77,13 @@
         span:hover{
             background: pink;
         }
+        .clicked_skill:hover{
+            background: #cccccc;
+            opacity: 0.75;
+        }
 
     </style>
-
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
 <%@include file="/WEB-INF/include/head.jsp"%>
@@ -151,14 +155,14 @@
                 <td colspan="3">요구 기술분야</td>
             </tr>
             <tr>
-                <td style="height: 130px;width: 130px; overflow-y: scroll;">
+                <td style="height:130px;width:130px; overflow-y: scroll;">
                     <c:forEach items="${ skillCateList }" var="scate">
                         <div id="skill${scate.scate_code}" class="skillCate"> ${scate.scate}</div>
                     </c:forEach>
                 </td>
-                <td class="skill" style="height: 130px; width:500px;overflow-y: scroll;">
+                <td class="skill" style="height: 215px; width:500px;overflow-y: scroll;display: block">
                 </td>
-                <td class="skill_select"  style="dvertical-align:top;horiz-align: left">
+                <td class="skill_select"  style="vertical-align:top;horiz-align: left">
                     <div><h5>선택한 기술</h5></div>
                     <input type="hidden" name="skill" id="skillSubmit"/>
                 </td>
@@ -221,7 +225,7 @@
                let skillname=skillList[j+1].substring(7,);
                let scate_code = skillList[j+2].substring(12,15);
                if(skill_idx==scate_code){
-                   html+="<span value='"+skill_code+"'>"+skillname+"</span>  ";
+                   html+="<span value='"+skill_code+"'>"+skillname+"</span><br>";
                }
            }
             document.getElementsByClassName("skill")[0].innerHTML = html;
@@ -235,10 +239,18 @@
                     }
                     span.item(j).classList.add("clicked");
                     if(skill_count<5){
-                        let html='<input type="hidden" class="find_skill" name="skill'+skill_count+'" readonly value="'+span.item(j).getAttribute("value")+'"/>';
-                        html+='<div>'+span.item(j).innerHTML+'<div>';
+                        let html='<input type="hidden" class="find_skill" value=""/>';
+                        html+='<div class="clicked_skill" value="'+span.item(j).getAttribute("value")+'">'+span.item(j).innerHTML+'</div>';
                         document.getElementsByClassName("skill_select").item(0).innerHTML+=html;
+                        $('.clicked_skill').each(function (i,item){
+                            console.log(item);
+                            item.addEventListener('click',()=>{
+                                item.remove();
+                                skill_count--;
+                            })
+                        });
                         skill_count++;
+
                     }
                     else{
                         alert('최대 5개까지 추가할 수 있습니다.');
@@ -280,10 +292,10 @@
             licenseList += licenses[i].value + "/";
         }
         licenseSubmitEl.value = licenseList;
-        let skills = document.querySelectorAll('.find_skill');
+        let skills = document.querySelectorAll('.clicked_skill');
         let skillList = "";
         for (let i=0;i<skills.length;i++){
-            skillList+=skills[i].value +"/";
+            skillList+=skills[i].getAttribute("value") +"/";
         }
         document.getElementById("skillSubmit").value=skillList;
     })
