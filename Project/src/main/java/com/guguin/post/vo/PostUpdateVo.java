@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostVo {
+public class PostUpdateVo {
     private String recnum;
     private String comid;
     private String comname;
@@ -23,15 +23,8 @@ public class PostVo {
     private int edu_code;
     private String book_count;
 
-    private String comnum;
-    private String cphone;
-    private String caddr;
-    private String starrating;
-    private String bossemail;
+    private String license;
 
-    private String edu_name;
-    private String career_name;
-
-    private String sido;
-    private String gugun;
+    private String skill;
+    private String region;
 }

@@ -1,7 +1,7 @@
 package com.guguin.post.controller;
 
 import com.guguin.post.mapper.PostMapper;
-import com.guguin.post.vo.PostVo;
+import com.guguin.post.vo.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/Post")
@@ -47,7 +47,13 @@ public class PostController {
         }
         else{
             PostVo post = postMapper.getPost(postVo.getRecnum());
+            PostVo com = postMapper.getCom(post.getComid());
+            PostVo region = postMapper.getRegion(post.getGugun_code());
+            List<SkillVo> skillList = postMapper.getComSkillList(postVo.getRecnum());
+            mv.addObject("skillList",skillList);
             mv.addObject("post", post);
+            mv.addObject("com", com);
+            mv.addObject("region",region);
             mv.setViewName("post/view");
         }
         return mv;
@@ -64,24 +70,48 @@ public class PostController {
         }
         else{
             PostVo post = postMapper.getPost(postVo.getRecnum());
+            PostVo com = postMapper.getCom(post.getComid());
+            List<EduVo> eduList = postMapper.getEduList();
+            List<CareerVo> careerList = postMapper.getCareerList();
+            List<SkillCateVo> skillCateList = postMapper.getSkillCateList();
+            List<SkillVo> skillList = postMapper.getSkillList();
+            List<GugunVo> gugunList = postMapper.getGugunList();
+            List<SidoVo> sidoList = postMapper.getSidoList();
             mv.addObject("post", post);
+            mv.addObject("com", com);
+            mv.addObject("eduList", eduList);
+            mv.addObject("careerList", careerList);
+            mv.addObject("skillCateList", skillCateList);
+            mv.addObject("skillList", skillList);
+            mv.addObject("gugunList", gugunList);
+            mv.addObject("sidoList", sidoList);
             mv.setViewName("post/update");
         }
         return mv;
     }
 
     @RequestMapping("/Update")
-    public ModelAndView update(HttpServletRequest request, PostVo postVo){
+    public ModelAndView update(HttpServletRequest request, PostUpdateVo postUpdateVo){
         ModelAndView mv = new ModelAndView();
         HttpSession session  = request.getSession(false);
         String comid = (String) session.getAttribute("comid");
+        System.out.println(postUpdateVo);
         if(comid==null){
             mv.addObject("loginReq",true);
             mv.setViewName("redirect:/Login/");
         }
         else{
-           postMapper.updatePost(postVo);
-           mv.setViewName("redirect:/Post/View?recnum="+postVo.getRecnum());
+            postMapper.updatePost(postUpdateVo);
+            postMapper.deleteSkill(postUpdateVo);
+            String []skillList = postUpdateVo.getSkill().split("/");
+            List<String> list = Arrays.asList(skillList);
+            Set<String> set = new HashSet<>(list);
+            List<String> newSkillList = new ArrayList<>(set);
+            for(int i=0;i< newSkillList.size();i++){
+                if(newSkillList.get(i)==""||newSkillList.get(i)==null) continue;
+                postMapper.insertSkill(postUpdateVo.getRecnum(),Integer.parseInt(newSkillList.get(i)));
+            }
+           mv.setViewName("redirect:/Post/View?recnum="+postUpdateVo.getRecnum());
         }
         return mv;
     }

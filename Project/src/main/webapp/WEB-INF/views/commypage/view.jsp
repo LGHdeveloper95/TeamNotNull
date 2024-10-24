@@ -141,12 +141,12 @@
                     <div>학력:${res.edu_content}</div>
                     <div>경력:${res.career_content}</div>
                     <div>자격증:${res.license}</div>
-                    <div>스킬:${res.skill} </div>
+                    <div>스킬: </div>
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
-                 <textarea cols="100" rows="40">${res.ucontent}</textarea>
+                 <textarea cols="100" rows="40">${res.motivation}</textarea>
                 </td>
             </tr>
             <tr>

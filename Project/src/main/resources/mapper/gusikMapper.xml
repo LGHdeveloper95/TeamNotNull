@@ -5,10 +5,8 @@
 
     <select id = "getResumeList">
         SELECT RESNUM
-               ,RESTITLE
             ,USERID
             ,USERNAME
-            ,UCONTENT
             ,REG_DATE
             ,PICTURE
             ,EDU_CODE
@@ -16,27 +14,31 @@
             ,LICENSE
             ,CAREER_CODE
             ,CAREER_CONTENT
-            ,SKILL
             ,SIDO_CODE
             ,GUGUN_CODE
+            ,RESTITLE
+            ,BACKGROUND
+            ,PERSONALITY
+            ,MOTIVATION
         FROM PERSONAL_RESUME
     </select>
     <select id ="getResume">
         SELECT RESNUM
-             ,RESTITLE
-             ,USERID
-             ,USERNAME
-             ,UCONTENT
-             ,REG_DATE
-             ,PICTURE
-             ,EDU_CODE
-             ,EDU_CONTENT
-             ,LICENSE
-             ,CAREER_CODE
-             ,CAREER_CONTENT
-             ,SKILL
-             ,SIDO_CODE
-             ,GUGUN_CODE
+        ,USERID
+            ,USERNAME
+            ,REG_DATE
+            ,PICTURE
+            ,EDU_CODE
+            ,EDU_CONTENT
+            ,LICENSE
+            ,CAREER_CODE
+            ,CAREER_CONTENT
+            ,SIDO_CODE
+            ,GUGUN_CODE
+            ,RESTITLE
+            ,BACKGROUND
+            ,PERSONALITY
+            ,MOTIVATION
         FROM PERSONAL_RESUME
         WHERE RESNUM=#{resnum}
     </select>
