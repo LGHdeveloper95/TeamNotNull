@@ -6,7 +6,6 @@ import com.guguin.company.vo.ComjoinVo;
 
 
 @Mapper
-
 public interface ComjoinMapper {
 
 	void insertCompany(ComjoinVo vo);

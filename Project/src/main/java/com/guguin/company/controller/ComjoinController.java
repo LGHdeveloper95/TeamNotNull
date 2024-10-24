@@ -22,14 +22,14 @@ public class ComjoinController {
 	
 	// /Comjoin/Join
 	
-	@RequestMapping("/ComJoinForm")
+	@RequestMapping("/ComJoin") // /ComJoin
 	public  ModelAndView   writeForm() {	
 		ModelAndView  mv = new ModelAndView();
-		mv.setViewName("join/comJoin");
+		mv.setViewName("/join/comJoin");
 		return  mv;
 	}
 
-		@RequestMapping("/ComJoin")
+		@RequestMapping("/ComJoinForm")  ///ComJoinForm
 		public  ModelAndView  ComJoin( ComjoinVo vo ) {
 			// comjoin.jsp 가 넘겨준 데이터를 저장
 			comjoinMapper.insertCompany( vo );

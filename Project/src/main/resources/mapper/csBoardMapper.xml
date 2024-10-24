@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guguin.csboard.mapper.CsBoardMapper">
+
+    <!-- 게시글 목록 조회 (전체 목록) -->
+    <select id="getAllBoardList" resultType="com.guguin.csboard.vo.CsBoardVo">
+        SELECT QNUM, QTITLE, USERID, COMID, QDATE
+        FROM CS
+        ORDER BY QNUM DESC
+    </select>
+
+    <!-- 페이징 처리를 위한 게시글 목록 조회 1 
+  <select id="getPagedBoardList" parameterType="map" resultType="com.guguin.csboard.vo.CsBoardVo">
+    SELECT * FROM (
+        SELECT A.*, ROWNUM rnum FROM (
+            SELECT QNUM, QTITLE, USERID, COMID, QDATE
+            FROM CS
+            ORDER BY QNUM DESC
+        ) A
+        WHERE ROWNUM &lt;= #{arg1}
+    )
+    WHERE rnum &gt; #{arg0}
+</select>
+    
+    <select id="getPagedBoardList" parameterType="map" resultType="com.guguin.csboard.vo.CsBoardVo">
+    SELECT * FROM (
+        SELECT A.*, ROW_NUMBER() OVER (ORDER BY QNUM DESC) AS rnum
+        FROM CS A
+    )
+    WHERE rnum BETWEEN #{arg0} + 1 AND #{arg1}
+   </select>
+    -->
+    
+    
+    <select id="getPagedBoardList" parameterType="map" resultType="com.guguin.csboard.vo.CsBoardVo">
+    
+        SELECT QNUM, QTITLE, USERID, COMID, TO_CHAR(QDATE,'YY-MM-DD HH:MI') QDATE
+            FROM CS
+            ORDER BY QNUM DESC
+            OFFSET #{arg0} ROWS FETCH NEXT #{arg1} ROWS ONLY
+   </select>
+    
+    
+    <!-- 게시글 총 개수 조회 -->
+    <select id="getTotalBoardCount" resultType="int">
+        SELECT COUNT(*) FROM CS
+    </select>
+
+    <!-- 게시글 상세 조회 -->
+    <select id="getBoardDetail" parameterType="int" resultType="com.guguin.csboard.vo.CsBoardVo">
+        SELECT QNUM, QTITLE, QCONTENT, USERID, COMID, QDATE
+        FROM CS
+        WHERE QNUM = #{qnum}
+    </select>
+    <!-- 내가쓴글만 보기 -->
+    <select id="getBoardListByUserId" parameterType="String" resultType="com.guguin.csboard.vo.CsBoardVo">
+    SELECT QNUM, QTITLE, USERID, COMID, QDATE
+    FROM CS
+    WHERE USERID = #{userid}
+    ORDER BY QNUM DESC
+   </select>
+
+    <!-- 게시글 작성 
+    <insert id="insertBoard" parameterType="com.guguin.csboard.vo.CsBoardVo">
+    INSERT INTO CS (QNUM, QTITLE, QCONTENT, USERID, COMID, QDATE)
+    VALUES (#{qnum}, #{qtitle}, #{qcontent}, #{userid}, #{comid}, SYSDATE)
+    </insert>
+    -->
+    <insert id="insertBoard" parameterType="com.guguin.csboard.vo.CsBoardVo">
+    INSERT INTO CS (QNUM, QTITLE, QCONTENT, USERID, COMID, QDATE)
+    VALUES (#{qnum}, #{qtitle}, #{qcontent}, 
+            #{userid, jdbcType=VARCHAR}, 
+            #{comid, jdbcType=VARCHAR}, 
+            SYSDATE)
+    </insert>
+    
+    
+    <select id="getLastQnum" resultType="int">
+    SELECT MAX(QNUM) FROM CS
+    </select>
+    
+    <!-- 게시글 수정 -->
+    <update id="updateBoard" parameterType="com.guguin.csboard.vo.CsBoardVo">
+        UPDATE CS
+        SET QTITLE = #{qtitle}, QCONTENT = #{qcontent}
+        WHERE QNUM = #{qnum}
+    </update>
+</mapper>
