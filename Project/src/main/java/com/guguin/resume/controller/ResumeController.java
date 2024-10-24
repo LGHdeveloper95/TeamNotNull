@@ -1,8 +1,9 @@
-
 package com.guguin.resume.controller;
 
 import java.util.List;
 
+import com.guguin.resume.vo.sectionVo;
+import com.guguin.resume.vo.skillVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,8 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.guguin.resume.mapper.ResumeMapper;
 import com.guguin.resume.vo.ResumeVo;
-import com.guguin.resume.vo.sectionVo;
-import com.guguin.resume.vo.skillVo;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -46,7 +45,6 @@ public class ResumeController {
     	//user정보
     	HttpSession session = request.getSession();
     	String userid = (String) session.getAttribute("userid");
-    	//System.out.println(userid);
     	ResumeVo user = resumeMapper.getUser(userid);
     	
     	ModelAndView mv = new ModelAndView();
@@ -64,19 +62,16 @@ public class ResumeController {
     	  String[] licenseList = license.split("/");
     	  //System.out.println(licenseList[1]);
       	  mv.addObject("licenseList", licenseList);
-      	  //System.out.println(license);
     	}
     	//기술분야
-    	List<ResumeVo> skillList = resumeMapper.getSkill(resnum);
-    	
+    	List<ResumeVo> skillList = resumeMapper.getSkillList(resnum);
     	mv.addObject("resume", resume);
     	mv.addObject("skillList", skillList);
     	mv.setViewName("/resume/view");
     	
     	return mv;
     }
-    
-    @RequestMapping("/InsertForm")
+	@RequestMapping("/InsertForm")
     public ModelAndView inseretForm(HttpServletRequest request) {
     	HttpSession session = request.getSession();
     	String userid = (String) session.getAttribute("userid");
@@ -130,6 +125,5 @@ public class ResumeController {
     	
     	return mv;
     }
-    
-    
+
 }

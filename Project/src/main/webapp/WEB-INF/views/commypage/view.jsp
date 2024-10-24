@@ -141,7 +141,7 @@
                     <div>학력:${res.edu_content}</div>
                     <div>경력:${res.career_content}</div>
                     <div>자격증:${res.license}</div>
-                    <div>스킬: </div>
+                    <div>스킬:${res.skill} </div>
                 </td>
             </tr>
             <tr>

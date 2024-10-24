@@ -11,7 +11,6 @@ public interface PostMapper {
     List<PostVo> getPostList(String comid);
 
     PostVo getPost(String recnum);
-
     void deletePost(PostVo postVo);
 
     PostVo getCom(String comid);
@@ -39,4 +38,5 @@ public interface PostMapper {
     List<SidoVo> getSidoList();
 
     PostVo getRegion(String gugun_code);
+
 }

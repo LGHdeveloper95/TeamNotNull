@@ -173,7 +173,7 @@
         </div>
         <div>
             <c:if test="${not empty sessionScope.userid || not empty sessionScope.comid}">
-                <a href="">Mypage</a>
+                <a href="/ComMyPage/Board">Mypage</a>
                 <a href="/Login/Logout">logout</a>
             </c:if>
         </div>

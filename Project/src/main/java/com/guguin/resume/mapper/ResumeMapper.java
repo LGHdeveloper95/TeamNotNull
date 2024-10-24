@@ -1,4 +1,3 @@
-
 package com.guguin.resume.mapper;
 
 import java.util.List;
@@ -9,6 +8,7 @@ import com.guguin.resume.vo.ResumeVo;
 import com.guguin.resume.vo.sectionVo;
 import com.guguin.resume.vo.skillVo;
 
+
 @Mapper
 public interface ResumeMapper {
 
@@ -18,7 +18,7 @@ public interface ResumeMapper {
 
 	ResumeVo getResume(String userid);
 
-	List<ResumeVo> getSkill(String userid);
+	List<ResumeVo> getSkillList(String userid);
 
 	String getEdu(int edu_code);
 

@@ -5,8 +5,10 @@
 
     <select id = "getResumeList">
         SELECT RESNUM
+               ,RESTITLE
             ,USERID
             ,USERNAME
+            ,UCONTENT
             ,REG_DATE
             ,PICTURE
             ,EDU_CODE
@@ -14,7 +16,6 @@
             ,LICENSE
             ,CAREER_CODE
             ,CAREER_CONTENT
-            ,SIDO_CODE
             ,GUGUN_CODE
             ,RESTITLE
             ,BACKGROUND

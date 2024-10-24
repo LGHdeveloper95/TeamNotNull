@@ -10,4 +10,7 @@ public interface GuinMapper {
     List<GuinVo> getRecruitList();
 
     GuinVo getRecruit(String recnum);
+
+
+	void insertAppliedResume(GuinVo guinVo);
 }

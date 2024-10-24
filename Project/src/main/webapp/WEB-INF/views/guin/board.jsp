@@ -5,8 +5,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Insert title here</title>
+
+    <title>사람과 기업을 연결하는 구구인</title>
     <link rel="icon" type="image/png" href="/img/favicon.ico" />
     <link rel="stylesheet"  href="/css/common.css" />
     <style>
@@ -92,7 +92,6 @@
 </head>
 <body>
 <%@include file = "/WEB-INF/include/head.jsp" %>
-<%@include file = "/WEB-INF/include/footer.jsp" %>
 <main>
     <div id="rectable">
         <table>
@@ -122,27 +121,36 @@
             <a href="/Guin/Write?comid=${sessionScope.comid}" id ="write">글쓰기</a>
         </c:if>
     </div>
-    <div class="profile">
-        <div><img src="/img/profile.png" alt="profile"></div>
-        <div>
-            <c:if test="${not empty sessionScope.userid}">${ sessionScope.userid }님 환영합니다</c:if>
-            <c:if test="${not empty sessionScope.comid}">${ sessionScope.comid }님 환영합니다</c:if>
-            <c:if test="${ empty sessionScope.userid && empty sessionScope.comid }">로그인이 필요합니다
-                <div><a href="/Login/">로그인</a></div>
-            </c:if>
-        </div>
-        <div>
-            <c:if test="${ not empty sessionScope.userid }">
-                <a href="/MyPage/Board" class="abutton">Mypage</a>
-                <a href="/Login/Logout" class="abutton">logout</a>
-            </c:if>
-            <c:if test="${ not empty sessionScope.comid}">
-                <a href="/ComMyPage/" class="abutton">Mypage</a>
-                <a href="/Login/Logout" class="abutton">logout</a>
-            </c:if>
-        </div>
+    <div class="profile"><!-- 로그인 프로필 -->
+      <div><img src="/img/profile.png" alt="profile"></div>
+      <div>
+        <c:if test="${not empty sessionScope.userid}">${ user.username }님<br>환영합니다</c:if>
+        <c:if test="${not empty sessionScope.comid}">${ comp.comname }님<br>환영합니다</c:if>
+        <c:if test="${ empty sessionScope.userid && empty sessionScope.comid }">
+          <button id="loginBtn">로그인</button>
+        </c:if>
+      </div>
+      <div style="margin-top: 10px;">
+        <c:if test="${ not empty sessionScope.userid }">
+          <a href="/MyPage/Board" class="abutton">Mypage</a>
+          <a href="/Login/Logout" class="abutton">logout</a>
+        </c:if>
+        <c:if test="${ not empty sessionScope.comid}">
+          <a href="/Cmypage/Board" class="abutton">Mypage</a>
+          <a href="/Login/Logout" class="abutton">logout</a>
+        </c:if>
+      </div>
     </div>
 </main>
+<script>
+    const loginBtnEl = document.querySelector('#loginBtn');
+    if(loginBtnEl != null){
+      loginBtnEl.addEventListener('click',function(){
+    	//alert('ok');
+    	window.location.href = '/Login/';
+      });
+    }
+  </script>
 </body>
 </html>
 

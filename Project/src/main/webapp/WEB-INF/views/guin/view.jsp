@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>사람과 기업을 연결하는 구구인</title>
     <link rel="icon" type="image/png" href="/img/favicon.ico" />
     <link rel="stylesheet"  href="/css/common.css" />
     <style>
@@ -88,7 +88,35 @@
         #write{
             text-align: center;
         }
-    </style>
+ 				/* 모달 스타일 */
+		.modal-content {
+   			background-color: #fefefe;
+    	 	margin: 15% auto;
+   		 	padding: 20px;
+  			border: 1px solid #888;
+    	 	width: 80%;
+		}
+		.modal-content table {
+    		width: 100%;
+    		border-collapse: collapse;
+		}
+		.modal-content th, .modal-content td {
+   			padding: 10px;
+    		border: 1px solid #ccc;
+		}
+		.close {
+    		color: #aaa;
+    		float: right;
+    		font-size: 28px;
+    		font-weight: bold;
+		}
+		.close:hover,
+		.close:focus {
+    		color: black;
+   			text-decoration: none;
+    		cursor: pointer;
+		}
+   </style>
 </head>
 <body>
 <%@include file = "/WEB-INF/include/head.jsp" %>
@@ -113,7 +141,7 @@
                <a href="/Guin/Write?comid=${rec.comid}">등록</a>
                </c:if>
                <c:if test="${sessionScope.userid ne null}">
-                   <a href="/Guin/Apply?userid=${sessionScope.userid}">지원하기</a>
+                <a href="javascript:void(0);" onclick="openResumePopup()">지원하기</a>
                </c:if>
                <c:if test="${sessionScope.comid eq rec.comid}">
                <a href="/Guin/Delete?comid=${rec.comid}"> 삭제</a>
@@ -122,27 +150,36 @@
            </tr>
        </table>
     </div>
-    <div class="profile">
-        <div><img src="/img/profile.png" alt="profile"></div>
-        <div>
-            <c:if test="${not empty sessionScope.userid}">${ sessionScope.userid }님 환영합니다</c:if>
-            <c:if test="${not empty sessionScope.comid}">${ sessionScope.comid }님 환영합니다</c:if>
-            <c:if test="${ empty sessionScope.userid && empty sessionScope.comid }">로그인이 필요합니다
-                <div><a href="/Login/">로그인</a></div>
-            </c:if>
-        </div>
-        <div>
-            <c:if test="${ not empty sessionScope.userid }">
-                <a href="/MyPage/Board" class="abutton">Mypage</a>
-                <a href="/Login/Logout" class="abutton">logout</a>
-            </c:if>
-            <c:if test="${ not empty sessionScope.comid}">
-                <a href="/ComMyPage/" class="abutton">Mypage</a>
-                <a href="/Login/Logout" class="abutton">logout</a>
-            </c:if>
-        </div>
+    <div class="profile"><!-- 로그인 프로필 -->
+      <div><img src="/img/profile.png" alt="profile"></div>
+      <div>
+        <c:if test="${not empty sessionScope.userid}">${ user.username }님<br>환영합니다</c:if>
+        <c:if test="${not empty sessionScope.comid}">${ comp.comname }님<br>환영합니다</c:if>
+        <c:if test="${ empty sessionScope.userid && empty sessionScope.comid }">
+          <button id="loginBtn">로그인</button>
+        </c:if>
+      </div>
+      <div style="margin-top: 10px;">
+        <c:if test="${ not empty sessionScope.userid }">
+          <a href="/MyPage/Board" class="abutton">Mypage</a>
+          <a href="/Login/Logout" class="abutton">logout</a>
+        </c:if>
+        <c:if test="${ not empty sessionScope.comid}">
+          <a href="/Cmypage/Board" class="abutton">Mypage</a>
+          <a href="/Login/Logout" class="abutton">logout</a>
+        </c:if>
+      </div>
     </div>
+</div>
 </main>
+	
+
+<script>
+function openResumePopup() {
+    window.open('/Guin/Apply', 'resumePopup', 'width=600,height=400'); // 경로 수정
+}
+
+</script>
 </body>
 </html>
 

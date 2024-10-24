@@ -57,50 +57,59 @@
   </style>
 </head>
 <body>
-  <%@include file = "/WEB-INF/include/head.jsp" %>
-  <main>
-    <div id="listtable"><!-- 공고/이력서 리스트 -->
-      <table>
-        <!-- 기업로그인 O, 이력서리스트 O -->
-        <c:if test="${ not empty sessionScope.comid && not empty resList}">
-          <thead><tr>
-            <td style="text-align: center;">입사지원서</td>
-          </tr></thead>
-          <c:forEach items="${ resList }" var="res">
-           <tr>
-             <td><a href="/Gusik/View?send=${ res.send }">${ res.restitle }</a></td>
-           </tr>
-          </c:forEach>
-        </c:if>
-        <!-- 기업로그인 O, 이력서리스트 X -->
-        <c:if test="${ not empty sessionScope.comid && empty resList}">
-          <thead><tr>
-            <td style="text-align: center;">입사지원서</td>
-            <td style="text-align: center; width: 200px;">지원날짜</td>
-          </tr></thead>
-        </c:if>
-        <!-- 공고리스트 O -->
-        <c:if test="${ empty resList && not empty recList && empty sessionScope.comid}">
-          <thead><tr>
-            <td style="text-align: center;">구인공고</td>
-            <td style="text-align: center; width: 200px;">회사명</td>
-          </tr></thead>
-          <c:forEach items="${ recList }" var="rec">
-            <tr>
-              <td><a href="/Guin/View?recnum=${ rec.recnum }">${ rec.rectitle }</a></td>
-              <td>${ rec.comname }</td>
-            </tr>
-          </c:forEach>
-        </c:if>
-        <!-- 기업로그인 X, 공고리스트 X -->
-        <c:if test= "${ empty sessionScope.comid && empty recList }">
-          <thead><tr>
-            <td style="text-align: center;">구인공고</td>
-            <td style="text-align: center; width: 200px;">회사명</td>
-          </tr></thead>
-          <tr><td colspan="2">모집중인 공고가 없습니다 😢</td></tr>
-        </c:if>
-      </table>
+<%@include file = "/WEB-INF/include/head.jsp" %>
+<main>
+  <div id="listtable"><!-- 공고/이력서 리스트 -->
+    <table>
+      <!-- 기업로그인 O, 이력서리스트 O -->
+      <c:if test="${ not empty sessionScope.comid && not empty resList}">
+        <thead><tr>
+          <td style="text-align: center;">입사지원서</td>
+        </tr></thead>
+        <c:forEach items="${ resList }" var="res">
+          <tr>
+            <td><a href="/Gusik/View?send=${ res.send }">${ res.restitle }</a></td>
+          </tr>
+        </c:forEach>
+      </c:if>
+      <!-- 기업로그인 O, 이력서리스트 X -->
+      <c:if test="${ not empty sessionScope.comid && empty resList}">
+        <thead><tr>
+          <td style="text-align: center;">입사지원서</td>
+          <td style="text-align: center; width: 200px;">지원날짜</td>
+        </tr></thead>
+      </c:if>
+      <!-- 공고리스트 O -->
+      <c:if test="${ empty resList && not empty recList && empty sessionScope.comid}">
+        <thead><tr>
+          <td style="text-align: center;">구인공고</td>
+          <td style="text-align: center; width: 200px;">회사명</td>
+        </tr></thead>
+        <c:forEach items="${ recList }" var="rec">
+          <tr>
+            <td><a href="/Guin/View?recnum=${ rec.recnum }">${ rec.rectitle }</a></td>
+            <td>${ rec.comname }</td>
+          </tr>
+        </c:forEach>
+      </c:if>
+      <!-- 기업로그인 X, 공고리스트 X -->
+      <c:if test= "${ empty sessionScope.comid && empty recList }">
+        <thead><tr>
+          <td style="text-align: center;">구인공고</td>
+          <td style="text-align: center; width: 200px;">회사명</td>
+        </tr></thead>
+        <tr><td colspan="2">모집중인 공고가 없습니다 😢</td></tr>
+      </c:if>
+    </table>
+  </div>
+  <div class="profile"><!-- 로그인 프로필 -->
+    <div><img src="/img/profile.png" alt="profile"></div>
+    <div>
+      <c:if test="${not empty sessionScope.userid}">${ user.username }님<br>환영합니다</c:if>
+      <c:if test="${not empty sessionScope.comid}">${ comp.comname }님<br>환영합니다</c:if>
+      <c:if test="${ empty sessionScope.userid && empty sessionScope.comid }">
+        <button id="loginBtn">로그인</button>
+      </c:if>
     </div>
     <div style="margin-top: 10px;">
       <c:if test="${ not empty sessionScope.userid }">
@@ -144,14 +153,14 @@
     </div>
   </div>
 </div>
-  <script>
-    const loginBtnEl = document.querySelector('#loginBtn');
-    if(loginBtnEl != null){
-      loginBtnEl.addEventListener('click',function(){
-    	//alert('ok');
-    	window.location.href = '/Login/';
-      });
-    }
-  </script>
+<script>
+  const loginBtnEl = document.querySelector('#loginBtn');
+  if(loginBtnEl != null){
+    loginBtnEl.addEventListener('click',function(){
+      //alert('ok');
+      window.location.href = '/Login/';
+    });
+  }
+</script>
 </body>
 </html>

@@ -13,7 +13,6 @@
              ,GCONTENT
              ,REG_DATE
              ,DEADLINE
-             ,SIDO_CODE
              ,GUGUN_CODE
              ,CAREER_CODE
              ,EDU_CODE
@@ -31,7 +30,6 @@
              ,GCONTENT
              ,REG_DATE
              ,DEADLINE
-             ,SIDO_CODE
              ,GUGUN_CODE
              ,CAREER_CODE
              ,EDU_CODE
@@ -40,4 +38,9 @@
         ON BM.COMID = REC.COMID
         WHERE  REC.RECNUM = #{recnum}
     </select>
+
+    <insert id="insertAppliedResume">
+        INSERT INTO APPLIED_RESUME (SENDNUM, RESTITLE, USERID, USERNAME, UCONTENT, REG_DATE, PICTURE, EDU_CODE, EDU_CONTENT, LICENSE, CAREER_CODE, CAREER_CONTENT, SKILL, SIDO_CODE, GUGUN_CODE, PASS_CODE, RECNUM)
+        VALUES (#{sendNum}, #{resTitle}, #{userId}, #{userName}, #{uContent}, #{regDate}, #{picture}, #{eduCode}, #{eduContent}, #{license}, #{careerCode}, #{careerContent}, #{skill}, #{sidoCode}, #{gugunCode}, #{passCode}, #{recNum})
+    </insert>
 </mapper>
