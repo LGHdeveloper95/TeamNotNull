@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guguin.commypage.mapper.ComMyPageMapper">
+
+    <select id="getApplied_resumeList">
+    SELECT PR.RESNUM as RESNUM
+           ,PR.USERID as USERID
+           ,PR.USERNAME as USERNAME
+           ,PR.REG_DATE as REG_DATE
+           ,PR.PICTURE as PICTURE
+           ,PR.EDU_CODE as EDU_CODE
+           ,PR.EDU_CONTENT as EDU_CONTENT
+           ,PR.LICENSE as LICENSE
+           ,PR.CAREER_CODE as CAREER_CODE
+           ,PR.CAREER_CONTENT as CAREER_CONTENT
+           ,PR.SIDO_CODE as SIDO_CODE
+           ,PR.GUGUN_CODE as GUGUN_CODE
+           ,PR.RESTITLE as RESTITLE
+           ,PR.BACKGROUND as BACKGROUND
+           ,PR.PERSONALITY as PERSONALITY
+           ,PR.MOTIVATION as MOTIVATION
+        FROM PERSONAL_RESUME PR , APPLIED_RESUME AP , RECRUIT RC
+        WHERE PR.RESNUM = AP.RESNUM
+          AND   AP.RECNUM = RC.RECNUM
+          AND RC.COMID=#{comid}
+    </select>
+    <select id="getApplied_Resume">
+        SELECT RESNUM
+            ,USERID
+            ,USERNAME
+            ,REG_DATE
+            ,PICTURE
+            ,EDU_CODE
+            ,EDU_CONTENT
+            ,LICENSE
+            ,CAREER_CODE
+            ,CAREER_CONTENT
+            ,SIDO_CODE
+            ,GUGUN_CODE
+            ,RESTITLE
+            ,BACKGROUND
+            ,PERSONALITY
+            ,MOTIVATION
+        FROM PERSONAL_RESUME
+        WHERE RESNUM=#{resnum}
+    </select>
+    <select id="getUser">
+        SELECT PM.USERNAME USERNAME
+            ,BIRTH
+            ,UPHONE
+            ,UADDR
+            ,EMAIL
+        FROM PERSONAL_MEMBERS PM LEFT JOIN PERSONAL_RESUME PR
+        ON PM.USERID = PR.USERID
+        WHERE PR.RESNUM = #{resnum}
+    </select>
+</mapper>
