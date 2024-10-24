@@ -133,4 +133,33 @@ public class PostController {
 
     }
 
+    @RequestMapping("/WriteForm")
+    public ModelAndView writeForm(HttpServletRequest request,PostVo postVo){
+        ModelAndView mv = new ModelAndView();
+        HttpSession session  = request.getSession(false);
+        String comid = (String) session.getAttribute("comid");
+        if(comid==null){
+            mv.addObject("loginReq",true);
+            mv.setViewName("redirect:/Login/");
+        }
+        else{
+            PostVo com = postMapper.getCom(comid);
+            List<EduVo> eduList = postMapper.getEduList();
+            List<CareerVo> careerList = postMapper.getCareerList();
+            List<SkillCateVo> skillCateList = postMapper.getSkillCateList();
+            List<SkillVo> skillList = postMapper.getSkillList();
+            List<GugunVo> gugunList = postMapper.getGugunList();
+            List<SidoVo> sidoList = postMapper.getSidoList();
+            mv.addObject("com", com);
+            mv.addObject("eduList", eduList);
+            mv.addObject("careerList", careerList);
+            mv.addObject("skillCateList", skillCateList);
+            mv.addObject("skillList", skillList);
+            mv.addObject("gugunList", gugunList);
+            mv.addObject("sidoList", sidoList);
+            mv.setViewName("post/write");
+        }
+        return mv;
+    }
+
 }
