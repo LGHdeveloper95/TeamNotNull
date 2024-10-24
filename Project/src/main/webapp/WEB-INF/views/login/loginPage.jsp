@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>사람과 기업을 연결하는 구구인</title>
+    <title>Insert title here</title>
     <link rel="icon" type="image/png" href="/img/favicon.png" />
     <link rel="stylesheet"  href="/css/common.css" />
 

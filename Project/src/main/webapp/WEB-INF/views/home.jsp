@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>사람과 기업을 이어주는 구구인 입니다.</title>
+<title>Insert title here</title>
 <link rel="icon" type="image/png" href="/img/favicon.ico" />
 <link rel="stylesheet"  href="/css/common.css" />
 <style>
@@ -34,23 +34,8 @@ main {
   align-items: flex-start; /* 위쪽 정렬 */
   margin: 20px auto; /* 메인 마진 추가 */
 }
-.profile {
-  width: 20%;
-  height: 40%;
-  display: flex;
-  flex-direction: column; /* 세로 방향 정렬 */
-  align-items: center; /* 중앙 정렬 */
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  margin: 20px 5px;
-  padding: 40px 10px;
-}
-.profile>div{ text-align: center; }
-.profile img {
-  width: 90%; /* 프로필 이미지 너비를 80px로 설정 */
-  height: auto; /* 비율 유지 */
-}
 button{ padding: 3px 10px; }
+/*기업 리스트-----------------------------------------------------*/
 #compInformList{
   width: 70%; 
   margin: 20px auto;
@@ -69,12 +54,6 @@ button{ padding: 3px 10px; }
     margin: 10px 0; /* 상하 간격 추가 */
 }
 .compInform img{ border-radius: 15px; margin-bottom: 5px; }
-.abutton{
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 2px;
-  background-color: #f2f2f2;
-}
 </style>
 </head>
 <body>
@@ -89,7 +68,7 @@ button{ padding: 3px 10px; }
           </tr></thead>
           <c:forEach items="${ resList }" var="res">
            <tr>
-             <td><a href="/Gusik/View?resnum=${ res.resnum }">${ res.restitle }</a></td>
+             <td><a href="/Gusik/View?send=${ res.send }">${ res.restitle }</a></td>
            </tr>
           </c:forEach>
         </c:if>
@@ -100,8 +79,8 @@ button{ padding: 3px 10px; }
             <td style="text-align: center; width: 200px;">지원날짜</td>
           </tr></thead>
         </c:if>
-        <!-- 이력서리스트 X, 공고리스트 O -->
-        <c:if test="${ empty resList && not empty recList }">
+        <!-- 공고리스트 O -->
+        <c:if test="${ empty resList && not empty recList && empty sessionScope.comid}">
           <thead><tr>
             <td style="text-align: center;">구인공고</td>
             <td style="text-align: center; width: 200px;">회사명</td>
@@ -176,10 +155,12 @@ button{ padding: 3px 10px; }
     </div>
   <script>
     const loginBtnEl = document.querySelector('#loginBtn');
-    loginBtnEl.addEventListener('click',function(){
+    if(loginBtnEl != null){
+      loginBtnEl.addEventListener('click',function(){
     	//alert('ok');
     	window.location.href = '/Login/';
-    });
+      });
+    }
   </script>
 </body>
 </html>

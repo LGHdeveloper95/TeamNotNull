@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>사람과 기업을 이어주는 구구인 입니다.</title>
+    <title>사람과 기업을 연결하는 구구인</title>
     <link rel="icon" type="image/png" href="/img/favicon.ico" />
     <link rel="stylesheet"  href="/css/common.css" />
     <style>
@@ -74,24 +74,48 @@
 
 
         .profile {
-  width: 20%;
-  height: 40%;
-  display: flex;
-  flex-direction: column; /* 세로 방향 정렬 */
-  align-items: center; /* 중앙 정렬 */
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  margin: 20px 5px;
-  padding: 40px 10px;
-}
-.profile>div{ text-align: center; }
-.profile img {
-  width: 90%; /* 프로필 이미지 너비를 80px로 설정 */
-  height: auto; /* 비율 유지 */
-}
+            flex: 0 0 150px; /* 고정 너비를 120px로 설정 */
+            display: flex;
+            flex-direction: column; /* 세로 방향 정렬 */
+            align-items: center; /* 중앙 정렬 */
+        }
+
+        .profile img {
+            width: 80px; /* 프로필 이미지 너비를 80px로 설정 */
+            height: auto; /* 비율 유지 */
+            border-radius: 50%; /* 원형으로 만들기 (선택 사항) */
+        }
         #write{
             text-align: center;
         }
+ 				/* 모달 스타일 */
+		.modal-content {
+   			background-color: #fefefe;
+    	 	margin: 15% auto;
+   		 	padding: 20px;
+  			border: 1px solid #888;
+    	 	width: 80%;
+		}
+		.modal-content table {
+    		width: 100%;
+    		border-collapse: collapse;
+		}
+		.modal-content th, .modal-content td {
+   			padding: 10px;
+    		border: 1px solid #ccc;
+		}
+		.close {
+    		color: #aaa;
+    		float: right;
+    		font-size: 28px;
+    		font-weight: bold;
+		}
+		.close:hover,
+		.close:focus {
+    		color: black;
+   			text-decoration: none;
+    		cursor: pointer;
+		}
     </style>
 </head>
 <body>
@@ -117,7 +141,7 @@
                <a href="/Guin/Write?comid=${rec.comid}">등록</a>
                </c:if>
                <c:if test="${sessionScope.userid ne null}">
-                   <a href="/Guin/Apply?userid=${sessionScope.userid}">지원하기</a>
+                <a href="javascript:void(0);" onclick="openResumePopup()">지원하기</a>
                </c:if>
                <c:if test="${sessionScope.comid eq rec.comid}">
                <a href="/Guin/Delete?comid=${rec.comid}"> 삭제</a>
@@ -141,11 +165,20 @@
           <a href="/Login/Logout" class="abutton">logout</a>
         </c:if>
         <c:if test="${ not empty sessionScope.comid}">
-          <a href="/CompPage/Board" class="abutton">Mypage</a>
+          <a href="/Cmypage/Board" class="abutton">Mypage</a>
           <a href="/Login/Logout" class="abutton">logout</a>
         </c:if>
       </div>
     </div>
-  </main>
+</div>
+</main>
+	
+
+<script>
+function openResumePopup() {
+    window.open('/Guin/Apply', 'resumePopup', 'width=600,height=400'); // 경로 수정
+}
+
+</script>
 </body>
 </html>

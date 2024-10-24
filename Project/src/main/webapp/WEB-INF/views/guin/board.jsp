@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>사람과 기업을 연결하는 구구인</title>
     <link rel="icon" type="image/png" href="/img/favicon.ico" />
     <link rel="stylesheet"  href="/css/common.css" />
     <style>
@@ -74,22 +74,17 @@
 
 
         .profile {
-  width: 20%;
-  height: 40%;
-  display: flex;
-  flex-direction: column; /* 세로 방향 정렬 */
-  align-items: center; /* 중앙 정렬 */
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  margin: 20px 5px;
-  padding: 40px 10px;
-}
-.profile>div{ text-align: center; }
-.profile img {
-  width: 90%; /* 프로필 이미지 너비를 80px로 설정 */
-  height: auto; /* 비율 유지 */
-}
+            flex: 0 0 150px; /* 고정 너비를 120px로 설정 */
+            display: flex;
+            flex-direction: column; /* 세로 방향 정렬 */
+            align-items: center; /* 중앙 정렬 */
+        }
 
+        .profile img {
+            width: 80px; /* 프로필 이미지 너비를 80px로 설정 */
+            height: auto; /* 비율 유지 */
+            border-radius: 50%; /* 원형으로 만들기 (선택 사항) */
+        }
         #write{
             text-align: center;
         }
@@ -126,7 +121,7 @@
             <a href="/Guin/Write?comid=${sessionScope.comid}" id ="write">글쓰기</a>
         </c:if>
     </div>
-     <div class="profile"><!-- 로그인 프로필 -->
+    <div class="profile"><!-- 로그인 프로필 -->
       <div><img src="/img/profile.png" alt="profile"></div>
       <div>
         <c:if test="${not empty sessionScope.userid}">${ user.username }님<br>환영합니다</c:if>
@@ -141,12 +136,20 @@
           <a href="/Login/Logout" class="abutton">logout</a>
         </c:if>
         <c:if test="${ not empty sessionScope.comid}">
-          <a href="/CompPage/Board" class="abutton">Mypage</a>
+          <a href="/Cmypage/Board" class="abutton">Mypage</a>
           <a href="/Login/Logout" class="abutton">logout</a>
         </c:if>
       </div>
     </div>
-  </main>
+</main>
+<script>
+    const loginBtnEl = document.querySelector('#loginBtn');
+    if(loginBtnEl != null){
+      loginBtnEl.addEventListener('click',function(){
+    	//alert('ok');
+    	window.location.href = '/Login/';
+      });
+    }
+  </script>
 </body>
 </html>
-

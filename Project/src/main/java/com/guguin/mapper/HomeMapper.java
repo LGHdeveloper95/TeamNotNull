@@ -13,8 +13,9 @@ public interface HomeMapper {
 
 	HomeVo getUserById(String userid);
 
+	HomeVo getComp(String comid);
+
 	List<HomeVo> getResList(String comid);
 
-	HomeVo getComp(String comid);
 
 }
