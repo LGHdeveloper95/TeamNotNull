@@ -18,7 +18,7 @@
 table{
   width: 100%;
   border-collapse: collapse;
-  margin: 20px auto;
+  margin: 10px auto;
   border: 1px solid #ccc;
   border-radius: 8px;
 }
@@ -39,8 +39,8 @@ main {
   align-items: flex-start; /* 위쪽 정렬 */
   margin: 20px auto; /* 메인 마진 추가 */
 }
-main>div{width: 100%;}
-button{ padding: 3px 10px; }
+#box{width: 100%;}
+button{ padding: 3px 10px; margin: 20px 0 0; }
 .subtitle{ background-color: skyblue; }
 .content{
   height: 300px;
@@ -51,18 +51,28 @@ button{ padding: 3px 10px; }
 <body>
   <%@include file="/WEB-INF/include/head.jsp"%>
   <main>
-  <div>
+  <div id="box">
+  <button id="updateBtn">
+    수정
+  </button>
+  <button id="deleteBtn">
+    삭제
+  </button>
   <table>
     <thead>
     <tr><td colspan="3">이력서 제목 : ${ resume.restitle }</td></tr></thead>
     <tr>
-    <td rowspan="4" style="max-width: 130px; text-align: center;"><img src="/img/sinchanprofile.jpg" alt="pic" style="width: 80%;"/></td>
-      <td>이름</td>
-      <td>${ resume.username } </td>
+      <td rowspan="4">
+        <img src="/img/sinchanprofile.jpg" alt="pic" style="max-width: 200px;"/>
+      </td>
+    </tr>
+    <tr>
+    <td>이름</td>
+    <td>${ resume.username } </td>
     </tr>
     <tr>
       <td>성별</td>
-      <td></td>
+      <td>${ user.gender }</td>
     </tr>
     <tr>
       <td>휴대전화</td>
@@ -117,5 +127,22 @@ button{ padding: 3px 10px; }
       </div>
     </div>
   </main>
+  <script>
+    let resnum = '${ resume.resnum }';
+    const updateBtnEl = document.querySelector('#updateBtn');
+    const deleteBtnEl = document.querySelector('#deleteBtn');
+    
+    updateBtnEl.addEventListener('click', function(){
+    	//alert('ok');
+    	window.location.href="/Resume/Update?resnum="+resnum;
+    })
+    deleteBtnEl.addEventListener('click', function(){
+    	//alert('ok');
+    	const result = confirm("정말로 삭제하시겠습니까?");
+    	if (result) {
+    		window.location.href='/Resume/Delete?resnum='+resnum;
+    		}
+    })
+  </script>
 </body>
 </html>
