@@ -66,5 +66,14 @@
    FROM SKILL_LIST
 </select>
 
+<insert id="insertResume">
+  INSERT INTO PERSONAL_RESUME(
+    RESNUM, RESTITLE, PICTURE, EDU_CODE
+  , EDU_CONTENT, LICENSE, CAREER_CODE, CAREER_CONTENT, SKILL
+  , SIDO_CODE, GUGUN_CODE, BACKGROUND, MOTIVATION, PERSONALITY
+  )VALUES('res' || LPAD((SELECT NVL(MAX(TO_NUMBER(SUBSTR(RESNUM, 4))), 0) + 1 FROM PERSONAL_RESUME), 3, '0')
+  , #{restitle}, #{picture}, #{edu_code}, #{edu_content}, #{license}, #{career_code}, #{career_content}
+  , #{skill}, #{sido_code}, #{gugun_code}, #{background}, #{motivation}, #{personality});
+</insert>
 
 </mapper>

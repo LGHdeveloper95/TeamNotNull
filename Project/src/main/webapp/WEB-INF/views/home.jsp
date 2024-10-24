@@ -68,7 +68,7 @@ button{ padding: 3px 10px; }
           </tr></thead>
           <c:forEach items="${ resList }" var="res">
            <tr>
-             <td><a href="/Gusik/View?resnum=${ res.resnum }">${ res.restitle }</a></td>
+             <td><a href="/Gusik/View?send=${ res.send }">${ res.restitle }</a></td>
            </tr>
           </c:forEach>
         </c:if>
@@ -79,8 +79,8 @@ button{ padding: 3px 10px; }
             <td style="text-align: center; width: 200px;">지원날짜</td>
           </tr></thead>
         </c:if>
-        <!-- 이력서리스트 X, 공고리스트 O -->
-        <c:if test="${ empty resList && not empty recList }">
+        <!-- 공고리스트 O -->
+        <c:if test="${ empty resList && not empty recList && empty sessionScope.comid}">
           <thead><tr>
             <td style="text-align: center;">구인공고</td>
             <td style="text-align: center; width: 200px;">회사명</td>

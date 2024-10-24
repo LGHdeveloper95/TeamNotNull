@@ -34,5 +34,8 @@ public interface ResumeMapper {
 	List<sectionVo>  getSkillCateList();
 
 	List<skillVo>  getSkillList();
+
+	ResumeVo insertResume(ResumeVo vo);
+
 	
 }

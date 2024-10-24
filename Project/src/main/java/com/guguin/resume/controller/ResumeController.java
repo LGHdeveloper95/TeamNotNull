@@ -97,15 +97,27 @@ public class ResumeController {
     	
     	return mv;
     }
-    /*
+
+    
     @RequestMapping("/Insert")
-    public ModelAndView insert(HttpServletRequest request) {
+    public ModelAndView insert(ResumeVo vo, HttpServletRequest request) {
     	HttpSession session = request.getSession();
     	String userid = (String) session.getAttribute("userid");
     	
-    	ResumeVo vo = resumeMapper.insertResume(userid);
+    	/*RESNUM, RESTITLE, PICTURE, EDU_CODE
+    	 * , EDU_CONTENT, LICENSE, CAREER_CODE, CAREER_CONTENT, SKILL
+    	 * , SIDO_CODE, GUGUN_CODE, BACKGROUND, MOTIVATION, PERSONALITY*/
+    	ResumeVo insertVo = resumeMapper.insertResume(vo);
+    	insertVo.setUsername(resumeMapper.getUser(userid).getUsername());
+    	insertVo.setUserid(userid);
     	
-    }*/
+    	ModelAndView mv = new ModelAndView();
+    	mv.addObject("insert", insertVo);
+    	mv.setViewName("redierct:/Resume/Board");
+    	
+    	return mv;
+    	
+    }
     
     @RequestMapping("/Delete")
     public ModelAndView delete(@RequestParam(name = "resnum") String resnum) {
@@ -113,9 +125,10 @@ public class ResumeController {
     	resumeMapper.deleteResume(resnum);
     	
     	ModelAndView mv = new ModelAndView();
-    	mv.setViewName("redierct:/Board");
+    	mv.setViewName("redierct:/Resume/Board");
     	
     	return mv;
     }
+    
     
 }

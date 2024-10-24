@@ -41,11 +41,20 @@ main {
 }
 #box{width: 100%;}
 button{ padding: 3px 10px; margin: 20px 0 0; }
-.subtitle{ background-color: skyblue; }
 .content{
-  height: 300px;
+  height: 100%;
   vertical-align: top;	
 }
+.red{ color: red; }
+
+.fullBox {
+  width: 100%;
+  height: 100%; /* Expand to fill the parent height */
+  resize: none; /* Prevent resizing */
+  box-sizing: border-box; /* Include padding and border in height/width */
+  padding: 10px; /* Add padding for better appearance */
+}
+
 </style>
 </head>
 <body>
@@ -59,7 +68,8 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
         </td></tr></thead>
         <tr>
           <td rowspan="3" style="max-width: 30px; text-align: center;">
-            <img src="/img/sinchanprofile.jpg" alt="pic" style="width: 80%;"/>
+            <img id="img" alt="pic" style="width: 80%;"/>
+            <input type="file"  id="fileInput" accept="image/*" required>
           </td>
           <td>이름</td>
           <td>${ user.username }</td>
@@ -96,7 +106,7 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
       </tr>
       <tr>
         <td colspan="3" id="licenseList">
-          <input type="text" class="license"/>
+          <input type="text" class="license licenseCheck"/>
           <button class="plusBtn">+</button>
         </td>
       </tr>
@@ -126,15 +136,15 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
       </thead>
       <tr class="subtitle"><td colspan="3">성장배경</td></tr>
       <tr class="content"><td colspan="3">
-        <input type="text" name="background"/>
+        <textarea name="background" class="fullBox"></textarea>
       </td></tr>
       <tr class="subtitle"><td colspan="3">성격의 장단점</td></tr>
       <tr class="content"><td colspan="3">
-        <input type="text" name="personality"/>
+        <textarea name="personality" class="fullBox"></textarea>
       </td></tr>
       <tr class="subtitle"><td colspan="3">지원동기</td></tr>
       <tr class="content"><td colspan="3">
-        <input type="text" name="motivation"/>
+        <textarea name="motivation" class="fullBox"></textarea>
       </td></tr>
     </table>
     <input type="submit" value="추가">
@@ -154,31 +164,104 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
     const licenseSubmitEl = document.querySelector('#licenseSubmit');
     
     licenseListEl.addEventListener('click', function(event) {
+    	let licenseCheckEl = document.querySelectorAll('.licenseCheck');
+	    console.log(licenseCheckEl.length);
+	    
     	  if (event.target.classList.contains('plusBtn')) {
-    	    event.preventDefault();
+    	    event.preventDefault(); //button submit 방지
     	    event.target.remove();
     	    
-    	    const newInput = document.createElement('input');
-    	    const newButton = document.createElement('button');
-    	    newInput.className = 'license';
-    	    newButton.className = 'plusBtn';
-    	    newButton.textContent = '+';
+    	    let licenseEl = document.querySelectorAll('.license');
+    	    if(licenseEl[licenseCheckEl.length-1].value==""){
+    	    	alert('입력 후 추가해주세요');
+    	    	
+    	    	const newPlusButton = document.createElement('button');
+    	    	newPlusButton.className = 'plusBtn';
+      	        newPlusButton.type = 'button';
+      	        newPlusButton.textContent = '+';
+      	        licenseListEl.appendChild(newPlusButton);
+    	    }
+    	    
+    	    else if(licenseCheckEl.length < 9){
+    	      const newInput = document.createElement('input');
+    	      const newPlusButton = document.createElement('button');
+    	      const newminusButton = document.createElement('button');
+    	      newInput.className = 'license licenseCheck';
+    	      newPlusButton.className = 'plusBtn';
+    	      newPlusButton.type = 'button';
+    	      newPlusButton.textContent = '+';
+    	      newminusButton.className = 'minusBtn';
+    	      newminusButton.textContent = '-';
+    	      newminusButton.type = 'button';
+    	      
+    	      licenseListEl.appendChild(document.createElement('br'));
+    	      licenseListEl.appendChild(newInput);
+    	      licenseListEl.appendChild(newminusButton);
+    	      licenseListEl.appendChild(newPlusButton);
+    	    }
+    	    else if(licenseCheckEl.length == 9){
+    	    	const newInput = document.createElement('input');
+      	      const newminusButton = document.createElement('button');
+      	      newInput.className = 'license';
+      	      newInput.className = 'licenseCheck';
+      	      newminusButton.className = 'minusBtn';
+      	      newminusButton.textContent = '-';
+      	      newminusButton.type = 'button';
+      	      
+      	      
+      	      licenseListEl.appendChild(document.createElement('br'));
+      	      licenseListEl.appendChild(newInput);
+      	      licenseListEl.appendChild(newminusButton);
+      	      
+      	      const div = document.createElement('div');
+      	      div.className = 'red warning';
+      	      div.innerHTML = '*&nbsp;최대 10개까지 추가할 수 있습니다.';
+      	      licenseListEl.appendChild(div);
+  	        }
+    	  }
+    	  
+    	  else if(event.target.classList.contains('minusBtn')){
+    		  event.preventDefault();
+    		  //console.log(event.target.previousElementSibling);
+    		  const removeInput = event.target.previousElementSibling;//이전 형제 요소 찾음
+    		  const removeBr = removeInput.previousElementSibling;
+    		  
+    		  licenseListEl.removeChild(removeInput);
+    		  licenseListEl.removeChild(removeBr);
+    		  event.target.remove();
+    		  
+    		  if(licenseCheckEl.length == 10){
+    			  const warningEl = document.querySelector('.warning');
+    			  //console.log(warningEl);
+    			  warningEl.remove();
 
-    	    licenseListEl.appendChild(document.createElement('br'));
-    	    licenseListEl.appendChild(newInput);
-    	    licenseListEl.appendChild(newButton);
+        	      const newPlusButton = document.createElement('button');
+        	      newPlusButton.className = 'plusBtn';
+        	      newPlusButton.type = 'button';
+        	      newPlusButton.textContent = '+';
+        	      
+        	      licenseListEl.appendChild(newPlusButton);
+      	        }
     	  }
     	});
 
     resumeFormEl.addEventListener('submit',function(event){
-    	//event.preventDefault();
-        let licenses = document.querySelectorAll('.license');
-    	//alert(licenses[0].value);
+        let licenseEl = document.querySelectorAll('.license');
+    	//alert(licenseEl[1].value);
     	let licenseList = "";
-        for(let i = 0; i < licenses.length; i++){
-    		//alert(licenses[i].value);
-    		licenseList += licenses[i].value + "/";
+        for(let i = 0; i < licenseEl.length; i++){
+        	if(licenseEl[i].value != "" && i != licenseEl.length-1){
+                //alert(licenseEl[i].value);
+        		licenseList += licenseEl[i].value;
+        		if(licenseEl[i+1].value != ""){
+        			licenseList += "/";
+        		}
+        	}
+        	else if(i == licenseEl.length-1 && licenseEl[i].value != ""){
+        		licenseList += licenseEl[i].value;
+        	}
         }
+        //alert(licenseList);
         licenseSubmitEl.value = licenseList;
     })
     
@@ -193,7 +276,7 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
     let scate_code = skillList[2].substring(12,15);
     
     
-   console.log(skill_code)
+    console.log(skill_code)
     console.log(skillname)
     console.log(scate_code)
     for(let i=100;i<810;i=i+100){
@@ -212,7 +295,7 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
                let skillname=skillList[j+1].substring(7,);
                let scate_code = skillList[j+2].substring(12,15);
                if(skill_idx==scate_code){
-                   html+="<span value='"+skill_code+"'>"+skillname+"</span> / ";
+                   html+="<span value='"+skill_code+"'>"+skillname+"</span><br>";
                }
            }
             document.getElementsByClassName("skill")[0].innerHTML = html;
@@ -239,6 +322,11 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
         }
     }
 
+    let fileInputEl = document.querySelector('#fileInput');
+    let imgEl = document.querySelector('#img');
+    <% String userid = (String) session.getAttribute("userid"); %>
+    
+    
 
   </script>
 </body>
