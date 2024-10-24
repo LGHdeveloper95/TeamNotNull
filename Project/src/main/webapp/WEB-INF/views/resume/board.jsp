@@ -9,9 +9,9 @@
 <title>Insert title here</title>
 <style>
 #listtable {
-  margin: 20px auto;
+  margin: 0 auto;
   border-radius: 8px;
-  max-width: 100%; /* 최대 너비 설정 */
+  width: 100%;
   flex: 1; /* Flex-grow로 크기 조정 */
   border: 1px solid #ccc;
 }
@@ -33,14 +33,15 @@ main {
   align-items: flex-start; /* 위쪽 정렬 */
   margin: 20px auto; /* 메인 마진 추가 */
 }
-button{ padding: 3px 10px; }
+button{ padding: 3px 10px; margin: 20px 0 5px; }
+#box{ width: 100%; }
 </style>
 </head>
 <body>
   <%@include file="/WEB-INF/include/head.jsp"%>
   <main>
-  <div class="">
-  <button>추가</button>
+  <div id="box">
+  <button id="insertBtn">추가</button>
   <div id="listtable">
     <table>
       <thead><tr>
@@ -65,5 +66,12 @@ button{ padding: 3px 10px; }
       </div>
     </div>
   </main>
+  <script>
+    const insertBtnEl = document.querySelector('#insertBtn');
+    insertBtnEl.addEventListener('click',function(){
+    	//alert('ok');
+    	window.location.href="/Resume/InsertForm";
+    });
+  </script>
 </body>
 </html>

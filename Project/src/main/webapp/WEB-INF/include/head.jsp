@@ -52,7 +52,7 @@
       if (sessionTimeout <= 0) {
         clearInterval(timer);
         alert('세션이 만료되었습니다. 다시 로그인해주세요.');
-        window.location.href = '/Home'; // 홈 화면으로 리다이렉트
+        window.location.href = '/'; // 홈 화면으로 리다이렉트
       }
 
       // 시간 형식 변환
