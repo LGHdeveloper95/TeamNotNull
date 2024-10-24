@@ -13,7 +13,7 @@
    <div class="big-div">
         <div class="form-box">
             <h2>기업 회원가입</h2>
-            <form action="/Join/ComJoin" method="post" onsubmit="return handleSubmit();">
+            <form action="/Join/ComJoinForm" method="post" onsubmit="return handleSubmit();">
                 <div class="input-group">
 			        <label for="comid">기업 아이디</label>
 			        <input type="text" id="companyId" name="comid" required>
@@ -33,7 +33,7 @@
                 </div>
                 <div class="input-group">
                     <label for="comname">기업명</label>
-                    <input type="text" id="ceoName" name="comname" required>
+                    <input type="text" id="comname" name="comname" required>
                 </div>
                 <div class="input-group">
                     <label for="boss">대표자 성명</label>
