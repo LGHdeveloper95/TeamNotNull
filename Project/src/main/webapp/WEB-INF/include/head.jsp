@@ -14,11 +14,8 @@
 <div id="menus">
   <c:if test="${ not empty sessionScope.comid }"><!-- 기업아이디로 로그인 했을경우 -->
     <div><a href="/Gusik/Board">구직정보</a></div>
-<<<<<<< HEAD
     <div><a href="/Post/Board">공고관리</a></div>
-=======
-    <div><a href="/Gusik/Board">공고관리</a></div>
->>>>>>> origin/Gu
+
   </c:if>
   <c:if test="${ empty sessionScope.comid }">
     <div><a href="/Guin/Board">구인정보</a></div>
@@ -56,11 +53,7 @@
       if (sessionTimeout <= 0) {
         clearInterval(timer);
         alert('세션이 만료되었습니다. 다시 로그인해주세요.');
-<<<<<<< HEAD
         window.location.href = '/'; // 홈 화면으로 리다이렉트
-=======
-        window.location.href = '/Home'; // 홈 화면으로 리다이렉트
->>>>>>> origin/Gu
       }
 
       // 시간 형식 변환

@@ -2,6 +2,7 @@ package com.guguin.resume.controller;
 
 import java.util.List;
 
+import com.guguin.resume.vo.gugunVo;
 import com.guguin.resume.vo.sectionVo;
 import com.guguin.resume.vo.skillVo;
 import org.apache.ibatis.annotations.Param;
@@ -82,7 +83,8 @@ public class ResumeController {
         List<sectionVo> careerList = resumeMapper.getCareerList();
         List<sectionVo> skillCateList = resumeMapper.getSkillCateList();
         List<skillVo> skillList = resumeMapper.getSkillList();
-    	
+
+
     	ModelAndView mv = new ModelAndView();
     	mv.addObject("eduList", eduList);
     	mv.addObject("careerList", careerList);

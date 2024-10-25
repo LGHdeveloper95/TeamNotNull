@@ -10,161 +10,254 @@
   <link rel="icon" type="image/png" href="/img/favicon.ico" />
   <link rel="stylesheet"  href="/css/common.css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <title>마이페이지 - 이력서 목록</title>
   <style>
-    #menu_button {
-    td{
-      text-align: center;
-      background: #333;
-      color:white;
-      font-weight: bold;
-      border: 1px solid silver;
-      padding: 0;
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9; /* 배경 색상 설정 */
     }
-    td:hover{
-      background: #c0c0c0;
-      color:white;
-    }
-    a{
-      text-decoration:none;
-      color:white;
-      display:block;
-      padding:15px 65px;
-      width:100%;
-    }
-
-    }
-    #listtable {
+    #container {
+      display: flex; /* 플렉스박스 사용 */
+      width: 90%;
       margin: 20px auto;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      max-width: 100%; /* 최대 너비 설정 */
-      flex: 1; /* Flex-grow로 크기 조정 */
+      padding: 20px;
     }
-    table { width: 100%; border-collapse: collapse; }
-    thead { background-color: #f2f2f2; }
+    /* 왼쪽: 테이블 영역 */
+    .table-container {
+      flex: 3; /* 테이블 영역 비율 */
+    }
+    /* 오른쪽: 프로필 영역 */
+    .profile {
+      flex: 1; /* 프로필 영역 비율 */
+      text-align: center;
+      padding: 20px;
+      margin-left: 20px; /* 테이블과의 간격 */
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background-color: #f1f1f1; /* 프로필 배경 색상 */
+    }
+    /* 라디오 메뉴바 스타일 */
+    .radio-menu {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .radio-menu label {
+      padding: 10px 20px;
+      margin: 0 10px;
+      background-color: #f2f2f2;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .radio-menu input[type="radio"] {
+      display: none;
+    }
+    .radio-menu input[type="radio"]:checked + label {
+      background-color: #4CAF50;
+      color: white;
+    }
+    /* 테이블 스타일 */
+    .listtable {
+      display: none;
+      width: 100%;
+      margin-top: 20px;
+    }
+    .listtable table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    thead {
+      background-color: #f2f2f2;
+    }
     thead td {
       font-weight: bold;
       padding: 12px;
       text-align: left;
       border-bottom: 2px solid #ccc;
     }
-    tbody tr { transition: background-color 0.3s; }
-    tbody td { padding: 12px; border-bottom: 1px solid #ccc; }
-    a { text-decoration: none; color: #333; }
-    a:hover { text-decoration: underline; }
-    main {
-      width: 70%;
-      display: flex; /* Flexbox 사용 */
-      align-items: flex-start; /* 위쪽 정렬 */
-      margin: 20px auto; /* 메인 마진 추가 */
+    tbody tr {
+      transition: background-color 0.3s;
     }
-    .profile {
-      width: 20%;
-      height: 40%;
-      display: flex;
-      flex-direction: column; /* 세로 방향 정렬 */
-      align-items: center; /* 중앙 정렬 */
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      margin: 20px 5px;
-      padding: 40px 10px;
+    tbody td {
+      padding: 12px;
+      border-bottom: 1px solid #ccc;
     }
-    .profile>div{ text-align: center; }
+    tbody tr:hover {
+      background-color: #f1f1f1;
+    }
+    a {
+      text-decoration: none;
+      color: #333;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    /* 프로필 이미지 스타일 */
     .profile img {
-      width: 90%; /* 프로필 이미지 너비를 80px로 설정 */
-      height: auto; /* 비율 유지 */
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin-bottom: 10px; /* 이미지와 텍스트 간격 */
     }
-    button{ padding: 3px 10px; }
-    #compInformList{
-      width: 70%;
-      margin: 20px auto;
+    .profile div {
+      margin: 10px 0;
     }
-    #compInformList > div{ display: flex; gap: 6px; margin-bottom: 6px; }
-    .compInform{
-      width: 25%;
-      border: 1px solid #ccc;
-      border-radius: 15px;
-      padding: 7px;
-      text-align: center;
-    }
-    .compInform a{
-      display: flex; /* Flexbox 사용 */
-      flex-direction: column; /* 세로 방향으로 정렬 */
-      margin: 10px 0; /* 상하 간격 추가 */
-    }
-    .compInform img{ border-radius: 15px; margin-bottom: 5px; }
-    .abutton{
-      border: 1px solid #ccc;
+    .abutton {
+      display: block;
+      padding: 10px;
+      margin: 10px auto;
+      background-color: #4CAF50;
+      color: white;
+      text-decoration: none;
       border-radius: 5px;
-      padding: 2px;
-      background-color: #f2f2f2;
+      text-align: center;
+      width: 150px;
     }
-    .mypage{
-      width:80%;
+    .abutton:hover {
+      background-color: #45a049;
+    }
+    /* 상태에 따른 색상 */
+    .status-review {
+      color: orange;
+    }
+    .status-pass {
+      color: green;
+    }
+    .status-fail {
+      color: red;
     }
   </style>
+  <script>
+    // 자바스크립트를 사용하여 선택된 메뉴에 따라 테이블을 보여주는 함수
+    function switchTable(menu) {
+      // 모든 테이블 숨기기
+      document.getElementById('resumeTable').style.display = 'none';
+      document.getElementById('bookmarkTable').style.display = 'none';
+      document.getElementById('scrapTable').style.display = 'none';
+
+      // 선택한 메뉴에 맞는 테이블만 보이기
+      document.getElementById(menu + 'Table').style.display = 'table';
+    }
+
+    // 페이지 로드 시 기본 선택된 테이블 보여주기
+    window.onload = function() {
+      switchTable('resume');
+    }
+  </script>
 </head>
 <body>
 <%@include file = "/WEB-INF/include/head.jsp" %>
 <main>
-  <h2>My Page</h2>
-  <div class="mypage">
-    <div class="menu">
-      <table id="menu_button">
-        <tr>
-          <td><a href="#" onclick="return false" id="res_search" >지원자 조회</a></td>
-          <td><a href="#" onclick="return false" id="book">북마크</a></td>
-        </tr>
-      </table>
-    </div>
-    <div id ="listtable" class="pagecontent">
-      <table>
-        <tr><th colspan="2">지원한 이력서</th></tr>
-      <c:choose>
-        <c:when test="${resList eq null} ">
-          <tr><td>지원한 공고가 없습니다 😢</td></tr>
-        </c:when>
-        <c:otherwise>
-          <c:forEach items="${resList}" var="res">
+
+  <div id="container">
+    <!-- 왼쪽: 테이블 영역 -->
+    <div class="table-container">
+      <!-- 라디오 메뉴바 -->
+      <div class="radio-menu">
+        <!-- 라디오 버튼 클릭 시 switchTable 함수 호출 -->
+        <input type="radio" name="menu" value="resume" id="resume" checked onclick="switchTable('resume')">
+        <label for="resume">제출한 이력서</label>
+
+        <input type="radio" name="menu" value="bookmark" id="bookmark" onclick="switchTable('bookmark')">
+        <label for="bookmark">북마크</label>
+
+      </div>
+
+      <!-- 제출한 이력서 목록 테이블 -->
+      <div id="resumeTable" class="listtable">
+        <table>
+          <thead>
+          <tr>
+            <td>제목</td>
+            <td>날짜</td>
+            <td>상태</td>
+          </tr>
+          </thead>
+          <tbody>
+          <!-- 제출한 이력서 데이터 출력 -->
+          <c:forEach items="${resList}" var="resume">
             <tr>
-              <td><a href="/ComMyPage/View?resnum=${res.resnum}"
+              <td><a href="/ComMyPage/View?sendnum=${resume.sendnum}"
                      onclick="window.open(this.href, '_blank', 'width=800, height=600'); return false;">
-              ${res.restitle}</a></td>
+                  ${resume.restitle}</a></td>
+              <td>${resume.reg_date}</td>
+              <td>
+                <!-- 상태값에 따른 스타일링 -->
+                <c:choose>
+                  <c:when test="${resume.pass_code == null}">
+                    <span class="status-review">심사중</span>
+                  </c:when>
+                  <c:when test="${resume.pass_code == 1}">
+                    <span class="status-pass">합격</span>
+                  </c:when>
+                  <c:when test="${resume.pass_code == 0}">
+                    <span class="status-fail">불합격</span>
+                  </c:when>
+                  <c:otherwise>
+                    <span>상태없음</span>
+                  </c:otherwise>
+                </c:choose>
+              </td>
             </tr>
           </c:forEach>
-        </c:otherwise>
-      </c:choose>
-      </table>
-    </div>
-  </div>
+          </tbody>
+        </table>
+      </div>
 
-  <div class="profile"><!-- 로그인 프로필 -->
-    <div><img src="/img/profile.png" alt="profile"></div>
-    <div>
-      <c:if test="${not empty sessionScope.userid}">${ user.username }님<br>환영합니다</c:if>
-      <c:if test="${not empty sessionScope.comid}">${ comp.comname }님<br>환영합니다</c:if>
-      <c:if test="${ empty sessionScope.userid && empty sessionScope.comid }">
-        <button id="loginBtn">로그인</button>
-      </c:if>
+      <!-- 북마크 목록 테이블 -->
+      <div id="bookmarkTable" class="listtable">
+        <table>
+          <thead>
+          <tr>
+            <td>북마크 제목</td>
+            <td>북마크 날짜</td>
+          </tr>
+          </thead>
+          <tbody>
+          <!-- 북마크 데이터 출력 -->
+          <c:forEach items="${bookmarkList}" var="bookmark">
+            <tr>
+              <td><a href="/Bookmark/View?id=${bookmark.id}">${bookmark.title}</a></td>
+              <td>${bookmark.date}</td>
+            </tr>
+          </c:forEach>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 스크랩 목록 테이블 -->
+      <div id="scrapTable" class="listtable">
+        <table>
+          <thead>
+          <tr>
+            <td>스크랩 제목</td>
+            <td>스크랩 날짜</td>
+          </tr>
+          </thead>
+          <tbody>
+          <!-- 스크랩 데이터 출력 -->
+          <c:forEach items="${scrapList}" var="scrap">
+            <tr>
+              <td><a href="/Scrap/View?id=${scrap.id}">${scrap.title}</a></td>
+              <td>${scrap.date}</td>
+            </tr>
+          </c:forEach>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div style="margin-top: 10px;">
-      <c:if test="${ not empty sessionScope.userid }">
-        <a href="/MyPage/Board" class="abutton">Mypage</a>
-        <a href="/Login/Logout" class="abutton">logout</a>
-      </c:if>
-      <c:if test="${ not empty sessionScope.comid}">
-        <a href="/ComMyPage/" class="abutton">Mypage</a>
-        <a href="/Login/Logout" class="abutton">logout</a>
-      </c:if>
+
+    <!-- 오른쪽: 로그인 프로필 영역 -->
+    <div class="profile">
+      <div><img src="/img/profile.png" alt="profile"></div>
+      <div>${com.boss}님<br>환영합니다</div>
+      <div style="margin-top: 10px;">
+        <a href="/ComMyPage/Board" class="abutton">Mypage</a>
+        <a href="/Login/Logout" class="abutton">Logout</a>
+      </div>
     </div>
   </div>
 </main>
-<script>
-  const loginBtnEl = document.querySelector('#loginBtn');
-  loginBtnEl.addEventListener('click',function(){
-    //alert('ok');
-    window.location.href = '/Login/';
-  });
-</script>
 </body>
 </html>

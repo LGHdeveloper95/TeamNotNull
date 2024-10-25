@@ -15,4 +15,6 @@ public class sectionVo {
 	private String career_name;
 	private int scate_code;
 	private String scate;
+	private int sido_code;
+	private String sido;
 }

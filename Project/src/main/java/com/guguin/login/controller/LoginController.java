@@ -37,6 +37,7 @@ public class LoginController {
         }
         else if(user!=null){
             session.setAttribute("userid",user.getUserid());
+            session.setAttribute("username",user.getUsername());
             mv.setViewName("redirect:/");
         }
 
@@ -54,6 +55,7 @@ public class LoginController {
         }
         else if(user!=null){
             session.setAttribute("comid",user.getComid());
+            session.setAttribute("boss",user.getBoss());
             mv.setViewName("redirect:/");
         }
         return mv;

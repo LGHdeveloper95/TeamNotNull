@@ -4,13 +4,13 @@
 <mapper namespace="com.guguin.login.mapper.LoginMapper">
 
 <select id="getUser">
-    SELECT USERID,USERPW
+    SELECT USERID,USERPW,USERNAME
     FROM PERSONAL_MEMBERS
     WHERE USERID=#{userid} AND USERPW=#{userpw}
 </select>
 
     <select id="getCom">
-        SELECT COMID,COMPW
+        SELECT COMID,COMPW,BOSS
         FROM BUSINESS_MEMBERS
         WHERE COMID=#{comid} AND COMPW=#{compw}
     </select>

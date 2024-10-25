@@ -117,45 +117,90 @@
 </head>
 <body>
 <main>
-    <div id="rectable">
+    <div id="box">
+        <button id="updateBtn">
+            합격
+        </button>
+        <button id="deleteBtn">
+            불합격
+        </button>
         <table>
+            <thead>
+            <tr><td colspan="3">이력서 제목 : ${ resume.restitle }</td></tr></thead>
             <tr>
-                <h4>Title:</h4>
-                <td colspan="2">${res.restitle}</td>
-            </tr>
-            <tr>
-                <th colspan="2">ConTent</th>
-            </tr>
-            <tr>
-                <td><h4>인적사항</h4>
-                    <div> 이름: ${user.username}</div>
-                    <div> 생년월일: ${user.birth}</div>
-                    <div> 휴대폰: ${user.uphone}</div>
-                    <div> 주소: ${user.uaddr}</div>
-                    <div> 이메일: ${user.email}</div>
-                </td>
-                <td>사진:<img src="/img/profile.png">${res.picture}</td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <div>학력:${res.edu_content}</div>
-                    <div>경력:${res.career_content}</div>
-                    <div>자격증:${res.license}</div>
-                    <div>스킬:${res.skill} </div>
+                <td rowspan="4">
+                    <img src="/img/sinchanprofile.jpg" alt="pic" style="max-width: 200px;"/>
                 </td>
             </tr>
             <tr>
-                <td colspan="2">
-                 <textarea cols="100" rows="40">${res.motivation}</textarea>
-                </td>
+                <td>이름</td>
+                <td>${ resume.username } </td>
             </tr>
             <tr>
+                <td>성별</td>
+                <td>${ user.gender }</td>
+            </tr>
+            <tr>
+                <td>휴대전화</td>
+                <td>${ user.uphone }</td>
+            </tr>
+            <tr>
+                <td>주소</td>
+                <td colspan="2">${ user.uaddr }</td>
+            </tr>
+            <tr><td>학력</td><td colspan="2">${ resume.edu_name }</td></tr>
+            <tr><td>경력</td><td colspan="2">${ resume.career_name }</td></tr>
+            <tr>
+                <td>자격증</td>
+                <c:if test="${ licenseList[0] != null }">
+                    <td colspan="2">
+                        <c:forEach items="${ licenseList }" var="license">
+                            ${ license } /
+                        </c:forEach>
+                    </td>
+                </c:if>
+            </tr>
+            <tr>
+                <td>기술분야</td>
                 <td colspan="2">
-                    <a href="/ComMyPage/Pass?pass_id=1" class="btn btn-success" role="button">합격</a>
-                    <a href="/ComMyPage/Pass?pass_id=0"class="btn btn-danger" role="button">불합격</a>
+                    <c:forEach items="${ skillList }" var="skill">
+                        ${ skill.skill } /
+                    </c:forEach>
                 </td>
             </tr>
         </table>
+        <!-- 자기소개서--------------------------------------------------- -->
+        <table>
+            <thead>
+            <tr>
+                <td colspan="3">자기소개서</td>
+            </tr>
+            </thead>
+            <tr class="subtitle"><td colspan="3">성장배경</td></tr>
+            <tr class="content"><td colspan="3">${ resume.background }</td></tr>
+            <tr class="subtitle"><td colspan="3">성격의 장단점</td></tr>
+            <tr class="content"><td colspan="3">${ resume.personality } </td></tr>
+            <tr class="subtitle"><td colspan="3">지원동기</td></tr>
+            <tr class="content"><td colspan="3">${ resume.motivation } </td></tr>
+        </table>
+    </div>
+</main>
+<script>
+    const updateBtnEl = document.querySelector('#updateBtn');
+    const deleteBtnEl = document.querySelector('#deleteBtn');
+
+    updateBtnEl.addEventListener('click', function(){
+        const result = confirm("정말로 합격하시겠습니까?");
+        if (result) {
+        window.location.href="/ComMyPage/ResumePass?sendnum=${resume.sendnum}&pass_code=1";}
+    })
+    deleteBtnEl.addEventListener('click', function(){
+        //alert('ok');
+        const result = confirm("정말로 붛합격하시겠습니까?");
+        if (result) {
+            window.location.href="/ComMyPage/ResumePass?sendnum=${resume.sendnum}&pass_code=0";        }
+    })
+</script>
     </div>
 </main>
 </body>

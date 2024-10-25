@@ -2,6 +2,7 @@ package com.guguin.resume.mapper;
 
 import java.util.List;
 
+import com.guguin.resume.vo.gugunVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.guguin.resume.vo.ResumeVo;
@@ -38,5 +39,4 @@ public interface ResumeMapper {
 
 	ResumeVo insertResume(ResumeVo vo);
 
-	
 }

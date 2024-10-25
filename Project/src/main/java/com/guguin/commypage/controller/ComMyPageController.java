@@ -2,8 +2,11 @@ package com.guguin.commypage.controller;
 
 import com.guguin.commypage.mapper.ComMyPageMapper;
 import com.guguin.commypage.vo.ComMyPageVo;
+import com.guguin.commypage.vo.ComVo;
 import com.guguin.guin.mapper.GuinMapper;
 
+import com.guguin.resume.mapper.ResumeMapper;
+import com.guguin.resume.vo.ResumeVo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +30,16 @@ public class ComMyPageController{
     @Autowired
     private GuinMapper guinMapper; // ApplyMapper를 주입합니다.
 
+    @Autowired
+    private ResumeMapper resumeMapper;
  // 이력서 제출 메소드
+
+    @RequestMapping("/")
+    public String home(){
+        return "redirect:/ComMyPage/Board";
+    }
+
+
     @PostMapping("/submitResume")
     public String submitResume(@RequestParam("selectedResume") String selectedResume, HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -50,9 +62,11 @@ public class ComMyPageController{
             mv.setViewName("redirect:/Login/");
         }
         else{
-            List<ComMyPageVo> resList = comMyPageMapper.getApplied_resumeList(comid);
-            mv.addObject("resList", resList);
 
+            List<ComMyPageVo> resList = comMyPageMapper.getApplied_resumeList(comid);
+            ComVo com = comMyPageMapper.getCom(comid);
+           mv.addObject("resList", resList);
+           mv.addObject("com",com);
             mv.setViewName("commypage/board");
         }
         return mv;
@@ -65,10 +79,33 @@ public class ComMyPageController{
         ModelAndView mv = new ModelAndView();
         mv.setViewName("commypage/view");
 
-        ComMyPageVo res = comMyPageMapper.getApplied_Resume(comMyPageVo.getResnum());
-        ComMyPageVo user = comMyPageMapper.getUser(comMyPageVo.getResnum());
-        mv.addObject("res",res);
+        ComMyPageVo resume = comMyPageMapper.getApplied_Resume(comMyPageVo.getSendnum());
+        ComMyPageVo user = comMyPageMapper.getUser(resume.getUserid());
+        resume.setEdu_name(resumeMapper.getEdu(resume.getEdu_code()));
+        //경력정보 추가
+        resume.setCareer_name(resumeMapper.getCareer(resume.getCareer_code()));
+        //자격증리스트 추가("/")으로 자르기
+        String license = resumeMapper.getLicense(comMyPageVo.getSendnum());
+        if(license != null) {
+            String[] licenseList = license.split("/");
+            //System.out.println(licenseList[1]);
+            mv.addObject("licenseList", licenseList);
+        }
+        //기술분야
+        List<ResumeVo> skillList = resumeMapper.getSkillList(comMyPageVo.getSendnum());
+        mv.addObject("resume", resume);
+//        mv.addObject("skillList", skillList);
+
+        mv.addObject("resume",resume);
         mv.addObject("user", user);
+        return mv;
+    }
+
+    @RequestMapping("/ResumePass")
+    public ModelAndView resumePass(ComMyPageVo comMyPageVo){
+        ModelAndView mv = new ModelAndView();
+        comMyPageMapper.updateResume(comMyPageVo);
+        mv.setViewName("commypage/close");
         return mv;
     }
 

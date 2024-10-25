@@ -12,4 +12,6 @@ public interface GusikMapper {
     GusikVo getResume(String resnum);
 
     GusikVo getUser(String userid);
+
+    GusikVo getUserByResnum(String resnum);
 }

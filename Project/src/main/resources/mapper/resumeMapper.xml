@@ -1,49 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.guguin.resume.mapper.ResumeMapper">
 
-<select id="getResumeList">
-  SELECT RESNUM, RESTITLE, TO_CHAR(REG_DATE, 'YYYY-MM-DD') REG_DATE
+  <select id="getResumeList">
+    SELECT RESNUM, RESTITLE, TO_CHAR(REG_DATE, 'YYYY-MM-DD') REG_DATE
     FROM PERSONAL_RESUME
     WHERE USERID = #{ userid }
-</select>
+  </select>
 
-<select id="getUser">
-  SELECT USERNAME, BIRTH, UPHONE, UADDR, EMAIL
+  <select id="getUser">
+    SELECT USERNAME, BIRTH, UPHONE, UADDR, EMAIL, GENDER
     FROM PERSONAL_MEMBERS
     WHERE USERID = #{ userid }
-</select>
+  </select>
 
-<select id="getResume">
-  SELECT * FROM PERSONAL_RESUME
-   WHERE RESNUM = #{ resnum }
-</select>
-
-<select id="getSkillList">
-  SELECT RESNUM, SCATE_CODE, SCATE, SKILL_CODE, SKILL
-    FROM SKILL_LIST
-      JOIN RESUME_SKILL USING(SKILL_CODE)
-      JOIN SKILL_CATEGORY_LIST USING(SCATE_CODE)
+  <select id="getResume">
+    SELECT * FROM PERSONAL_RESUME
     WHERE RESNUM = #{ resnum }
-</select>
+  </select>
 
-<select id="getEdu">
-  SELECT EDU_NAME
+  <select id="getSkill">
+    SELECT RESNUM, SCATE_CODE, SCATE, SKILL_CODE, SKILL
+    FROM SKILL_LIST
+           JOIN RESUME_SKILL USING(SKILL_CODE)
+           JOIN SKILL_CATEGORY_LIST USING(SCATE_CODE)
+    WHERE RESNUM = #{ resnum }
+  </select>
+
+  <select id="getEdu">
+    SELECT EDU_NAME
     FROM EDU_LIST
     WHERE EDU_CODE = #{ edu_code }
-</select>
+  </select>
 
-<select id="getCareer">
-  SELECT CAREER_NAME
-   FROM CAREER
-   WHERE CAREER_CODE = #{ career }
-</select>
+  <select id="getCareer">
+    SELECT CAREER_NAME
+    FROM CAREER
+    WHERE CAREER_CODE = #{ career }
+  </select>
 
-<select id="getLicense">
- SELECT LICENSE FROM PERSONAL_RESUME
-   WHERE RESNUM = #{ resnum }
-</select>
+  <select id="getLicense">
+    SELECT LICENSE FROM PERSONAL_RESUME
+    WHERE RESNUM = #{ resnum }
+  </select>
 
+  <delete id="deleteResume">
+    DELETE FROM RESUME WHERE RESNUM = #{ resnum }
+  </delete>
 
+  <select id="getEduList">
+    SELECT EDU_CODE,EDU_NAME
+    FROM EDU_LIST
+  </select>
+  <select id="getCareerList">
+    SELECT CAREER_CODE,CAREER_NAME
+    FROM CAREER
+  </select>
+  <select id="getSkillCateList">
+    SELECT SCATE_CODE,SCATE
+    FROM SKILL_CATEGORY_LIST
+  </select>
+  <select id="getSkillList">
+    SELECT SKILL_CODE,SKILL,SCATE_CODE
+    FROM SKILL_LIST
+  </select>
+  <select id="getSidoList">
+    SELECT SIDO_CODE,SIDO
+    FROM SIDO_LIST
+  </select>
+
+  <select id="getGugunList">
+    SELECT GUGUN_CODE,GUGUN,SIDO_CODE
+    FROM GUGUN_LIST
+  </select>
+
+  <insert id="insertResume">
+    INSERT INTO PERSONAL_RESUME(
+                                 RESNUM, RESTITLE, EDU_CODE
+                               , EDU_CONTENT, LICENSE, CAREER_CODE, CAREER_CONTENT, SKILL
+                               , SIDO_CODE, GUGUN_CODE, BACKGROUND, MOTIVATION, PERSONALITY
+    )VALUES('res' || LPAD((SELECT NVL(MAX(TO_NUMBER(SUBSTR(RESNUM, 4))), 0) + 1 FROM PERSONAL_RESUME), 3, '0')
+           , #{restitle}, #{edu_code}, #{edu_content}, #{license}, #{career_code}, #{career_content}
+           , #{skill}, #{sido_code}, #{gugun_code}, #{background}, #{motivation}, #{personality});
+  </insert>
+
+  <update id="updateImg">
+    UPDATE PERSONAL_RESUME
+    SET PICTURE = #{picture}
+    WHERE RESNUM = #{resnum}
+  </update>
 </mapper>
+
+
+
+
+
