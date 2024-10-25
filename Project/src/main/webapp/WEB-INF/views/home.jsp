@@ -117,7 +117,7 @@
         <a href="/Login/Logout" class="abutton">logout</a>
       </c:if>
       <c:if test="${ not empty sessionScope.comid}">
-        <a href="/CompPage/Board" class="abutton">Mypage</a>
+        <a href="/ComMyPage/Board" class="abutton">Mypage</a>
         <a href="/Login/Logout" class="abutton">logout</a>
       </c:if>
     </div>

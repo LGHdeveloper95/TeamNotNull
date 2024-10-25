@@ -34,4 +34,6 @@ public class PostVo {
 
     private String sido;
     private String gugun;
+
+    private String today;
 }

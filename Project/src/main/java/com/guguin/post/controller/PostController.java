@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
 import java.util.*;
 
 @Controller
@@ -19,15 +20,14 @@ public class PostController {
     private PostMapper postMapper;
 
     @RequestMapping("/Board")
-    public ModelAndView board(HttpServletRequest request){
+    public ModelAndView board(HttpServletRequest request) {
         ModelAndView mv = new ModelAndView();
         HttpSession session = request.getSession(false);
         String comid = (String) session.getAttribute("comid");
-        if(comid==null){
-            mv.addObject("loginReq",true);
+        if (comid == null) {
+            mv.addObject("loginReq", true);
             mv.setViewName("redirect:/Login/");
-        }
-        else{
+        } else {
             List<PostVo> postList = postMapper.getPostList(comid);
             mv.addObject("postList", postList);
             mv.setViewName("post/board");
@@ -36,38 +36,36 @@ public class PostController {
     }
 
     @RequestMapping("/View")
-    public ModelAndView view(HttpServletRequest request,PostVo postVo){
+    public ModelAndView view(HttpServletRequest request, PostVo postVo) {
         ModelAndView mv = new ModelAndView();
-        HttpSession session  = request.getSession(false);
+        HttpSession session = request.getSession(false);
         String comid = (String) session.getAttribute("comid");
-        if(comid==null){
-            mv.addObject("loginReq",true);
+        if (comid == null) {
+            mv.addObject("loginReq", true);
             mv.setViewName("redirect:/Login/");
-        }
-        else{
+        } else {
             PostVo post = postMapper.getPost(postVo.getRecnum());
             PostVo com = postMapper.getCom(post.getComid());
             PostVo region = postMapper.getRegion(post.getGugun_code());
             List<SkillVo> skillList = postMapper.getComSkillList(postVo.getRecnum());
-            mv.addObject("skillList",skillList);
+            mv.addObject("skillList", skillList);
             mv.addObject("post", post);
             mv.addObject("com", com);
-            mv.addObject("region",region);
+            mv.addObject("region", region);
             mv.setViewName("post/view");
         }
         return mv;
     }
 
     @RequestMapping("/UpdateForm")
-    public ModelAndView updateForm(HttpServletRequest request,PostVo postVo){
+    public ModelAndView updateForm(HttpServletRequest request, PostVo postVo) {
         ModelAndView mv = new ModelAndView();
-        HttpSession session  = request.getSession(false);
+        HttpSession session = request.getSession(false);
         String comid = (String) session.getAttribute("comid");
-        if(comid==null){
-            mv.addObject("loginReq",true);
+        if (comid == null) {
+            mv.addObject("loginReq", true);
             mv.setViewName("redirect:/Login/");
-        }
-        else{
+        } else {
             PostVo post = postMapper.getPost(postVo.getRecnum());
             PostVo com = postMapper.getCom(post.getComid());
             List<EduVo> eduList = postMapper.getEduList();
@@ -90,41 +88,39 @@ public class PostController {
     }
 
     @RequestMapping("/Update")
-    public ModelAndView update(HttpServletRequest request, PostUpdateVo postUpdateVo){
+    public ModelAndView update(HttpServletRequest request, PostUpdateVo postUpdateVo) {
         ModelAndView mv = new ModelAndView();
-        HttpSession session  = request.getSession(false);
+        HttpSession session = request.getSession(false);
         String comid = (String) session.getAttribute("comid");
         System.out.println(postUpdateVo);
-        if(comid==null){
-            mv.addObject("loginReq",true);
+        if (comid == null) {
+            mv.addObject("loginReq", true);
             mv.setViewName("redirect:/Login/");
-        }
-        else{
+        } else {
             postMapper.updatePost(postUpdateVo);
             postMapper.deleteSkill(postUpdateVo);
-            String []skillList = postUpdateVo.getSkill().split("/");
+            String[] skillList = postUpdateVo.getSkill().split("/");
             List<String> list = Arrays.asList(skillList);
             Set<String> set = new HashSet<>(list);
             List<String> newSkillList = new ArrayList<>(set);
-            for(int i=0;i< newSkillList.size();i++){
-                if(newSkillList.get(i)==""||newSkillList.get(i)==null) continue;
-                postMapper.insertSkill(postUpdateVo.getRecnum(),Integer.parseInt(newSkillList.get(i)));
+            for (int i = 0; i < newSkillList.size(); i++) {
+                if (newSkillList.get(i) == "" || newSkillList.get(i) == null) continue;
+                postMapper.insertSkill(postUpdateVo.getRecnum(), Integer.parseInt(newSkillList.get(i)));
             }
-           mv.setViewName("redirect:/Post/View?recnum="+postUpdateVo.getRecnum());
+            mv.setViewName("redirect:/Post/View?recnum=" + postUpdateVo.getRecnum());
         }
         return mv;
     }
 
     @RequestMapping("/Delete")
-    public ModelAndView delete(HttpServletRequest request,PostVo postVo){
+    public ModelAndView delete(HttpServletRequest request, PostVo postVo) {
         ModelAndView mv = new ModelAndView();
-        HttpSession session  = request.getSession(false);
+        HttpSession session = request.getSession(false);
         String comid = (String) session.getAttribute("comid");
-        if(comid==null){
-            mv.addObject("loginReq",true);
+        if (comid == null) {
+            mv.addObject("loginReq", true);
             mv.setViewName("redirect:/Login/");
-        }
-        else{
+        } else {
             postMapper.deletePost(postVo);
             mv.setViewName("redirect:/Post/Board");
         }
@@ -133,15 +129,14 @@ public class PostController {
     }
 
     @RequestMapping("/WriteForm")
-    public ModelAndView writeForm(HttpServletRequest request,PostVo postVo){
+    public ModelAndView writeForm(HttpServletRequest request, PostVo postVo) {
         ModelAndView mv = new ModelAndView();
-        HttpSession session  = request.getSession(false);
+        HttpSession session = request.getSession(false);
         String comid = (String) session.getAttribute("comid");
-        if(comid==null){
-            mv.addObject("loginReq",true);
+        if (comid == null) {
+            mv.addObject("loginReq", true);
             mv.setViewName("redirect:/Login/");
-        }
-        else{
+        } else {
             PostVo com = postMapper.getCom(comid);
             List<EduVo> eduList = postMapper.getEduList();
             List<CareerVo> careerList = postMapper.getCareerList();
@@ -157,6 +152,30 @@ public class PostController {
             mv.addObject("gugunList", gugunList);
             mv.addObject("sidoList", sidoList);
             mv.setViewName("post/write");
+        }
+        return mv;
+    }
+
+    @RequestMapping("/Write")
+    public ModelAndView postWrite(HttpServletRequest request,PostUpdateVo postUpdateVo) {
+        ModelAndView mv = new ModelAndView();
+        HttpSession session = request.getSession(false);
+        String comid = (String) session.getAttribute("comid");
+        System.out.println(postUpdateVo);
+        if (comid == null) {
+            mv.addObject("loginReq", true);
+            mv.setViewName("redirect:/Login/");
+        } else {
+           postMapper.insertPost(postUpdateVo);
+            String[] skillList = postUpdateVo.getSkill().split("/");
+            List<String> list = Arrays.asList(skillList);
+            Set<String> set = new HashSet<>(list);
+            List<String> newSkillList = new ArrayList<>(set);
+            for (int i = 0; i < newSkillList.size(); i++) {
+                if (newSkillList.get(i) == "" || newSkillList.get(i) == null) continue;
+                postMapper.insertSkill(postUpdateVo.getRecnum(), Integer.parseInt(newSkillList.get(i)));
+            }
+            mv.setViewName("redirect:/Post/Board");
         }
         return mv;
     }

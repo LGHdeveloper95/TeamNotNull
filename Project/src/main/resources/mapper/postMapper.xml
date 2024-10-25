@@ -56,6 +56,8 @@
            ,BOSSEMAIL
            ,COMNAME
             ,BOSS
+            ,COMID
+            ,TO_CHAR(SYSDATE,'YYYY-MM-DD') AS TODAY
      FROM BUSINESS_MEMBERS
     WHERE COMID=#{comid}
     </select>
@@ -123,5 +125,34 @@
     <delete id="deleteSkill">
         DELETE RECRUIT_SKILL WHERE RECNUM=#{recnum}
     </delete>
+
+    <insert id="insertPost">
+        INSERT INTO RECRUIT(COMID
+                           ,RECNUM
+                           ,RECTITLE
+                           ,SUBTITLE
+                           ,BOSS
+                           ,GCONTENT
+                           ,REG_DATE
+                           ,DEADLINE
+                           ,CAREER_CODE
+                           ,EDU_CODE
+                           ,BOOK_COUNT
+                           ,LICENSE
+                           ,GUGUN_CODE)
+        VALUES(#{comid}
+              ,'rec'||LPAD((SELECT NVL(MAX(TO_NUMBER(SUBSTR(RECNUM, 4))), 0) + 1 FROM RECRUIT),3,0)
+                ,#{rectitle}
+                ,#{subtitle}
+                ,#{boss}
+                ,#{gcontent}
+                ,SYSDATE
+                ,#{deadline}
+                ,#{career_code}
+                ,#{edu_code}
+                ,0
+                ,#{license}
+                ,#{gugun_code})
+    </insert>
 
 </mapper>

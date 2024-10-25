@@ -17,7 +17,6 @@ public class PostUpdateVo {
     private String gcontent;
     private String reg_date;
     private String deadline;
-    private String sido_code;
     private String gugun_code;
     private int career_code;
     private int edu_code;
@@ -26,5 +25,4 @@ public class PostUpdateVo {
     private String license;
 
     private String skill;
-    private String region;
 }

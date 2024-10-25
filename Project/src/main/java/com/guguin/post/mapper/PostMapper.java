@@ -39,4 +39,5 @@ public interface PostMapper {
 
     PostVo getRegion(String gugun_code);
 
+    void insertPost(PostUpdateVo postUpdateVo);
 }

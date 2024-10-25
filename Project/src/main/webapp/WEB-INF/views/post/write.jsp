@@ -81,6 +81,9 @@
             background: #cccccc;
             opacity: 0.75;
         }
+        .red{
+            color:red;
+        }
 
     </style>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -89,26 +92,27 @@
 <%@include file="/WEB-INF/include/head.jsp"%>
 <main>
     <div>
-        <form action="/Post/Update" id="resumeForm" method="POST">
-            <input type="hidden" name="recnum" value="${post.recnum}"/>
+        <form action="/Post/Write" id="postWriteForm" method="POST">
+            <input type="hidden" name="comid" value="${com.comid}"/>
+            <input type="hidden" name="boss" value="${com.boss}"/>
         <table>
             <thead>
             <tr>
-                <td colspan="2">공고 제목  <input type="text" name="rectitle" value="${ post.rectitle }"/> </td>
+                <td colspan="2"><c class="red">*</c> 공고 제목  <input type="text" name="rectitle"/> </td>
                 <td>
                     <a class = "btn btn-primary" href="/Post/Board">목록</a>
-                    <c:if test="${sessionScope.comid eq post.comid}">
-                        <input type="submit" class="btn btn-success" value="수정">
+                    <c:if test="${sessionScope.comid eq com.comid}">
+                        <input type="submit" class="btn btn-success" value="제출">
                     </c:if>
                 </td>
             </tr>
             </thead>
             <tr>
-                <td colspan="3"> 부제 <input type="text" name="subtitle" value="${post.subtitle}"/></td>
+                <td colspan="3"><c class="red">*</c> 부제 <input type="text" name="subtitle"/></td>
             </tr>
             <tr>
-                <td colspan="2"> 작성일 ${post.reg_date}</td>
-                <td> 마감일 <input type="date" name="deadline" value="${post.deadline}"></td>
+                <td colspan="2">작성일 ${com.today}</td>
+                <td colspan="3"><c class="red">*</c> 마감일 <input type="date" name="deadline" value="${com.today}"></td>
             </tr>
             <tr>
                 <td rowspan="4" style="max-width: 130px; text-align: center;"><img src="/img/samsung.png" alt="pic" style="width: 80%;"/></td>
@@ -129,13 +133,13 @@
             </tr>
             <tr><td>우대 학력</td><td colspan="2">
                 <c:forEach var="edu" items="${eduList}">
-                    <input type="radio" class="radio" name="edu_code" value="${ edu.edu_code }" id="${edu.edu_name}"/>
+                    <input type="radio" class="radio" name="edu_code" value="${ edu.edu_code }" id="${edu.edu_name}" checked/>
                     <label for="${edu.edu_name}"> ${edu.edu_name}</label>
                 </c:forEach>
             </td></tr>
             <tr><td>우대 경력</td><td colspan="2">
                 <c:forEach var="career" items="${careerList}">
-                    <input type="radio" class="radio" name="career_code" value="${ career.career_code }" id="${career.career_name}"/>
+                    <input type="radio" class="radio" name="career_code" value="${ career.career_code }" id="${career.career_name}" checked/>
                     <label for="${career.career_name}"> ${career.career_name}</label>
                 </c:forEach>
             </td></tr>
@@ -172,7 +176,7 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="3">근무 지역</td>
+                <td colspan="3"><c class="red">*</c> 근무 지역</td>
             </tr>
             <tr>
                 <td>
@@ -190,7 +194,7 @@
                     <div style="vertical-align:top;horiz-align: left"><h5>선택한 지역</h5></div>
                     <input type="hidden" name="gugun_code" id="regionSubmit"/>
                     <h4  class="region_select">
-                        <div class="clicked_region" value=""> </div>
+                        <div class="clicked_region" value=""></div>
                     </h4>
                 </td>
             </tr>
@@ -199,11 +203,11 @@
         <table>
             <thead>
             <tr>
-                <td colspan="3">회사 소개</td>
+                <td colspan="3"><c class="red">*</c> 회사 소개</td>
             </tr>
             </thead>
             <tr class="content"><td colspan="3">
-                <textarea name="gcontent" cols="112" rows="20">${ post.gcontent }</textarea>
+                <textarea name="gcontent" cols="112" rows="20"></textarea>
             </td></tr>
         </table>
         </form>
@@ -238,6 +242,7 @@
 
     $("input[name='edu_code']:input[value='1']").prop('checked',true);
     $("input[name='career_code']:input[value='1']").prop('checked',true);
+
 
     for(let i=100;i<810;i=i+100){
         let skill="skill";
@@ -330,7 +335,7 @@
 
 
     const licenseListEl = document.querySelector('#licenseList');
-    const resumeFormEl = document.querySelector('#resumeForm');
+    const writeFormEl = document.querySelector('#postWriteForm');
     const licenseSubmitEl = document.querySelector('#licenseSubmit');
 
     licenseListEl.addEventListener('click', function(event) {
@@ -350,7 +355,7 @@
         }
     });
 
-    resumeFormEl.addEventListener('submit',function(event){
+    writeFormEl.addEventListener('submit',function(event){
 
         //event.preventDefault();
         let licenses = document.querySelectorAll('.license');
@@ -373,22 +378,34 @@
     })
 
     document.getElementsByTagName('form').item(0).onsubmit=()=>{
+        let deadline = '<c:out value="${com.today}"/>';
         if($('input[name=rectitle]').val()==null||$('input[name=rectitle]').val()==""){
             alert("제목을 입력해주세요.");
+            $('input[name=rectitle]').focus();
             return false;
         }
         if($('input[name=subtitle]').val()==null||$('input[name=subtitle]').val()==""){
             alert("부제를 입력해주세요.");
+            $('input[name=subtitle]').focus();
             return false;
+        }
+        if($('input[name=deadline]').val()==deadline){
+            alert('마감일을 설정해주세요.');
+            $('input[name=deadline]').focus();
+            return false
         }
         if($('input[name=gugun_code]').val()==null||$('input[name=gugun_code]').val()==""){
             alert("근무 지역을 선택해주세요.");
+            $('input[name=gugun_code]').focus();
             return false;
         }
         if($('textarea[name=gcontent]').val()==null||$('textarea[name=gcontent]').val()==""){
             alert("내용을 입력해주세요.");
+            $('textarea[name=gcontent]').focus();
             return false;
         }
+
+        alert("작성 완료.");
         return true;
     }
 

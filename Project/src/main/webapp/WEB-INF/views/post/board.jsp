@@ -117,7 +117,7 @@
             </c:if>
         </table>
         <c:if test="${not empty sessionScope.comid}">
-            <a href="/Post/Write" id ="write">글쓰기</a>
+            <a href="/Post/WriteForm" id ="write">글쓰기</a>
         </c:if>
     </div>
     <div class="profile">
