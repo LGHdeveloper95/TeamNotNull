@@ -155,4 +155,8 @@
                 ,#{gugun_code})
     </insert>
 
+    <select id="getRecnum">
+        SELECT 'rec'||LPAD((SELECT NVL(MAX(TO_NUMBER(SUBSTR(RECNUM, 4))), 0) FROM RECRUIT),3,0) AS RECNUM FROM DUAL
+    </select>
+
 </mapper>

@@ -171,9 +171,10 @@ public class PostController {
             List<String> list = Arrays.asList(skillList);
             Set<String> set = new HashSet<>(list);
             List<String> newSkillList = new ArrayList<>(set);
+            String recnum = postMapper.getRecnum();
             for (int i = 0; i < newSkillList.size(); i++) {
                 if (newSkillList.get(i) == "" || newSkillList.get(i) == null) continue;
-                postMapper.insertSkill(postUpdateVo.getRecnum(), Integer.parseInt(newSkillList.get(i)));
+                postMapper.insertSkill(recnum, Integer.parseInt(newSkillList.get(i)));
             }
             mv.setViewName("redirect:/Post/Board");
         }
