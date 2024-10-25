@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guguin.mypage.mapper.MyPageMapper">
+
+  <select id="getMyList" resultType="com.guguin.mypage.vo.MyPageVo">
+    SELECT SENDNUM, RESTITLE, TO_CHAR(REG_DATE, 'YYYY-MM-DD') REG_DATE, PASS_CODE
+    FROM APPLIED_RESUME
+    WHERE USERID = #{userid}
+  </select>
+
+  <select id="getUser" resultType="com.guguin.mypage.vo.MyPageVo">
+    SELECT USERNAME, BIRTH, UPHONE, UADDR, EMAIL
+    FROM PERSONAL_MEMBERS
+    WHERE USERID = #{userid}
+  </select>
+
+<select id="getResume">
+  SELECT * FROM APPLIED_RESUME
+   WHERE SENDNUM = #{ sendnum }
+</select>
+
+<select id="getSkillList">
+  SELECT SENDNUM, SKILL
+    FROM APPLIED_RESUME
+      
+</select>
+
+<select id="getEdu">
+  SELECT EDU_NAME
+    FROM EDU_LIST
+    WHERE EDU_CODE = #{ edu_code }
+</select>
+
+<select id="getCareer">
+  SELECT CAREER_NAME
+   FROM CAREER
+   WHERE CAREER_CODE = #{ career }
+</select>
+
+<select id="getLicense">
+ SELECT LICENSE FROM APPLIED_RESUME
+   WHERE SENDNUM = #{ sendnum }
+</select>
+
+
+</mapper>
