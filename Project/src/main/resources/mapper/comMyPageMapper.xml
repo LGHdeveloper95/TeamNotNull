@@ -71,6 +71,7 @@
     <select id="getCom">
         SELECT COMID
             ,COMNUM
+            ,COMPW
             ,COMNAME
             ,BOSS
             ,CPHONE
@@ -80,4 +81,12 @@
         FROM BUSINESS_MEMBERS
         WHERE COMID=#{comid}
     </select>
+
+    <update id="updateCom">
+        UPDATE BUSINESS_MEMBERS
+        SET CPHONE=#{cphone},
+            CADDR=#{caddr},
+            BOSSEMAIL=#{bossemail}
+        WHERE COMID=#{comid}
+    </update>
 </mapper>

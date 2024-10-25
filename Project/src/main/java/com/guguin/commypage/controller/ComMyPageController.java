@@ -109,4 +109,24 @@ public class ComMyPageController{
         return mv;
     }
 
+    @RequestMapping("/UpdateForm")
+    public ModelAndView updateForm(HttpServletRequest request){
+        ModelAndView mv = new ModelAndView();
+        HttpSession session = request.getSession();
+        String comid = (String) session.getAttribute("comid");
+        ComVo com = comMyPageMapper.getCom(comid);
+        mv.addObject("com",com);
+        mv.setViewName("commypage/update");
+        return mv;
+    }
+
+    @RequestMapping("/Update")
+    public ModelAndView update(HttpServletRequest request,ComVo comVo){
+        System.out.println(comVo);
+        ModelAndView mv = new ModelAndView();
+        comMyPageMapper.updateCom(comVo);
+        mv.setViewName("redirect:/ComMyPage/Board");
+        return mv;
+    }
+
 }

@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 public class ComVo {
 
 private String comid;
+private String compw;
+
 private String comnum;
 private String comname;
 private String boss;

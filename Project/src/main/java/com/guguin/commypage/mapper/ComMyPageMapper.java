@@ -19,4 +19,6 @@ public interface ComMyPageMapper {
     void updateResume(ComMyPageVo comMyPageVo);
 
     ComVo getCom(String comid);
+
+    void updateCom(ComVo comVo);
 }

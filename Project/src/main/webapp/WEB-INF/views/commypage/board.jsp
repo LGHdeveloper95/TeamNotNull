@@ -157,7 +157,7 @@
       <div class="radio-menu">
         <!-- 라디오 버튼 클릭 시 switchTable 함수 호출 -->
         <input type="radio" name="menu" value="resume" id="resume" checked onclick="switchTable('resume')">
-        <label for="resume">제출한 이력서</label>
+        <label for="resume">제출된 이력서</label>
 
         <input type="radio" name="menu" value="bookmark" id="bookmark" onclick="switchTable('bookmark')">
         <label for="bookmark">북마크</label>
@@ -253,7 +253,7 @@
       <div><img src="/img/profile.png" alt="profile"></div>
       <div>${com.boss}님<br>환영합니다</div>
       <div style="margin-top: 10px;">
-        <a href="/ComMyPage/Board" class="abutton">Mypage</a>
+        <a href="/ComMyPage/UpdateForm" class="abutton">내 정보 수정</a>
         <a href="/Login/Logout" class="abutton">Logout</a>
       </div>
     </div>
