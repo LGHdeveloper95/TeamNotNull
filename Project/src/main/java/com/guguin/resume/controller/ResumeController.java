@@ -1,5 +1,7 @@
 package com.guguin.resume.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -7,15 +9,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.guguin.resume.mapper.ResumeMapper;
+import com.guguin.resume.vo.GugunVo;
 import com.guguin.resume.vo.ResumeVo;
+import com.guguin.resume.vo.SidoVo;
 import com.guguin.resume.vo.sectionVo;
 import com.guguin.resume.vo.skillVo;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
 
 
 @Controller
@@ -86,12 +95,16 @@ public class ResumeController {
         List<sectionVo> careerList = resumeMapper.getCareerList();
         List<sectionVo> skillCateList = resumeMapper.getSkillCateList();
         List<skillVo> skillList = resumeMapper.getSkillList();
+        List<GugunVo> gugunList = resumeMapper.getGugunList();
+        List<SidoVo> sidoList = resumeMapper.getSidoList();
     	
     	ModelAndView mv = new ModelAndView();
     	mv.addObject("eduList", eduList);
     	mv.addObject("careerList", careerList);
     	mv.addObject("skillCateList", skillCateList);
     	mv.addObject("skillList", skillList);
+    	mv.addObject("gugunList", gugunList);
+        mv.addObject("sidoList", sidoList);
     	mv.addObject("user", user);
     	mv.setViewName("/resume/insertForm");
     	
@@ -100,19 +113,41 @@ public class ResumeController {
 
     
     @RequestMapping("/Insert")
-    public ModelAndView insert(ResumeVo vo, HttpServletRequest request) {
+    public ModelAndView insert(@RequestParam("imgfile") MultipartFile imgfile, ResumeVo vo, HttpServletRequest request) {
     	HttpSession session = request.getSession();
     	String userid = (String) session.getAttribute("userid");
     	
-    	/*RESNUM, RESTITLE, PICTURE, EDU_CODE
+    	/*RESNUM, RESTITLE, EDU_CODE
     	 * , EDU_CONTENT, LICENSE, CAREER_CODE, CAREER_CONTENT, SKILL
     	 * , SIDO_CODE, GUGUN_CODE, BACKGROUND, MOTIVATION, PERSONALITY*/
-    	ResumeVo insertVo = resumeMapper.insertResume(vo);
-    	insertVo.setUsername(resumeMapper.getUser(userid).getUsername());
-    	insertVo.setUserid(userid);
+    	//ResumeVo insertVo = resumeMapper.insertResume(vo);
+    	System.out.println(vo);
+    	/*ResumeVo(resnum=null, userid=null, username=null, restitle=test,
+    	 * reg_date=null, gender=null, picture=null, edu_code=2, edu_content=null,
+    	 * license=ㅁㅁ/ㄴㄴ/dd, career_code=2, career_content=null, sido_code=0, gugun_code=0,
+    	 * background=asd, personality=asd, motivation=asd, birth=null, uphone=null, uaddr=null,
+    	 * email=null, scate_code=0, scate=null, skill_code=0, skill=null, edu_name=null,
+    	 * career_name=null)
+    	 * 
+    	 * , EDU_CONTENT,CAREER_CONTENT, SKILL
+    	 * , SIDO_CODE, GUGUN_CODE
+    	*/
+    	resumeMapper.insertResume(vo);
+    	//insertVo.setUsername(resumeMapper.getUser(userid).getUsername());
+    	//insertVo.setUserid(userid);
+    	
+    	//imgfile : org.springframework.web.multipart.support.StandardMultipartHttpServletRequest$StandardMultipartFile@146ad73e
+    	//System.out.println(imgfile.getOriginalFilename());
+    	String fileName = userid + "_" + imgfile.getOriginalFilename(); //getOriginalFilename : 파일이름 불러오기
+    	System.out.println(fileName);
+    	String folder = new File("src/main/resources/static/profile").getAbsolutePath(); //동적파일경로 지정
+    	File filePath = new File(folder,fileName);
+    	String resnum = vo.getResnum();
+    	//insertVo.setPicture(resumeMapper.updateImg(filePath,resnum));
+    	resumeMapper.updateImg(filePath,resnum);
     	
     	ModelAndView mv = new ModelAndView();
-    	mv.addObject("insert", insertVo);
+    	//mv.addObject("insert", insertVo);
     	mv.setViewName("redierct:/Resume/Board");
     	
     	return mv;

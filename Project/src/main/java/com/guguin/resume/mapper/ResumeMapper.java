@@ -1,10 +1,13 @@
 package com.guguin.resume.mapper;
 
+import java.io.File;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.guguin.resume.vo.GugunVo;
 import com.guguin.resume.vo.ResumeVo;
+import com.guguin.resume.vo.SidoVo;
 import com.guguin.resume.vo.sectionVo;
 import com.guguin.resume.vo.skillVo;
 
@@ -36,6 +39,12 @@ public interface ResumeMapper {
 	List<skillVo>  getSkillList();
 
 	ResumeVo insertResume(ResumeVo vo);
+
+	String updateImg(File filePath, String resnum);
+
+	List<GugunVo> getGugunList();
+
+	List<SidoVo> getSidoList();
 
 	
 }

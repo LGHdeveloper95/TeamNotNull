@@ -60,7 +60,7 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
 <body>
   <%@include file="/WEB-INF/include/head.jsp"%>
   <main>
-    <form action="/Resume/Insert" id="resumeForm" style="width: 100%;">
+    <form action="/Resume/Insert" enctype="multipart/form-data" id="resumeForm" method="POST" style="width: 100%;">
       <table style="width: 100%; table-layout: fixed;">
         <thead><tr><td colspan="3">
           이력서 제목 :
@@ -69,7 +69,7 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
         <tr>
           <td rowspan="3" style="max-width: 30px; text-align: center;">
             <img id="img" alt="pic" style="width: 80%;"/>
-            <input type="file"  id="fileInput" accept="image/*" required>
+            <input type="file" name="imgfile" id="fileInput" accept="image/*" required>
           </td>
           <td>이름</td>
           <td>${ user.username }</td>
@@ -126,6 +126,29 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
            <div><h5>선택한 기술</h5></div>
          </td>
        </tr>
+       <tr>
+         <td colspan="3">희망 근무 지역</td>
+            </tr>
+            <tr>
+                <td>
+                    <div   style="max-height :150px;width:200px; overflow-y: scroll;">
+                    <c:forEach items="${sidoList}" var="sido" varStatus="status">
+                        <div id="sido${status.index}" value="${sido.sido_code}" class="sidoCate">${sido.sido}</div>
+                    </c:forEach>
+                    </div>
+                </td>
+                <td>
+                    <div class="gugun"
+                         style="max-height :150px; height:150px;width:250px; display:inline-block; overflow-y: scroll;"></div>
+                </td>
+                <td>
+                    <div style="vertical-align:top;horiz-align: left"><h5>선택한 지역</h5></div>
+                    <input type="hidden" name="gugun_code" id="regionSubmit"/>
+                    <h4  class="region_select">
+                        <div class="clicked_region" value=""> </div>
+                    </h4>
+                </td>
+            </tr>
       </table>
     <!-- 자기소개서--------------------------------------------------- -->
     <table>
@@ -245,7 +268,25 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
     	  }
     	});
 
+    //사진 첨부
+    let fileInputEl = document.querySelector('#fileInput');
+    let imgEl = document.querySelector('#img');
+    <% String userid = (String) session.getAttribute("userid"); %>
+    //console.log(userid);
+    fileInputEl.addEventListener('change', function(){
+    	let profile = fileInputEl.files[0];
+    	//console.log(profile.name);
+    	
+    	let reader = new FileReader();
+    	reader.onload = function(e) {
+            imgEl.src = e.target.result; // 선택한 이미지 미리보기
+            //console.log(e.target);
+        };
+        reader.readAsDataURL(profile);
+    });
+    
     resumeFormEl.addEventListener('submit',function(event){
+    	//event.preventDefault();
         let licenseEl = document.querySelectorAll('.license');
     	//alert(licenseEl[1].value);
     	let licenseList = "";
@@ -263,6 +304,17 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
         }
         //alert(licenseList);
         licenseSubmitEl.value = licenseList;
+        
+        let skills = document.querySelectorAll('.clicked_skill');
+        let skillList = "";
+        for (let i=0;i<skills.length;i++){
+            skillList+=skills[i].getAttribute("value") +"/";
+        }
+        document.getElementById("skillSubmit").value=skillList;
+
+        let region = document.querySelector(".clicked_region").getAttribute("value");
+        document.getElementById("regionSubmit").value=region;
+        
     })
     
     
@@ -321,12 +373,85 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
             }
         }
     }
+    
+    for(let i=0;i<17;i++){
+        let sido="sido";
+        sido+=i;
+        let sido_idx=document.getElementById(sido).getAttribute("value");
 
-    let fileInputEl = document.querySelector('#fileInput');
-    let imgEl = document.querySelector('#img');
-    <% String userid = (String) session.getAttribute("userid"); %>
-    
-    
+        document.getElementById(sido).onclick=()=>{
+            for(let j=0;j<17;j++){
+                document.getElementsByClassName("sidoCate").item(j).classList.remove("clicked");
+            }
+            document.getElementById(sido).classList.add("clicked");
+            let html ="";
+            for(let j = 0;j<gugunList.length;j+=3){
+                let gugun_code=gugunList[j+0].substring(20,);
+                let gugunname=gugunList[j+1].substring(7,);
+                let sido_code_temp = gugunList[j+2].substring(11,);
+                let sido_code = sido_code_temp.slice(0,-1);
+                if(sido_idx==sido_code){
+                    html+="<span class='guguns' value='"+gugun_code+"'>"+gugunname+"</span><br>";
+                }
+            }
+            document.getElementsByClassName("gugun")[0].innerHTML = html;
+
+            $(".guguns").each(function (index,item){
+                item.addEventListener("click",function (){
+                    $(".guguns").each(function (i,k){
+                        k.classList.remove("clicked");
+                    })
+                  item.classList.add("clicked");
+
+                    let html='<input type="hidden" class="find_region" value=""/>';
+                    html+='<div class="clicked_region" value="'+item.getAttribute("value")+'">'+ document.getElementById(sido).innerHTML+" "+item.innerHTML+'</div>';
+                    document.getElementsByClassName("region_select").item(0).innerHTML=html;
+                })
+            })
+        }
+    }
+
+
+    const licenseListEl = document.querySelector('#licenseList');
+    const resumeFormEl = document.querySelector('#resumeForm');
+    const licenseSubmitEl = document.querySelector('#licenseSubmit');
+
+    licenseListEl.addEventListener('click', function(event) {
+        if (event.target.classList.contains('plusBtn')) {
+            event.preventDefault();
+            event.target.remove();
+
+            const newInput = document.createElement('input');
+            const newButton = document.createElement('button');
+            newInput.className = 'license';
+            newButton.className = 'plusBtn';
+            newButton.textContent = '+';
+
+            licenseListEl.appendChild(document.createElement('br'));
+            licenseListEl.appendChild(newInput);
+            licenseListEl.appendChild(newButton);
+        }
+    });
+
+    document.getElementsByTagName('form').item(0).onsubmit=()=>{
+        if($('input[name=rectitle]').val()==null||$('input[name=rectitle]').val()==""){
+            alert("제목을 입력해주세요.");
+            return false;
+        }
+        if($('input[name=subtitle]').val()==null||$('input[name=subtitle]').val()==""){
+            alert("부제를 입력해주세요.");
+            return false;
+        }
+        if($('input[name=gugun_code]').val()==null||$('input[name=gugun_code]').val()==""){
+            alert("근무 지역을 선택해주세요.");
+            return false;
+        }
+        if($('textarea[name=gcontent]').val()==null||$('textarea[name=gcontent]').val()==""){
+            alert("내용을 입력해주세요.");
+            return false;
+        }
+        return true;
+    }
 
   </script>
 </body>
