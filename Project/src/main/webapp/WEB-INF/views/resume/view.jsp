@@ -52,18 +52,15 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
   <%@include file="/WEB-INF/include/head.jsp"%>
   <main>
   <div id="box">
-  <button id="updateBtn">
-    수정
-  </button>
-  <button id="deleteBtn">
-    삭제
-  </button>
+  <button id="goListBtn">목록</button>
+  <button id="updateBtn">수정</button>
+  <button id="deleteBtn">삭제</button>
   <table>
     <thead>
     <tr><td colspan="3">이력서 제목 : ${ resume.restitle }</td></tr></thead>
     <tr>
       <td rowspan="4">
-        <img src="/img/sinchanprofile.jpg" alt="pic" style="max-width: 200px;"/>
+        <img id="profile" alt="pic" style="max-width: 200px;"/>
       </td>
     </tr>
     <tr>
@@ -82,23 +79,33 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
       <td>주소</td>
       <td colspan="2">${ user.uaddr }</td>
     </tr>
-    <tr><td>학력</td><td colspan="2">${ resume.edu_name }</td></tr>
-    <tr><td>경력</td><td colspan="2">${ resume.career_name }</td></tr>
+    <tr>
+      <td>학력</td>
+      <td>${ resume.edu_name }</td>
+      <td>${ resume.edu_content }</td>
+    </tr>
+    <tr>
+      <td>경력</td>
+      <td>${ resume.career_name }</td>
+      <td>${ resume.career_content }</td>
+    </tr>
     <tr>
       <td>자격증</td>
+      <td colspan="2">
       <c:if test="${ licenseList[0] != null }">
-        <td colspan="2">
-        <c:forEach items="${ licenseList }" var="license">
-          ${ license } /
+        <c:forEach items="${ licenseList }" var="license" varStatus="list">
+          ${ license }
+          <c:if test="${ !list.last }">/</c:if>
         </c:forEach>
-        </td>
       </c:if>
+      </td>
     </tr>
     <tr>
       <td>기술분야</td>
       <td colspan="2">
-        <c:forEach items="${ skillList }" var="skill">
-          ${ skill.skill } /
+        <c:forEach items="${ skillList }" var="skill" varStatus="list">
+          ${ skill.skill }
+          <c:if test="${ !list.last }">/</c:if>
         </c:forEach>
       </td>
     </tr>
@@ -128,13 +135,18 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
     </div>
   </main>
   <script>
+    const goListBtnEl = document.querySelector('#goListBtn');
+    goListBtnEl.addEventListener('click', function(){
+    	window.location = '/Resume/Board';
+    })
+  
     let resnum = '${ resume.resnum }';
     const updateBtnEl = document.querySelector('#updateBtn');
     const deleteBtnEl = document.querySelector('#deleteBtn');
     
     updateBtnEl.addEventListener('click', function(){
     	//alert('ok');
-    	window.location.href="/Resume/Update?resnum="+resnum;
+    	window.location.href="/Resume/UpdateForm?resnum="+resnum;
     })
     deleteBtnEl.addEventListener('click', function(){
     	//alert('ok');
@@ -143,6 +155,17 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
     		window.location.href='/Resume/Delete?resnum='+resnum;
     		}
     })
+    
+    const profileEl = document.querySelector('#profile');
+    const img = "${ resume.picture }";
+    console.log(img);
+    if(img != ""){
+    	const pathList = img.split("/")
+    	const imgPath = "/" + pathList[pathList.length-2] + "/" + pathList[pathList.length-1];
+    	console.log(imgPath);
+    	profile.src = imgPath;
+    }
+    
   </script>
 </body>
 </html>

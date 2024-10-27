@@ -38,13 +38,23 @@ public interface ResumeMapper {
 
 	List<skillVo>  getSkillList();
 
-	ResumeVo insertResume(ResumeVo vo);
-
-	String updateImg(File filePath, String resnum);
+	void insertResume(ResumeVo vo);
 
 	List<GugunVo> getGugunList();
 
 	List<SidoVo> getSidoList();
+
+	String getResnum();
+
+	void insertSkill(ResumeVo skillVo);
+
+	void updateImg(ResumeVo imgVo);
+
+	void updateResume(ResumeVo vo);
+
+	void updateResumeNopicture(ResumeVo vo);
+
+	void deleteSkill(String resnum);
 
 	
 }
