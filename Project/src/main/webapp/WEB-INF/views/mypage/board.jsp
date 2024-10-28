@@ -12,7 +12,7 @@
     font-family: Arial, sans-serif;
     background-color: #f9f9f9; /* 배경 색상 설정 */
   }
-  #container {
+  #container { 
     display: flex; /* 플렉스박스 사용 */
     width: 90%;
     margin: 20px auto;
@@ -123,6 +123,12 @@
   .status-fail {
     color: red;
   }
+  .starsImg{
+    max-width: 25px;
+  }
+  .starsImg{
+    cursor: pointer;
+  }
 </style>
 <script>
   // 자바스크립트를 사용하여 선택된 메뉴에 따라 테이블을 보여주는 함수
@@ -136,10 +142,7 @@
     document.getElementById(menu + 'Table').style.display = 'table';
   }
 
-  // 페이지 로드 시 기본 선택된 테이블 보여주기
-  window.onload = function() {
-    switchTable('resume');
-  }
+  
 </script>
 </head>
 <body>
@@ -160,7 +163,12 @@
         <input type="radio" name="menu" value="scrap" id="scrap" onclick="switchTable('scrap')">
         <label for="scrap">스크랩</label>
       </div>
-
+<!-- 삭제 완료 메시지를 alert로 표시 -->
+<c:if test="${not empty message}">
+    <script>
+        alert('${message}');
+    </script>
+</c:if>
       <!-- 제출한 이력서 목록 테이블 -->
       <div id="resumeTable" class="listtable">
         <table>
@@ -169,6 +177,7 @@
               <td>제목</td>
               <td>날짜</td>
               <td>상태</td>
+              <td>별점</td>
             </tr>
           </thead>
           <tbody>
@@ -177,17 +186,47 @@
               <tr>
                 <td><a href="/MyPage/View?sendnum=${myres.sendnum}">${myres.restitle}</a></td>
                 <td>${myres.reg_date}</td>
-                <td>
                   <!-- 상태값에 따른 스타일링 -->
                   <c:choose>
                     <c:when test="${myres.pass_code == null}">
+                      <td>
                       <span class="status-review">심사중</span>
+                      </td>
+                      <td></td>
                     </c:when>
                     <c:when test="${myres.pass_code == 1}">
+                      <td>
                       <span class="status-pass">합격</span>
+                      </td>
+                      <td>
+                        <c:forEach items="${ starList }" var="star">
+                          <c:if test="${ myres.comid eq star.comid }">
+                            <img src="/img/star.png" alt="별점" class="starsImg">
+                          </c:if>
+                          <c:if test="${ myres.comid ne star.comid }">
+                            <a class="stars" onclick="openStarPopup('${myres.comid}')">
+                              <img src="/img/blankStar.png" alt="별점" class="starsImg">
+                            </a>
+                          </c:if>
+                        </c:forEach>
+                      </td>
                     </c:when>
-                    <c:when test="${myres.pass_code == 0}">
+                   <c:when test="${myres.pass_code == 0}">
+                      <td>
                       <span class="status-fail">불합격</span>
+                      </td>
+                      <td>
+                        <c:forEach items="${ starList }" var="star">
+                          <c:if test="${ myres.comid eq star.comid }">
+                            <img src="/img/star.png" alt="별점" class="starsImg">
+                          </c:if>
+                          <c:if test="${ myres.comid ne star.comid }">
+                            <a class="stars" onclick="openStarPopup('${myres.comid}')">
+                              <img src="/img/blankStar.png" alt="별점" class="starsImg">
+                            </a>
+                          </c:if>
+                        </c:forEach>
+                      </td>
                     </c:when>
                     <c:otherwise>
                       <span>상태없음</span>
@@ -222,37 +261,50 @@
       </div>
 
       <!-- 스크랩 목록 테이블 -->
-      <div id="scrapTable" class="listtable">
-        <table>
-          <thead>
-            <tr>
-              <td>스크랩 제목</td>
-              <td>스크랩 날짜</td>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- 스크랩 데이터 출력 -->
-            <c:forEach items="${scrapList}" var="scrap">
-              <tr>
-                <td><a href="/Scrap/View?id=${scrap.id}">${scrap.title}</a></td>
-                <td>${scrap.date}</td>
-              </tr>
-            </c:forEach>
-          </tbody>
-        </table>
-      </div>
-    </div>
+      <div id="scrapTable" class="listtable" style="display:none;">
+  <table>
+    <thead>
+      <tr>
+        <td>회사명</td>
+        <td>공고 제목</td>
+        <td>스크랩 날짜</td>
+        <td>삭제</td>
+      </tr>
+    </thead>
+    <tbody>
+    <c:forEach items="${scList}" var="sc">
+        <tr id="scrap-${sc.bmid}">
+            <td>${sc.comname}</td>
+            <td><a href="/Guin/View?recnum=${sc.recnum}">${sc.rectitle}</a></td>
+            <td>${sc.scrap_date}</td>
+            <td>
+                <a href="/MyPage/DeleteScrap?bmid=${sc.bmid}" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
+            </td>
+        </tr>
+    </c:forEach>
+</tbody>
+  </table>
+</div>
 
     <!-- 오른쪽: 로그인 프로필 영역 -->
+    </div>
     <div class="profile">
       <div><img src="/img/profile.png" alt="profile"></div>
-      <div>${user.username}님<br>환영합니다</div>
-      <div style="margin-top: 10px;">
-        <a href="/MyPage/Board" class="abutton">Mypage</a>
-        <a href="/Login/Logout" class="abutton">Logout</a>
-      </div>
+      <div>사용자 이름: ${user.username}</div>
+      <div>이메일: ${user.email}</div>
+      <div>
+        <a href="/MyPage/UpdateForm" class="abutton">내 정보 수정</a>
+        <a href="/MyPage/UpdatePassForm" class="abutton">비밀번호 변경</a>
+        <a class="abutton" href="/Login/Logout">로그아웃</a></div>
     </div>
   </div>
+  
+  <%@include file="/WEB-INF/include/footer.jsp"%>
+ <script>
+  function openStarPopup() {
+	    console.log(comid);
+	    window.open('/MyPage/StarPoint?comid='+comid, 'starPopup', 'width=600,height=400'); // 경로 수정
+	}
+  </script>
 </body>
 </html>
-
