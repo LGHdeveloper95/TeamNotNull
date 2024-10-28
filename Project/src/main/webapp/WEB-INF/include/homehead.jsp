@@ -22,30 +22,19 @@
     .search_result {
         display: none;
     }
-    .r1{
-        position: fixed;
-        top:200px;
-        left: 1050px;
-    }
-.r2{
-        position: fixed;
-        top:200px;
-        left: 1200px;
-    }
-.r3{
-        position: fixed;
-        top:200px;
-        left: 1360px;
-    text-align: center;
-    }
 
+.result{
+    display: inline-block;
+    width: 150px;
+}
     li {
         border: 1px silver solid;
         border-radius: 10px;
         display: inline;
         padding: 10px 70px;
     }
-    li:hover{
+
+    li:hover {
         background: #999999;
     }
 
@@ -55,6 +44,25 @@
         padding: 10px 25px;
         border-radius: 10px;
     }
+
+    .radio {
+        opacity: 0;
+    }
+
+    .radio + label {
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+
+    .radio + label:hover {
+        background: #cccccc;
+    }
+
+    input[type=radio]:checked + label {
+        background: #AAAAAA;
+        color: white;
+    }
 </style>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <header>
@@ -63,17 +71,22 @@
     </div>
 
     <div id="search_head">
-        <div id="search_intro" style="border:1px silver solid;border-radius: 10px; display: inline-block;padding: 20px 40px">검색 하기!</div>
+        <div id="search_intro"
+             style="border:1px silver solid;border-radius: 10px; display: inline-block;padding: 20px 40px">검색 하기!
+        </div>
         <div>
             <ul class="search_menu">
                 <li><span>단어</span></li>
                 <li><span>스킬</span></li>
                 <li><span>지역</span></li>
+                <li><span>학력</span></li>
+                <li><span>경력</span></li>
             </ul>
         </div>
         <form action="/Search" method="get">
             <div class="search_section" style="height: 100px;  text-align: center">
-                <input type="text" name="word" placeholder="검색어" style="margin-top:30px;width: 400px;height: 50px;border-radius: 10px"/>
+                <input type="text" name="word" placeholder="검색어"
+                       style="margin-top:30px;width: 400px;height: 50px;border-radius: 10px"/>
             </div>
             <div class="search_section">
                 <div style="height:100px;width:200px; overflow-y: scroll; display: inline-block">
@@ -93,24 +106,45 @@
                 </div>
                 <div class="gugun"
                      style="max-height :100px; height:150px;width:250px; display:inline-block; overflow-y: scroll;"></div>
-                <input type="hidden" name="gugun_code" id="regionSubmit"/>
+                <input type="hidden" name="region" id="regionSubmit"/>
 
             </div>
+            <div class="search_section" style="height:100px;">
+                <c:forEach var="edu" items="${eduList}">
+                    <input type="radio" class="radio" name="edu_code" value="0" style="display: none"/>
+                    <input type="radio" class="radio" name="edu_code" value="${ edu.edu_code }" id="${edu.edu_name}"/>
+                    <label for="${edu.edu_name}" class="se"> ${edu.edu_name}</label>
+                </c:forEach>
+            </div>
+            <div class="search_section" style="height:100px;">
+                <c:forEach var="career" items="${careerList}">
+                    <input type="radio" class="radio" name="career_code" value="0" style="display: none"/>
+                    <input type="radio" class="radio" name="career_code" value="${ career.career_code }"
+                           id="${career.career_name}"/>
+                    <label for="${career.career_name}" class="sc"> ${career.career_name}</label>
+                </c:forEach>
+            </div>
             <div class="search_result">
-                <div class="search_word r1">
+                <div class="search_word result">
                     <div><h5>검색어</h5></div>
                     <div id="input_search"></div>
                 </div>
-            <div class="skill_select r2">
-                    <div><h5>선택한 기술</h5></div>
+                <div class="skill_select result">
+                    <div><h5>기술</h5></div>
                     <input type="hidden" name="skill" id="skillSubmit"/>
                 </div>
-                <div class="r3">
-            <div style="vertical-align:top;horiz-align: left"><h5>선택한 지역</h5></div>
-                <div class="region_select">
-                    <input type="hidden" class="find_region" value=""/>
-                    <div class="clicked_region" value=""></div>
+                <div class="result">
+                    <div style="vertical-align:top;horiz-align: left"><h5>지역</h5></div>
+                    <div class="region_select">
+                    </div>
                 </div>
+                <div class=" result">
+                    <div><h5>학력</h5></div>
+                    <div id="search_edu">무관</div>
+                </div>
+                <div class=" result">
+                    <div><h5>경력</h5></div>
+                    <div id="search_career">무관</div>
                 </div>
                 <input type="submit" value="매칭" class="btn btn-success ra">
             </div>
@@ -202,16 +236,16 @@
             display: 'none'
         })
         $(".search_result").css({
-            display:'block'
+            display: 'inline-block'
         })
         $('.search_menu > li').eq(0).click();
     })
 
     $('.search_menu > li').click(function () {
         let menu_i = $(this).index();
-        if (menu_i < 3) { //하단 바(빨간색) 이동으로 인해 index는 4 이하로 한정시킴
+        if (menu_i < 5) { //하단 바(빨간색) 이동으로 인해 index는 4 이하로 한정시킴
             $('.search_menu > li').css({
-                background:'white'
+                background: 'white'
             })
             $(this).css({
                 background: '#999999'
@@ -225,12 +259,27 @@
         $("#input_search").html($('input[name="word"]').val())
     });
 
+    $("input[name='edu_code']").click(function (){
+        console.log($('#search_edu').html())
+        console.log($('.se').eq($(this).index()/2).html())
+        $('#search_edu').html($('.se').eq($(this).index()/2).html());
+    })
+
+    $("input[name='career_code']").click(function (){
+        console.log($('#search_career').html())
+        console.log($('.se').eq($(this).index()/2).html())
+        $('#search_career').html($('.sc').eq($(this).index()/2).html());
+    })
     let temp = '<c:out value="${skillList}"/>';
     let temp2 = '<c:out value="${gugunList}"/>';
     let skillList = temp.split(",");
     let gugunList = temp2.split(",");
     let skill_count = 0;
     let region_count = 0;
+
+    $("input[name='edu_code']:input[value='0']").prop('checked', true);
+    $("input[name='career_code']:input[value='0']").prop('checked', true);
+
 
     for (let i = 100; i < 810; i = i + 100) {
         let skill = "skill";
@@ -309,7 +358,7 @@
                         k.classList.remove("clicked");
                     })
                     item.classList.add("clicked");
-                    if(region_count<5){
+                    if (region_count < 5) {
                         let html = '<div class="clicked_region" value="' + item.getAttribute("value") + '">' + document.getElementById(sido).innerHTML + " " + item.innerHTML + '</div>';
                         document.getElementsByClassName("region_select").item(0).innerHTML += html;
                         $('.clicked_region').each(function (i, item) {
@@ -319,8 +368,7 @@
                             })
                         });
                         region_count++;
-                    }
-                    else{
+                    } else {
                         alert('최대 5개까지 추가할 수 있습니다.');
                     }
 
@@ -338,9 +386,9 @@
         document.getElementById("skillSubmit").value = skillList;
 
         let regions = document.querySelectorAll(".clicked_region");
-        let regionList="";
-        for(let i=0;i<regions.length;i++){
-            regionList +=regions[i].getAttribute("value")+"/";
+        let regionList = "";
+        for (let i = 0; i < regions.length; i++) {
+            regionList += regions[i].getAttribute("value") + "/";
         }
         document.getElementById("regionSubmit").value = regionList;
     })

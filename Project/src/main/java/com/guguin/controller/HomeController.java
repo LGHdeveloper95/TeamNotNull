@@ -4,10 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.guguin.post.mapper.PostMapper;
-import com.guguin.post.vo.GugunVo;
-import com.guguin.post.vo.SidoVo;
-import com.guguin.post.vo.SkillCateVo;
-import com.guguin.post.vo.SkillVo;
+import com.guguin.post.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,6 +62,8 @@ public class HomeController {
 		List<SkillVo> skillList = postMapper.getSkillList();
 		List<GugunVo> gugunList = postMapper.getGugunList();
 		List<SidoVo> sidoList = postMapper.getSidoList();
+		List<EduVo> eduList = postMapper.getEduList();
+		List<CareerVo> careerList = postMapper.getCareerList();
 
 		mv.addObject("recList",limitedRec);
 
@@ -72,6 +71,8 @@ public class HomeController {
 		mv.addObject("skillList", skillList);
 		mv.addObject("gugunList", gugunList);
 		mv.addObject("sidoList", sidoList);
+		mv.addObject("eduList", eduList);
+		mv.addObject("careerList", careerList);
 		mv.setViewName("home");
 
 		return mv;
