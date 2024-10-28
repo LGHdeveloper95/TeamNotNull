@@ -67,7 +67,7 @@
         html+="<tr><td><div>아이디 : <input type='text' name='userid'/></div>";
         html+="<div>비밀번호 : <input type='password' name='userpw'/></div>";
         html+="<input type = 'submit' value='로그인'/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-        html+="<a href='/Join/UserJoin'>회원가입</a></td>";
+        html+="<a href='/Join/UserJoinForm'>회원가입</a></td>";
         html+="</tr>";
         html+="</table>";
         html+="</form>";
@@ -82,7 +82,7 @@
         html+="<tr><td><div>아이디 : <input type='text' name='comid'/></div>";
         html+="<div>비밀번호 : <input type='password' name='compw'/></div>";
         html+="<input type = 'submit' value='로그인'/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-        html+="<a href='/Join/ComJoin'>회원가입</a></td>";
+        html+="<a href='/Join/ComJoinForm'>회원가입</a></td>";
         html+="</tr>";
         html+="</table>";
         html+="</form>";
