@@ -72,7 +72,7 @@
         ; /* 배경색 (선택 사항) */
         }
         main {
-            width: 80%;
+            width: 100%;
             display: flex; /* Flexbox 사용 */
             align-items: flex-start; /* 위쪽 정렬 */
             margin: 20px; /* 메인 마진 추가 */
@@ -90,11 +90,19 @@
         }
 
         td:nth-child(1) {
-            width: 70%;
+            width: 400px;
+
+        }
+        td:nth-child(2) {
+            width: 300px;
+
+        }
+        td:nth-child(3) {
+            width: 100px;
 
         }
         td img{
-             width:20%;
+             width:50%;
         }
 
         .profile {
@@ -117,7 +125,7 @@
 </head>
 <body>
 <main>
-    <div id="box">
+    <div>
         <button id="updateBtn">
             합격
         </button>

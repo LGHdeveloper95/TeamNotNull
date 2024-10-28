@@ -57,7 +57,7 @@
   </style>
 </head>
 <body>
-<%@include file = "/WEB-INF/include/head.jsp" %>
+<%@include file = "/WEB-INF/include/homehead.jsp" %>
 <main>
   <div id="listtable"><!-- 공고/이력서 리스트 -->
     <table>

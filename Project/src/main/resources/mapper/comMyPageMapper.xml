@@ -57,6 +57,7 @@
             ,UPHONE
             ,UADDR
             ,EMAIL
+            ,GENDER
         FROM PERSONAL_MEMBERS PM LEFT JOIN APPLIED_RESUME AR
         ON PM.USERID = AR.USERID
         WHERE AR.USERID = #{userid}
