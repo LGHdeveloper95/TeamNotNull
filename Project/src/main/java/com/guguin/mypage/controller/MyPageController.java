@@ -164,9 +164,8 @@ public class MyPageController {
     	HttpSession session = request.getSession();
     	
     	vo.setUserid((String)session.getAttribute("userid"));
-    	vo.setComid(vo.getComid());
     	vo.setStar_val(vo.getStar_val());
-    	System.out.println(vo);
+    	//System.out.println(vo);
     	
     	myPageMapper.insertStar(vo);
     	

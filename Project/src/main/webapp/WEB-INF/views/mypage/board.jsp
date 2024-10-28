@@ -216,16 +216,25 @@
                       <span class="status-fail">불합격</span>
                       </td>
                       <td>
-                        <c:forEach items="${ starList }" var="star">
-                          <c:if test="${ myres.comid eq star.comid }">
-                            <img src="/img/star.png" alt="별점" class="starsImg">
-                          </c:if>
-                          <c:if test="${ myres.comid ne star.comid }">
-                            <a class="stars" onclick="openStarPopup('${myres.comid}')">
-                              <img src="/img/blankStar.png" alt="별점" class="starsImg">
-                            </a>
-                          </c:if>
-                        </c:forEach>
+                        <c:if test="${ empty starList }">
+                          <a class="stars" onclick="openStarPopup('${myres.comid}')">
+                                <img src="/img/blankStar.png" alt="star" class="starsImg">
+                              </a>
+                        </c:if>
+                        <c:if test="${ not empty starList }">
+	                        <c:forEach items="${ starList }" var="star">
+	                          <c:choose>
+	                            <c:when test="${ myres.comid eq star.comid }">
+	                              <img src="/img/star.png" alt="star" class="starsImg">
+	                            </c:when>
+	                            <c:otherwise>
+	                              <a class="stars" onclick="openStarPopup('${myres.comid}')">
+	                                <img src="/img/blankStar.png" alt="star" class="starsImg">
+	                              </a>
+	                            </c:otherwise>
+	                          </c:choose>
+	                        </c:forEach>
+                        </c:if>
                       </td>
                     </c:when>
                     <c:otherwise>
@@ -301,7 +310,7 @@
   
   <%@include file="/WEB-INF/include/footer.jsp"%>
  <script>
-  function openStarPopup() {
+  function openStarPopup(comid) {
 	    console.log(comid);
 	    window.open('/MyPage/StarPoint?comid='+comid, 'starPopup', 'width=600,height=400'); // 경로 수정
 	}
