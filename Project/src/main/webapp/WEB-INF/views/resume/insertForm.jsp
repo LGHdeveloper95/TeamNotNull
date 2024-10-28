@@ -56,11 +56,12 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
 }
 
 </style>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
   <%@include file="/WEB-INF/include/head.jsp"%>
   <main>
-    <form action="/Resume/Insert" id="resumeForm" style="width: 100%;">
+    <form action="/Resume/Insert" enctype="multipart/form-data" id="resumeForm" method="POST" style="width: 100%;">
       <table style="width: 100%; table-layout: fixed;">
         <thead><tr><td colspan="3">
           이력서 제목 :
@@ -69,35 +70,48 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
         <tr>
           <td rowspan="3" style="max-width: 30px; text-align: center;">
             <img id="img" alt="pic" style="width: 80%;"/>
-            <input type="file"  id="fileInput" accept="image/*" required>
+            <!-- file input 처리 accept="image/*" : image 파일만 선택가능 required : 비어있을경우 제출불가 -->
+            <input type="file" name="imgfile" id="fileInput" accept="image/*" required>
           </td>
           <td>이름</td>
-          <td>${ user.username }</td>
+          <td>${ user.username }<input type="hidden" name="username" value="${ user.username }"></td>
        </tr>
       <tr>
         <td>성별</td>
-        <td>${ user.gender }</td>
+        <td>${ user.gender }<input type="hidden" name="gender" value="${ user.gender }"></td>
       </tr>
       <tr>
         <td>휴대전화</td>
-        <td>${ user.uphone }</td>
+        <td>${ user.uphone }<input type="hidden" name="uphone" value="${ user.uphone }"></td>
       </tr>
       <tr>
         <td>주소</td>
-        <td colspan="2">${ user.uaddr }</td>
+        <td colspan="2">${ user.uaddr }
+        <input type="hidden" name="uaddr" value="${ user.uaddr }"></td>
       </tr>
-       <tr><td>학력</td><td colspan="2">
-                <c:forEach var="edu" items="${eduList}">
-                    <input type="radio" class="radio" name="edu_code" value="${ edu.edu_code }" id="${edu.edu_name}"/>
-                    <label for="${edu.edu_name}"> ${edu.edu_name}</label>
-                </c:forEach>
-            </td></tr>
+       <tr>
+         <td>학력</td>
+         <td colspan="2">
+           <c:forEach var="edu" items="${eduList}">
+             <input type="radio" class="radio" name="edu_code" value="${ edu.edu_code }" id="${edu.edu_name}"/>
+             <label for="${edu.edu_name}"> ${edu.edu_name}</label>
+           </c:forEach>
+         </td>
+       </tr>
+       <tr>
+              <td>학력세부사항</td>
+              <td colspan="2"><input type="text" name="edu_content"/></td>
+            </tr>
             <tr><td>경력</td><td colspan="2">
                 <c:forEach var="career" items="${careerList}">
                     <input type="radio" class="radio" name="career_code" value="${ career.career_code }" id="${career.career_name}"/>
                     <label for="${career.career_name}"> ${career.career_name}</label>
                 </c:forEach>
             </td></tr>
+            <tr>
+              <td>경력세부사항</td>
+              <td colspan="2"><input type="text" name="career_content"/></td>
+            </tr>
       <tr>
         <td colspan="3">
           자격증
@@ -124,8 +138,32 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
          </td>
          <td class="skill_select"  style="vertical-align: top">
            <div><h5>선택한 기술</h5></div>
+           <input type="hidden" name="skill" id="skillSubmit"/>
          </td>
        </tr>
+       <tr>
+                <td colspan="3">희망근무 지역</td>
+            </tr>
+            <tr>
+                <td>
+                    <div   style="max-height :150px;width:200px; overflow-y: scroll;">
+                    <c:forEach items="${sidoList}" var="sido" varStatus="status">
+                        <div id="sido${status.index}" value="${sido.sido_code}" class="sidoCate">${sido.sido}</div>
+                    </c:forEach>
+                    </div>
+                </td>
+                <td>
+                    <div class="gugun"
+                         style="max-height :150px; height:150px;width:250px; display:inline-block; overflow-y: scroll;"></div>
+                </td>
+                <td>
+                    <div style="vertical-align:top;horiz-align: left"><h5>선택한 지역</h5></div>
+                    <input type="hidden" name="gugun_code" id="regionSubmit"/>
+                    <h4  class="region_select">
+                        <div class="clicked_region" value=""> </div>
+                    </h4>
+                </td>
+            </tr>
       </table>
     <!-- 자기소개서--------------------------------------------------- -->
     <table>
@@ -159,6 +197,7 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
     </div>
   </main>
   <script>
+   //자격증 추가 삭제---------------------------------------------------------
     const licenseListEl = document.querySelector('#licenseList');
     const resumeFormEl = document.querySelector('#resumeForm');
     const licenseSubmitEl = document.querySelector('#licenseSubmit');
@@ -166,6 +205,7 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
     licenseListEl.addEventListener('click', function(event) {
     	let licenseCheckEl = document.querySelectorAll('.licenseCheck');
 	    console.log(licenseCheckEl.length);
+	    //alert(event.target.previousElementSibling.value);
 	    
     	  if (event.target.classList.contains('plusBtn')) {
     	    event.preventDefault(); //button submit 방지
@@ -245,7 +285,27 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
     	  }
     	});
 
+    //사진 첨부-----------------------------------------------------------
+    let fileInputEl = document.querySelector('#fileInput');
+    let imgEl = document.querySelector('#img');
+    <% String userid = (String) session.getAttribute("userid"); %>
+    //console.log(userid);
+    fileInputEl.addEventListener('change', function(){
+    	let profile = fileInputEl.files[0]; //file 관련 명령어로 배열로 받아짐 [0] 넣어야됨
+    	//console.log(profile.name);
+    	
+    	let reader = new FileReader();
+    	reader.onload = function(e) {
+            imgEl.src = e.target.result; // 선택한 이미지 미리보기
+            //console.log(e.target);
+        };
+        reader.readAsDataURL(profile); //file 읽음(data url 변경 후 onload 이벤트 발생)
+    });
+    
+    //submit시----------------------------------------------------------------
     resumeFormEl.addEventListener('submit',function(event){
+    	//event.preventDefault();
+    	//자격증처리-------------------------------------------------
         let licenseEl = document.querySelectorAll('.license');
     	//alert(licenseEl[1].value);
     	let licenseList = "";
@@ -263,13 +323,26 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
         }
         //alert(licenseList);
         licenseSubmitEl.value = licenseList;
+        
+        //스킬처리------------------------------------------------
+        let skills = document.querySelectorAll('.clicked_skill');
+        let skillList = "";
+        for (let i=0;i<skills.length;i++){
+            skillList+=skills[i].getAttribute("value") +"/";
+        }
+        document.getElementById("skillSubmit").value=skillList;
+
+        let region = document.querySelector(".clicked_region").getAttribute("value");
+        document.getElementById("regionSubmit").value=region;
+        
     })
     
-    
-   let temp = '<c:out value="${skillList}"/>';
+    //스킬처리-----------------------------------------------
+    let temp = '<c:out value="${skillList}"/>';
+    let temp2 = '<c:out value="${gugunList}"/>';
     let skillList =temp.split(",");
+    let gugunList =temp2.split(",");
     let skill_count=0;
-    console.log(skillList);
     
     let skill_code=skillList[0].substring(20,23);
     let skillname=skillList[1].substring(7,);
@@ -310,8 +383,15 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
                     span.item(j).classList.add("clicked");
                     if(skill_count<5){
                         let html='<input type="hidden" name="skill'+skill_count+'" readonly value="'+span.item(j).getAttribute("value")+'"/>';
-                        html+='<div>'+span.item(j).innerHTML+'<div>';
+                        html+='<div class="clicked_skill" value="'+span.item(j).getAttribute("value")+'">'+span.item(j).innerHTML+'</div>';
                         document.getElementsByClassName("skill_select").item(0).innerHTML+=html;
+                        $('.clicked_skill').each(function (i,item){
+                            console.log(item);
+                            item.addEventListener('click',()=>{
+                                item.remove();
+                                skill_count--;
+                            })
+                        });
                         skill_count++;
                     }
                     else{
@@ -321,13 +401,57 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
             }
         }
     }
+    
+    for(let i=0;i<17;i++){
+        let sido="sido";
+        sido+=i;
+        let sido_idx=document.getElementById(sido).getAttribute("value");
 
-    let fileInputEl = document.querySelector('#fileInput');
-    let imgEl = document.querySelector('#img');
-    <% String userid = (String) session.getAttribute("userid"); %>
-    
-    
+        document.getElementById(sido).onclick=()=>{
+            for(let j=0;j<17;j++){
+                document.getElementsByClassName("sidoCate").item(j).classList.remove("clicked");
+            }
+            document.getElementById(sido).classList.add("clicked");
+            let html ="";
+            for(let j = 0;j<gugunList.length;j+=3){
+                let gugun_code=gugunList[j+0].substring(20,);
+                let gugunname=gugunList[j+1].substring(7,);
+                let sido_code_temp = gugunList[j+2].substring(11,);
+                let sido_code = sido_code_temp.slice(0,-1);
+                if(sido_idx==sido_code){
+                    html+="<span class='guguns' value='"+gugun_code+"'>"+gugunname+"</span><br>";
+                }
+            }
+            document.getElementsByClassName("gugun")[0].innerHTML = html;
+
+            $(".guguns").each(function (index,item){
+                item.addEventListener("click",function (){
+                    $(".guguns").each(function (i,k){
+                        k.classList.remove("clicked");
+                    })
+                  item.classList.add("clicked");
+
+                    let html='<input type="hidden" class="find_region" value=""/>';
+                    html+='<div class="clicked_region" value="'+item.getAttribute("value")+'">'+ document.getElementById(sido).innerHTML+" "+item.innerHTML+'</div>';
+                    document.getElementsByClassName("region_select").item(0).innerHTML=html;
+                })
+            })
+        }
+    }
+
+    document.getElementsByTagName('form').item(0).onsubmit=()=>{
+        if($('input[name=restitle]').val()==null||$('input[name=restitle]').val()==""){
+            alert("제목을 입력해주세요.");
+            return false;
+        }
+        if($('input[name=gugun_code]').val()==null||$('input[name=gugun_code]').val()==""){
+            alert("근무 지역을 선택해주세요.");
+            return false;
+        }
+        return true;
+    }
 
   </script>
 </body>
+<%@include file="/WEB-INF/include/footer.jsp"%>
 </html>
