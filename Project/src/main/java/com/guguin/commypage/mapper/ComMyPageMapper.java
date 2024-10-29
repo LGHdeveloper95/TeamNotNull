@@ -21,4 +21,6 @@ public interface ComMyPageMapper {
     ComVo getCom(String comid);
 
     void updateCom(ComVo comVo);
+
+    void updatePass(ComVo comVo);
 }

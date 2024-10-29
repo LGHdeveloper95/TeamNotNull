@@ -55,7 +55,7 @@ public class LoginController {
         }
         else if(user!=null){
             session.setAttribute("comid",user.getComid());
-            session.setAttribute("boss",user.getBoss());
+            session.setAttribute("comname",user.getComname());
             mv.setViewName("redirect:/");
         }
         return mv;

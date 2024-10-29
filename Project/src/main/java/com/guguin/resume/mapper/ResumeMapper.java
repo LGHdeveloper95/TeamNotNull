@@ -1,15 +1,9 @@
 package com.guguin.resume.mapper;
 
-import java.io.File;
-import java.util.List;
-
+import com.guguin.resume.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 
-import com.guguin.resume.vo.GugunVo;
-import com.guguin.resume.vo.ResumeVo;
-import com.guguin.resume.vo.SidoVo;
-import com.guguin.resume.vo.sectionVo;
-import com.guguin.resume.vo.skillVo;
+import java.util.List;
 
 @Mapper
 public interface ResumeMapper {
@@ -56,5 +50,5 @@ public interface ResumeMapper {
 
 	void deleteSkill(String resnum);
 
-
+	
 }

@@ -119,14 +119,7 @@
             <tr class="content"><td colspan="3">${ resume.motivation } </td></tr>
         </table>
     </div>
-    <div class="profile"><!-- 로그인 프로필 -->
-        <div><img src="/img/profile.png" alt="profile"></div>
-        <div>${ sessionScope.boss }님<br>환영합니다</div>
-        <div style="margin-top: 10px;">
-            <a href="/ComMyPage/Board" class="abutton">Mypage</a>
-            <a href="/Login/Logout" class="abutton">logout</a>
-        </div>
-    </div>
+    <%@include file="/WEB-INF/include/profile.jsp"%>
 </main>
 <script>
     let resnum='${resume.resnum}';

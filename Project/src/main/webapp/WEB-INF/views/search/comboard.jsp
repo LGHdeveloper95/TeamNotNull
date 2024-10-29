@@ -111,26 +111,8 @@
             </c:if>
         </table>
     </div>
-    <div class="profile">
-        <div><img src="/img/profile.png" alt="profile"></div>
-        <div>
-            <c:if test="${not empty sessionScope.userid}">${ sessionScope.userid }님 환영합니다</c:if>
-            <c:if test="${not empty sessionScope.comid}">${ sessionScope.comid }님 환영합니다</c:if>
-            <c:if test="${ empty sessionScope.userid && empty sessionScope.comid }">로그인이 필요합니다
-                <div><a href="/Login/">로그인</a></div>
-            </c:if>
-        </div>
-        <div>
-            <c:if test="${ not empty sessionScope.userid }">
-                <a href="/MyPage/Board" class="abutton">Mypage</a>
-                <a href="/Login/Logout" class="abutton">logout</a>
-            </c:if>
-            <c:if test="${ not empty sessionScope.comid}">
-                <a href="/ComMyPage/" class="abutton">Mypage</a>
-                <a href="/Login/Logout" class="abutton">logout</a>
-            </c:if>
-        </div>
-    </div>
+        <%@include file="/WEB-INF/include/profile.jsp"%>
+
 </main>
 </body>
 </html>

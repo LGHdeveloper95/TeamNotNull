@@ -8,7 +8,7 @@ import lombok.*;
 public class LoginVo {
     private String comid;
     private String compw;
-    private String boss;
+    private String comname;
     private String userid;
     private String userpw;
     private String username;

@@ -121,26 +121,8 @@
             <a href="/Guin/Write?comid=${sessionScope.comid}" id ="write">글쓰기</a>
         </c:if>
     </div>
-    <div class="profile"><!-- 로그인 프로필 -->
-      <div><img src="/img/profile.png" alt="profile"></div>
-      <div>
-        <c:if test="${not empty sessionScope.userid}">${ user.username }님<br>환영합니다</c:if>
-        <c:if test="${not empty sessionScope.comid}">${ comp.comname }님<br>환영합니다</c:if>
-        <c:if test="${ empty sessionScope.userid && empty sessionScope.comid }">
-          <button id="loginBtn">로그인</button>
-        </c:if>
-      </div>
-      <div style="margin-top: 10px;">
-        <c:if test="${ not empty sessionScope.userid }">
-          <a href="/MyPage/Board" class="abutton">Mypage</a>
-          <a href="/Login/Logout" class="abutton">logout</a>
-        </c:if>
-        <c:if test="${ not empty sessionScope.comid}">
-          <a href="/Cmypage/Board" class="abutton">Mypage</a>
-          <a href="/Login/Logout" class="abutton">logout</a>
-        </c:if>
-      </div>
-    </div>
+    <%@include file="/WEB-INF/include/profile.jsp"%>
+
 </main>
 <script>
     const loginBtnEl = document.querySelector('#loginBtn');

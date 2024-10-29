@@ -61,17 +61,17 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
 <body>
   <%@include file="/WEB-INF/include/head.jsp"%>
   <main>
-    <form action="/Resume/Insert" enctype="multipart/form-data" id="resumeForm" method="POST" style="width: 100%;">
+    <form action="/Resume/Update" enctype="multipart/form-data" id="resumeForm" method="POST" style="width: 100%;">
       <table style="width: 100%; table-layout: fixed;">
         <thead><tr><td colspan="3">
           이력서 제목 :
-          <input type="text" name="restitle">
+          <input type="hidden" name="resnum" value="${ resume.resnum }">
+          <input type="text" name="restitle" value="${ resume.restitle }">
         </td></tr></thead>
         <tr>
           <td rowspan="3" style="max-width: 30px; text-align: center;">
             <img id="img" alt="pic" style="width: 80%;"/>
-            <!-- file input 처리 accept="image/*" : image 파일만 선택가능 required : 비어있을경우 제출불가 -->
-            <input type="file" name="imgfile" id="fileInput" accept="image/*" required>
+            <input type="file" name="imgfile" id="fileInput" accept="image/*">
           </td>
           <td>이름</td>
           <td>${ user.username }<input type="hidden" name="username" value="${ user.username }"></td>
@@ -100,7 +100,7 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
        </tr>
        <tr>
               <td>학력세부사항</td>
-              <td colspan="2"><input type="text" name="edu_content"/></td>
+              <td colspan="2"><input type="text" name="edu_content" value="${ resume.edu_content }"/></td>
             </tr>
             <tr><td>경력</td><td colspan="2">
                 <c:forEach var="career" items="${careerList}">
@@ -110,7 +110,7 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
             </td></tr>
             <tr>
               <td>경력세부사항</td>
-              <td colspan="2"><input type="text" name="career_content"/></td>
+              <td colspan="2"><input type="text" name="career_content" value="${ resume.career_content }"/></td>
             </tr>
       <tr>
         <td colspan="3">
@@ -134,7 +134,7 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
            </c:forEach>
          </td >
          <td class="skill" style="width: 100%; height: 200px; overflow-y: scroll; display: block;">
-         
+           
          </td>
          <td class="skill_select"  style="vertical-align: top">
            <div><h5>선택한 기술</h5></div>
@@ -160,7 +160,7 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
                     <div style="vertical-align:top;horiz-align: left"><h5>선택한 지역</h5></div>
                     <input type="hidden" name="gugun_code" id="regionSubmit"/>
                     <h4  class="region_select">
-                        <div class="clicked_region" value=""> </div>
+                        <div class="clicked_region"> </div>
                     </h4>
                 </td>
             </tr>
@@ -174,27 +174,37 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
       </thead>
       <tr class="subtitle"><td colspan="3">성장배경</td></tr>
       <tr class="content"><td colspan="3">
-        <textarea name="background" class="fullBox"></textarea>
+        <textarea name="background" class="fullBox">${ resume.background }</textarea>
       </td></tr>
       <tr class="subtitle"><td colspan="3">성격의 장단점</td></tr>
       <tr class="content"><td colspan="3">
-        <textarea name="personality" class="fullBox"></textarea>
+        <textarea name="personality" class="fullBox">${ resume.personality }</textarea>
       </td></tr>
       <tr class="subtitle"><td colspan="3">지원동기</td></tr>
       <tr class="content"><td colspan="3">
-        <textarea name="motivation" class="fullBox"></textarea>
+        <textarea name="motivation" class="fullBox">${ resume.motivation }</textarea>
       </td></tr>
     </table>
-    <input type="submit" value="추가">
+    <input type="submit" value="수정">
   </form>
       <%@include file="/WEB-INF/include/profile.jsp"%>
-
   </main>
   <script>
+    
+  
+    const getEdu_code = '${resume}'.split('edu_code=')[1].split(',')[0];
+    const edu_codeEl = document.querySelector('input[name="edu_code"][value="'+getEdu_code+'"]');
+    edu_codeEl.checked = true;
+
+    const getCareer_code = '${resume}'.split('career_code=')[1].split(',')[0];
+    const career_codeEl = document.querySelector('input[name="career_code"][value="'+getCareer_code+'"]');
+    career_codeEl.checked = true;
+
    //자격증 추가 삭제---------------------------------------------------------
     const licenseListEl = document.querySelector('#licenseList');
     const resumeFormEl = document.querySelector('#resumeForm');
     const licenseSubmitEl = document.querySelector('#licenseSubmit');
+    
     
     licenseListEl.addEventListener('click', function(event) {
     	let licenseCheckEl = document.querySelectorAll('.licenseCheck');
@@ -279,22 +289,38 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
     	  }
     	});
 
+    const getLicenseList = '${resume.license}'.split('/');
+    if(getLicenseList){
+    	for(let i = 0; i<getLicenseList.length; i++){
+    		let licenseEl = document.getElementsByClassName('license')[i];
+    		licenseEl.value = getLicenseList[i];
+    		if(getLicenseList[i+1]){
+    			let plusBtnEl = document.querySelector('.plusBtn');
+    			plusBtnEl.click();
+    		}
+    	}
+    }
     //사진 첨부-----------------------------------------------------------
     let fileInputEl = document.querySelector('#fileInput');
     let imgEl = document.querySelector('#img');
     <% String userid = (String) session.getAttribute("userid"); %>
     //console.log(userid);
     fileInputEl.addEventListener('change', function(){
-    	let profile = fileInputEl.files[0]; //file 관련 명령어로 배열로 받아짐 [0] 넣어야됨
+    	let profile = fileInputEl.files[0];
     	//console.log(profile.name);
     	
     	let reader = new FileReader();
     	reader.onload = function(e) {
             imgEl.src = e.target.result; // 선택한 이미지 미리보기
-            //console.log(e.target);
         };
-        reader.readAsDataURL(profile); //file 읽음(data url 변경 후 onload 이벤트 발생)
+        console.log(profile);
+        reader.readAsDataURL(profile);
     });
+    
+    let getImg = '${resume.picture}'.split('static')[1];
+    if(getImg != null){
+        imgEl.src = getImg;
+    }
     
     //submit시----------------------------------------------------------------
     resumeFormEl.addEventListener('submit',function(event){
@@ -326,6 +352,7 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
         }
         document.getElementById("skillSubmit").value=skillList;
 
+        //지역처리------------------------------------------------
         let region = document.querySelector(".clicked_region").getAttribute("value");
         document.getElementById("regionSubmit").value=region;
         
@@ -337,6 +364,22 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
     let skillList =temp.split(",");
     let gugunList =temp2.split(",");
     let skill_count=0;
+    
+    let getSkillCodeList = '${ getSkillList }'.replace("[","").replace("]","").split('skill_code=');
+    let getSkillList = '${ getSkillList }'.replace("[","").replace("]","").split('skill=');
+    let getSkillCode = [];
+    let getSkill = [];
+    for(let i = 1; i < getSkillCodeList.length; i++){
+    	getSkillCode[i-1] = getSkillCodeList[i].split(',')[0];
+    	getSkill[i-1] = getSkillList[i].split(',')[0];
+    	let span = document.getElementsByTagName("span")
+    	let html='<input type="hidden" name="skill'+skill_count+'" readonly value="'+getSkillCode[i-1]+'"/>';
+        html+='<div class="clicked_skill" value="'+getSkill[i-1]+'">'+getSkill[i-1]+'</div>';
+        document.getElementsByClassName("skill_select").item(0).innerHTML+=html;
+    	skill_count++;
+    }
+    console.log(getSkillCode);
+    console.log(getSkill);
     
     let skill_code=skillList[0].substring(20,23);
     let skillname=skillList[1].substring(7,);
@@ -395,11 +438,37 @@ button{ padding: 3px 10px; margin: 20px 0 0; }
             }
         }
     }
+    //---------------------------
+    let temp3 = '<c:out value="${sidoList}"/>';
+    let sidoList =temp3.split(",");
+    let getSidoCode = "";
+    let getSido = "";
+    let getGugunCode = '${ resume }'.split('gugun_code=')[1].split(',')[0];
+    let getGugun = "";
+    for(let i = 0; i<gugunList.length; i+=3){
+    	if(getGugunCode == gugunList[i].split('gugun_code=')[1]){
+    		getGugun = gugunList[i+1].split('gugun=')[1];
+    		getSidoCode = gugunList[i+2].replace(' sido_code=','').replace(')','');
+    	}
+    }
+    for(let i=0; i<sidoList.length;i+=2){
+    	if(sidoList[i].split('sido_code=')[1] == getSidoCode){
+    		console.log(sidoList[i+1].split('sido=')[1].replace(')',''));
+    		getSido = sidoList[i+1].split('sido=')[1].replace(')','');
+    	}
+    	//console.log(getSido + getGugun);
+    }
+    
+    let html='<input type="hidden" class="find_region" value=""/>';
+    html+='<div class="clicked_region" value="'+getGugunCode+'">'+getSido+" "+getGugun+'</div>';
+    document.getElementsByClassName("region_select").item(0).innerHTML=html;
+    
     
     for(let i=0;i<17;i++){
         let sido="sido";
         sido+=i;
         let sido_idx=document.getElementById(sido).getAttribute("value");
+        //console.log(sido_idx);
 
         document.getElementById(sido).onclick=()=>{
             for(let j=0;j<17;j++){

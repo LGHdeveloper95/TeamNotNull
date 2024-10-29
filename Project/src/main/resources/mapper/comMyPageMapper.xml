@@ -14,8 +14,6 @@
             ,LICENSE
             ,CAREER_CODE
             ,CAREER_CONTENT
-            ,SKILL
-            ,SIDO_CODE
             ,GUGUN_CODE
             ,PASS_CODE
             ,BACKGROUND
@@ -37,9 +35,7 @@
             ,EDU_CONTENT
             ,LICENSE
             ,CAREER_CODE
-            ,CAREER_CONTENT
-            ,SKILL
-            ,SIDO_CODE
+            ,CAREER_CONTENTS
             ,GUGUN_CODE
             ,PASS_CODE
             ,BACKGROUND
@@ -87,6 +83,12 @@
         SET CPHONE=#{cphone},
             CADDR=#{caddr},
             BOSSEMAIL=#{bossemail}
+        WHERE COMID=#{comid}
+    </update>
+
+    <update id="updatePass">
+        UPDATE BUSINESS_MEMBERS
+        SET COMPW=#{compw}
         WHERE COMID=#{comid}
     </update>
 </mapper>

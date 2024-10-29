@@ -57,14 +57,8 @@ button{ padding: 3px 10px; margin: 20px 0 5px; }
     </table>
   </div>
   </div>
-  <div class="profile"><!-- 로그인 프로필 -->
-      <div><img src="/img/profile.png" alt="profile"></div>
-      <div>${ user.username }님<br>환영합니다</div>
-      <div style="margin-top: 10px;">
-          <a href="/MyPage/Board" class="abutton">Mypage</a>
-          <a href="/Login/Logout" class="abutton">logout</a>
-      </div>
-    </div>
+      <%@include file="/WEB-INF/include/profile.jsp"%>
+
   </main>
   <script>
     const insertBtnEl = document.querySelector('#insertBtn');
@@ -74,7 +68,5 @@ button{ padding: 3px 10px; margin: 20px 0 5px; }
     });
   </script>
 </body>
+<%@include file="/WEB-INF/include/footer.jsp"%>
 </html>
-
-</body>
-</html> 

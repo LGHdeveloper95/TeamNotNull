@@ -92,45 +92,29 @@
 <%@include file="/WEB-INF/include/head.jsp"%>
 <main>
     <div>
-        <form action="/ComMyPage/Update" method="POST">
+        <form action="/ComMyPage/UpdatePass" method="POST">
             <input type="hidden" name="comid" value="${com.comid}"/>
-            <input type="hidden" name="boss" value="${com.boss}"/>
         <table>
             <thead>
             <tr>
-                <td colspan="2">내 정보 </td>
+                <td>비밀번호 변경</td>
                 <td>
                     <a class = "btn btn-primary" href="/ComMyPage/Board">목록</a>
-                    <c:if test="${sessionScope.comid eq com.comid}">
-                        <input type="submit" class="btn btn-success" value="수정">
-                    </c:if>
+                    <input type="submit" class="btn btn-success" value="수정">
                 </td>
             </tr>
             </thead>
             <tr>
-                <td rowspan="6" style="max-width: 130px; text-align: center;"><img src="/img/samsung.png" alt="pic" style="width: 80%;"/></td>
-                <td>기업 이름</td>
-                <td>${ com.comname } </td>
-            </tr>
-            <tr>
-                <td>대표자</td>
-                <td>${com.boss}</td>
-            </tr>
-            <tr>
-                <td><c class="red">*</c> 회사 연락처 </td>
-                <td><input type="text" name="cphone" value="${ com.cphone }"/></td>
-            </tr>
-            <tr>
-                <td><c class="red">*</c> 주소 </td>
-                <td><input type="text" name="caddr" value="${ com.caddr }"/></td>
-            </tr>
-            <tr>
-                <td><c class="red">*</c> 이메일 </td>
-                <td><input type="email" name="bossemail" value="${ com.bossemail }"/></td>
-            </tr>
-            <tr>
-                <td><c class="red">*</c> 비밀번호 확인 </td>
+                <td><c class="red">*</c> 현재 비밀번호</td>
                 <td><input type="password" id="checkpw"/></td>
+            </tr>
+            <tr>
+                <td><c class="red">*</c> 변경 비밀번호</td>
+                <td><input type="password" name="compw" id="changepw"/></td>
+            </tr>
+            <tr>
+                <td><c class="red">*</c> 비밀번호 확인</td>
+                <td><input type="password" id="changepwCheck"/></td>
             </tr>
         </table>
         </form>
@@ -139,19 +123,9 @@
 </main>
 <script>
     document.getElementsByTagName('form').item(0).onsubmit=()=>{
-        if($('input[name=cphone]').val()==null||$('input[name=cphone]').val()==""){
-            alert("연락처를 입력해주세요.");
-            $('input[name=cphone]').focus();
-            return false;
-        }
-        if($('input[name=caddr]').val()==null||$('input[name=caddr]').val()==""){
-            alert("주소를 입력해주세요.");
-            $('input[name=caddr]').focus();
-            return false;
-        }
-        if($('input[name=bossemail]').val()==null||$('input[name=bossemail]').val()==""){
-            alert("이메일을 입력해주세요.");
-            $('input[name=bossemail]').focus();
+        if($('#checkpw').val()==null||$('#checkpw').val()==""){
+            alert("비밀번호를 입력해주세요.");
+            $('#checkpw').focus();
             return false;
         }
         if($('#checkpw').val()!='${com.compw}'){
@@ -159,12 +133,20 @@
             $('#checkpw').focus();
             return false;
         }
+        if($('#changepw').val()==null||$('#changepw').val()==""){
+            alert("변경할 비밀번호를 입력해주세요.");
+            $('#changepw').focus();
+            return false;
+        }
+        if($('#changepwCheck').val()!=$('#changepw').val()){
+            alert("변경 비밀번호를 확인해주세요.");
+            $('#changepwCheck').focus();
+            return false;
+        }
 
-        alert("수정 완료.");
+        alert("비밀번호 수정 완료.");
         return true;
     }
 </script>
 </body>
 </html>
-
-

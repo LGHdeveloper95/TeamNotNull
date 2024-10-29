@@ -92,41 +92,43 @@
 <%@include file="/WEB-INF/include/head.jsp"%>
 <main>
     <div>
-        <form action="/ComMyPage/Update" method="POST">
-            <input type="hidden" name="comid" value="${com.comid}"/>
-            <input type="hidden" name="boss" value="${com.boss}"/>
+        <form action="/MyPage/Update" method="POST">
+            <input type="hidden" name="userid" value="${user.userid}"/>
         <table>
             <thead>
             <tr>
-                <td colspan="2">내 정보 </td>
+                <td>내 정보 </td>
                 <td>
-                    <a class = "btn btn-primary" href="/ComMyPage/Board">목록</a>
-                    <c:if test="${sessionScope.comid eq com.comid}">
+                    <a class = "btn btn-primary" href="/MyPage/Board">목록</a>
+                    <c:if test="${sessionScope.userid eq user.userid}">
                         <input type="submit" class="btn btn-success" value="수정">
                     </c:if>
                 </td>
             </tr>
             </thead>
             <tr>
-                <td rowspan="6" style="max-width: 130px; text-align: center;"><img src="/img/samsung.png" alt="pic" style="width: 80%;"/></td>
-                <td>기업 이름</td>
-                <td>${ com.comname } </td>
+                <td>이름</td>
+                <td>${ user.username } </td>
             </tr>
             <tr>
-                <td>대표자</td>
-                <td>${com.boss}</td>
+                <td>성별</td>
+                <td>${user.gender}</td>
             </tr>
             <tr>
-                <td><c class="red">*</c> 회사 연락처 </td>
-                <td><input type="text" name="cphone" value="${ com.cphone }"/></td>
+                <td><c class="red">*</c> 생일 </td>
+                <td><input type="date" name= "birth" value="${ user.birth }"/></td>
+            </tr>
+            <tr>
+                <td><c class="red">*</c> 연락처 </td>
+                <td><input type="text" name= "uphone" value="${ user.uphone }"/></td>
             </tr>
             <tr>
                 <td><c class="red">*</c> 주소 </td>
-                <td><input type="text" name="caddr" value="${ com.caddr }"/></td>
+                <td><input type="text" name="uaddr" value="${ user.uaddr }"/></td>
             </tr>
             <tr>
                 <td><c class="red">*</c> 이메일 </td>
-                <td><input type="email" name="bossemail" value="${ com.bossemail }"/></td>
+                <td><input type="email" name="email" value="${ user.email }"/></td>
             </tr>
             <tr>
                 <td><c class="red">*</c> 비밀번호 확인 </td>
@@ -135,26 +137,55 @@
         </table>
         </form>
     </div>
-    <%@include file="/WEB-INF/include/profile.jsp"%>
+    <div class="profile">
+        <div><img src="/img/profile.png" alt="profile"></div>
+        <div>
+            <c:if test="${not empty sessionScope.userid}">${ sessionScope.username }님 환영합니다</c:if>
+            <c:if test="${not empty sessionScope.comid}">${ sessionScope.comname }님 환영합니다</c:if>
+            <c:if test="${ empty sessionScope.userid && empty sessionScope.comid }">로그인이 필요합니다
+                <div><a href="/Login/">로그인</a></div>
+            </c:if>
+        </div>
+        <div>
+            <c:if test="${ not empty sessionScope.userid }">
+                <a href="/MyPage/Board" class="abutton">Mypage</a>
+                <a href="/Login/Logout" class="abutton">logout</a>
+            </c:if>
+            <c:if test="${ not empty sessionScope.comid}">
+                <a href="/ComMyPage/" class="abutton">Mypage</a>
+                <a href="/Login/Logout" class="abutton">logout</a>
+            </c:if>
+        </div>
+    </div>
 </main>
 <script>
     document.getElementsByTagName('form').item(0).onsubmit=()=>{
-        if($('input[name=cphone]').val()==null||$('input[name=cphone]').val()==""){
+    	if($('input[name=birth]').val()==null||$('input[name=birth]').val()==""){
+            alert("생일을 입력해주세요.");
+            $('input[name=birth]').focus();
+            return false;
+        }
+        if($('input[name=uphone]').val()==null||$('input[name=uphone]').val()==""){
             alert("연락처를 입력해주세요.");
-            $('input[name=cphone]').focus();
+            $('input[name=uphone]').focus();
             return false;
         }
-        if($('input[name=caddr]').val()==null||$('input[name=caddr]').val()==""){
+        if($('input[name=uaddr]').val()==null||$('input[name=uaddr]').val()==""){
             alert("주소를 입력해주세요.");
-            $('input[name=caddr]').focus();
+            $('input[name=uaddr]').focus();
             return false;
         }
-        if($('input[name=bossemail]').val()==null||$('input[name=bossemail]').val()==""){
+        if($('input[name=email]').val()==null||$('input[name=email]').val()==""){
             alert("이메일을 입력해주세요.");
-            $('input[name=bossemail]').focus();
+            $('input[name=email]').focus();
             return false;
         }
-        if($('#checkpw').val()!='${com.compw}'){
+        if($('#checkpw').val()==null||$('#checkpw').val()==""){
+            alert("비밀번호를 입력해주세요.");
+            $('#checkpw').focus();
+            return false;
+        }
+        if($('#checkpw').val()!='${user.userpw}'){
             alert("비밀번호를 확인해주세요.");
             $('#checkpw').focus();
             return false;
@@ -166,5 +197,3 @@
 </script>
 </body>
 </html>
-
-

@@ -260,15 +260,11 @@
     });
 
     $("input[name='edu_code']").click(function (){
-        console.log($('#search_edu').html())
-        console.log($('.se').eq($(this).index()/2).html())
-        $('#search_edu').html($('.se').eq($(this).index()/2).html());
+        $('#search_edu').html($('.se').eq(($(this).index()-1)/3).html());
     })
 
     $("input[name='career_code']").click(function (){
-        console.log($('#search_career').html())
-        console.log($('.se').eq($(this).index()/2).html())
-        $('#search_career').html($('.sc').eq($(this).index()/2).html());
+        $('#search_career').html($('.sc').eq(($(this).index()-1)/3).html());
     })
     let temp = '<c:out value="${skillList}"/>';
     let temp2 = '<c:out value="${gugunList}"/>';

@@ -129,4 +129,24 @@ public class ComMyPageController{
         return mv;
     }
 
+    @RequestMapping("/UpdatePassForm")
+    public ModelAndView updatePassForm(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        ModelAndView mv = new ModelAndView();
+        String comid = (String) session.getAttribute("comid");
+        ComVo com = comMyPageMapper.getCom(comid);
+        mv.addObject("com",com);
+        mv.setViewName("commypage/updatePass");
+
+        return mv;
+    }
+
+    @RequestMapping("/UpdatePass")
+    public ModelAndView updatePass(ComVo comVo){
+        ModelAndView mv = new ModelAndView();
+        comMyPageMapper.updatePass(comVo);
+        mv.setViewName("redirect:/ComMyPage/");
+        return mv;
+    }
+
 }

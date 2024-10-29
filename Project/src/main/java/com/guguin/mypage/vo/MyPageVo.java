@@ -34,7 +34,7 @@ public class MyPageVo {
 		private String uphone;
 		private String uaddr;
 		private String email;
-		
+		 
 		//이력서스킬 RESUME_SKILL, SKILL_LIST, SKILL_CATEGORY_LIST
 		//RESNUM, SCATE_CODE, SCATE, SKILL_CODE, SKILL
 		private int scate_code;
@@ -68,4 +68,32 @@ public class MyPageVo {
 	    private Integer pass_code;     // 합격 여부
 	    private String recnum;       // 공고 번호
 
+	    //회사정보
+	    private String comname;
+	    
+	    //private String recnum;
+	    private String comid;
+	    private String rectitle;
+	    private String subtitle;
+	    private String boss;
+	    private String gcontent;
+	    //private String reg_date;
+	    private String deadline;
+	   // private int career_code;
+	   // private int edu_code;
+	    private int book_count;
+	    //private String picture;
+	    //private String license;
+	    //private int gugun_code;
+	    
+	    
+	    
+	    //Scarp
+	    
+	    private int bmid;
+	    //private String userid;
+	    //private String comid;
+	    //private String recnum;
+	    //private String resnum;
+	    private String scrap_date;
 }

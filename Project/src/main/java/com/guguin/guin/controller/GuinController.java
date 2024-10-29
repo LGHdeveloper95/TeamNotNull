@@ -4,7 +4,6 @@ import com.guguin.guin.mapper.GuinMapper;
 import com.guguin.guin.vo.GuinVo;
 import com.guguin.resume.mapper.ResumeMapper;
 import com.guguin.resume.vo.ResumeVo;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller

@@ -251,9 +251,10 @@
     <!-- 오른쪽: 로그인 프로필 영역 -->
     <div class="profile">
       <div><img src="/img/profile.png" alt="profile"></div>
-      <div>${com.boss}님<br>환영합니다</div>
+      <div>${sessionScope.comname}님<br>환영합니다</div>
       <div style="margin-top: 10px;">
         <a href="/ComMyPage/UpdateForm" class="abutton">내 정보 수정</a>
+        <a href="/ComMyPage/UpdatePassForm" class="abutton">비밀번호 변경</a>
         <a href="/Login/Logout" class="abutton">Logout</a>
       </div>
     </div>

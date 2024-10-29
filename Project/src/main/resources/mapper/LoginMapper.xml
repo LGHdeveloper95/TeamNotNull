@@ -10,7 +10,7 @@
 </select>
 
     <select id="getCom">
-        SELECT COMID,COMPW,BOSS
+        SELECT COMID,COMPW,COMNAME
         FROM BUSINESS_MEMBERS
         WHERE COMID=#{comid} AND COMPW=#{compw}
     </select>
