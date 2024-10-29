@@ -26,7 +26,6 @@ public class PostVo {
     private String comnum;
     private String cphone;
     private String caddr;
-    private String starrating;
     private String bossemail;
 
     private String edu_name;

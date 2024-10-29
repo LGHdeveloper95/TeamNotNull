@@ -77,7 +77,6 @@
             ,BOSS
             ,CPHONE
             ,CADDR
-            ,STARRATING
             ,BOSSEMAIL
         FROM BUSINESS_MEMBERS
         WHERE COMID=#{comid}

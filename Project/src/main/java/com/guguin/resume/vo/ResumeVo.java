@@ -16,7 +16,6 @@ public class ResumeVo {
 	private String restitle;
 	private String reg_date;
 	private String gender;
-
 	
 	private String picture;
 	private int edu_code;       //학력 분류
@@ -25,7 +24,7 @@ public class ResumeVo {
 	private int career_code;      //경력 분류
 	private String career_content; //경력 세부사항
 	private int sido_code;
-	private int dudun_code;
+	private int gugun_code;
 	
 	private String background;  //성장배경
 	private String personality; //성격의 장단점

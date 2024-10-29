@@ -62,7 +62,7 @@ public class GusikController {
             mv.addObject("licenseList", licenseList);
         }
         //기술분야
-        List<ResumeVo> skillList = resumeMapper.getSkillList(resnum);
+        List<ResumeVo> skillList = resumeMapper.getSkill(resnum);
         mv.addObject("resume", resume);
         mv.addObject("skillList", skillList);
         mv.setViewName("/gusik/view");

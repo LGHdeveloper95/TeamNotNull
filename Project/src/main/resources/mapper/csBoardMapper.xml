@@ -52,33 +52,13 @@
         FROM CS
         WHERE QNUM = #{qnum}
     </select>
-<!-- 사용자 ID로 게시글 조회 (페이징 적용) -->
-<select id="getBoardListByUserIdPaged" parameterType="map" resultType="com.guguin.csboard.vo.CsBoardVo">
-    SELECT QNUM, QTITLE, USERID, TO_CHAR(QDATE,'YYYY-MM-DD') AS QDATE
+    <!-- 내가쓴글만 보기 -->
+    <select id="getBoardListByUserId" parameterType="String" resultType="com.guguin.csboard.vo.CsBoardVo">
+    SELECT QNUM, QTITLE, USERID, COMID, QDATE
     FROM CS
-    WHERE USERID = #{loggedInUser}
+    WHERE USERID = #{userid}
     ORDER BY QNUM DESC
-    OFFSET #{offset} ROWS FETCH NEXT #{recordsPerPage} ROWS ONLY
-</select>
-
-<!-- 기업 ID로 게시글 조회 (페이징 적용) -->
-<select id="getBoardListByComIdPaged" parameterType="map" resultType="com.guguin.csboard.vo.CsBoardVo">
-    SELECT QNUM, QTITLE, COMID, TO_CHAR(QDATE,'YYYY-MM-DD') AS QDATE
-    FROM CS
-    WHERE COMID = #{loggedInComId}
-    ORDER BY QNUM DESC
-    OFFSET #{offset} ROWS FETCH NEXT #{recordsPerPage} ROWS ONLY
-</select>
-
-<!-- 사용자 게시글 총 개수 조회 -->
-<select id="getUserBoardCount" parameterType="string" resultType="int">
-    SELECT COUNT(*) FROM CS WHERE USERID = #{userid}
-</select>
-
-<!-- 기업 게시글 총 개수 조회 -->
-<select id="getComBoardCount" parameterType="string" resultType="int">
-    SELECT COUNT(*) FROM CS WHERE COMID = #{comid}
-</select>
+   </select>
 
     <!-- 게시글 작성 
     <insert id="insertBoard" parameterType="com.guguin.csboard.vo.CsBoardVo">
@@ -106,6 +86,3 @@
         WHERE QNUM = #{qnum}
     </update>
 </mapper>
-
-
-

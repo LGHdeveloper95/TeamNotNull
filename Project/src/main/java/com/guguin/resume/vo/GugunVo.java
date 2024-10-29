@@ -1,4 +1,4 @@
-package com.guguin.post.vo;
+package com.guguin.resume.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SidoVo {
-   private int sido_code;
-   private String sido;
+public class GugunVo {
+
+    private int gugun_code;
+    private String gugun;
+    private int sido_code;
 }

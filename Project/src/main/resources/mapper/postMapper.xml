@@ -52,7 +52,6 @@
     SELECT COMNUM
            ,CPHONE
            ,CADDR
-           ,STARRATING
            ,BOSSEMAIL
            ,COMNAME
             ,BOSS

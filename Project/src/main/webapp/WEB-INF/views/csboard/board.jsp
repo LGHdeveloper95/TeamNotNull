@@ -17,7 +17,7 @@
 	    background-color: #f9f9f9; /* 연한 회색 배경 */
 	    border-radius: 8px;
 	    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 약간의 그림자 */
-	    } 
+	}
 	
 	h2 {
 	    text-align: center;
@@ -143,6 +143,5 @@
 </main>
 
 </body>
-<%@include file = "/WEB-INF/include/footer.jsp" %>
 </html>
 

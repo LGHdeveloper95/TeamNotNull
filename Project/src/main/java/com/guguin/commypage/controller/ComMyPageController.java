@@ -92,9 +92,9 @@ public class ComMyPageController{
             mv.addObject("licenseList", licenseList);
         }
         //기술분야
-        List<ResumeVo> skillList = resumeMapper.getSkillList(comMyPageVo.getSendnum());
+        List<ResumeVo> skillList = resumeMapper.getSkill(comMyPageVo.getSendnum());
         mv.addObject("resume", resume);
-//        mv.addObject("skillList", skillList);
+       mv.addObject("skillList", skillList);
 
         mv.addObject("resume",resume);
         mv.addObject("user", user);

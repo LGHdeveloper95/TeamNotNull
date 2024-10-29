@@ -46,7 +46,7 @@
   </select>
 
   <delete id="deleteResume">
-    DELETE FROM RESUME WHERE RESNUM = #{ resnum }
+    DELETE FROM PERSONAL_RESUME WHERE RESNUM = #{ resnum }
   </delete>
 
   <select id="getEduList">
@@ -77,22 +77,48 @@
 
   <insert id="insertResume">
     INSERT INTO PERSONAL_RESUME(
-                                 RESNUM, RESTITLE, EDU_CODE
-                               , EDU_CONTENT, LICENSE, CAREER_CODE, CAREER_CONTENT, SKILL
-                               , SIDO_CODE, GUGUN_CODE, BACKGROUND, MOTIVATION, PERSONALITY
-    )VALUES('res' || LPAD((SELECT NVL(MAX(TO_NUMBER(SUBSTR(RESNUM, 4))), 0) + 1 FROM PERSONAL_RESUME), 3, '0')
-           , #{restitle}, #{edu_code}, #{edu_content}, #{license}, #{career_code}, #{career_content}
-           , #{skill}, #{sido_code}, #{gugun_code}, #{background}, #{motivation}, #{personality});
+                                 RESNUM, RESTITLE, USERID, USERNAME, EDU_CODE, EDU_CONTENT, LICENSE, CAREER_CODE
+                               , CAREER_CONTENT, GUGUN_CODE, BACKGROUND, MOTIVATION, PERSONALITY, GENDER)
+    VALUES( 'res' || LPAD((SELECT NVL(MAX(TO_NUMBER(SUBSTR(RESNUM, 4))), 0) + 1 FROM PERSONAL_RESUME), 3,'0')
+          , #{ restitle }, #{ userid }, #{ username }, #{ edu_code }, #{ edu_content }, #{ license }
+          , #{ career_code }, #{ career_content }, #{ gugun_code }
+          , #{ background}, #{ motivation }, #{ personality }, #{ gender })
   </insert>
+
+  <select id="getResnum">
+    SELECT 'res' || LPAD((SELECT NVL(MAX(TO_NUMBER(SUBSTR(RESNUM, 4))), 0) FROM PERSONAL_RESUME), 3, '0') AS new_resnum
+    FROM DUAL
+  </select>
+
+  <update id="insertSkill">
+    INSERT INTO RESUME_SKILL(RESNUM, SKILL_CODE)
+    VALUES(#{ resnum }, #{ skill })
+  </update>
 
   <update id="updateImg">
     UPDATE PERSONAL_RESUME
     SET PICTURE = #{picture}
     WHERE RESNUM = #{resnum}
   </update>
+
+  <update id="updateResume">
+    UPDATE PERSONAL_RESUME
+    SET RESTITLE = #{restitle}
+      , EDU_CODE = #{edu_code}
+      , EDU_CONTENT = #{edu_content}
+      , LICENSE = #{license}
+      , CAREER_CODE = #{career_code}
+      , CAREER_CONTENT = #{career_content}
+      , GUGUN_CODE = #{gugun_code}
+      , BACKGROUND = #{background}
+      , PERSONALITY = #{personality}
+      , MOTIVATION = #{motivation}
+    WHERE RESNUM = #{resnum}
+  </update>
+
+  <delete id="deleteSkill">
+    DELETE FROM RESUME_SKILL
+    WHERE RESNUM = #{ resnum }
+  </delete>
+
 </mapper>
-
-
-
-
-

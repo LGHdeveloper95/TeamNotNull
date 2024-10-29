@@ -1,4 +1,4 @@
-package com.guguin.post.vo;
+package com.guguin.resume.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
