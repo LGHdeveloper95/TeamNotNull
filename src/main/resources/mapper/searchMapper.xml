@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guguin.search.mapper.SearchMapper">
+
+<select id="getSearchSkillResList">
+    select RS.RESNUM AS RESNUM,RESTITLE
+    FROM RESUME_SKILL RS,PERSONAL_RESUME PR
+    WHERE RS.RESNUM=PR.RESNUM
+        <if test="gugun_code!=null and gugun_code!=''">AND GUGUN_CODE=#{gugun_code}</if>
+        <if test="edu_code!=null and edu_code!=''">AND EDU_CODE>=#{edu_code}</if>
+        <if test="career_code!=null and career_code!=''">AND CAREER_CODE>=#{career_code}</if>
+        <if test="word!=null and word!=''">AND RESTITLE LIKE '%'||#{word}||'%'</if>
+    GROUP BY RS.RESNUM,RESTITLE
+    <if test="skill != null and skill != ''">
+    having LISTAGG(SKILL_CODE,'/')WITHIN GROUP(ORDER BY SKILL_CODE) LIKE '%'||#{skill}||'%'
+    </if>
+
+</select>
+
+    <select id="getSearchResList">
+        select RESNUM,RESTITLE
+        FROM PERSONAL_RESUME PR
+        <where>
+        <if test="gugun_code!=null and gugun_code!=''">AND GUGUN_CODE=#{gugun_code}</if>
+        <if test="edu_code!=null and edu_code!=''">AND EDU_CODE>=#{edu_code}</if>
+        <if test="career_code!=null and career_code!=''">AND CAREER_CODE>=#{career_code}</if>
+        <if test="word!=null and word!=''">AND RESTITLE LIKE '%'||#{word}||'%'</if>
+        </where>
+    </select>
+
+    <select id="getSearchSkillRecList">
+        select RS.RECNUM AS RECNUM,RC.RECTITLE AS RECTITLE,BM.COMNAME AS COMNAME
+        FROM RECRUIT_SKILL RS,RECRUIT RC,BUSINESS_MEMBERS BM
+        WHERE RS.RECNUM=RC.RECNUM AND RC.COMID=BM.COMID
+        <if test="gugun_code!=null and gugun_code!=''">AND GUGUN_CODE=#{gugun_code}</if>
+        <if test="edu_code!=null and edu_code!=''">AND #{edu_code} >= EDU_CODE </if>
+        <if test="career_code!=null and career_code!=''">AND #{career_code} >= CAREER_CODE</if>
+        <if test="word!=null and word!=''">AND RECTITLE LIKE '%'||#{word}||'%'</if>
+        GROUP BY RS.RECNUM,RECTITLE,BM.COMNAME
+        <if test="skill != null and skill != ''">
+            having LISTAGG(SKILL_CODE,'/')WITHIN GROUP(ORDER BY SKILL_CODE) LIKE '%'||#{skill}||'%'
+        </if>
+
+    </select>
+
+    <select id="getSearchRecList">
+        select RC.RECNUM AS RECNUM,RC.RECTITLE AS RECTITLE,BM.COMNAME AS COMNAME
+        FROM RECRUIT RC,BUSINESS_MEMBERS BM
+        WHERE RC.COMID = BM.COMID
+            <if test="gugun_code!=null and gugun_code!=''">AND GUGUN_CODE=#{gugun_code}</if>
+            <if test="edu_code!=null and edu_code!=''">AND #{edu_code} >= EDU_CODE </if>
+            <if test="career_code!=null and career_code!=''">AND #{career_code} >= CAREER_CODE</if>
+            <if test="word!=null and word!=''">AND RECTITLE LIKE '%'||#{word}||'%'</if>
+    </select>
+
+</mapper>
+
+
+
+
+
+

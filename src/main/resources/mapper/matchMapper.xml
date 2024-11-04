@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guguin.match.mapper.MatchMapper">
+<select id="getResnum">
+    SELECT RESNUM
+    FROM PERSONAL_RESUME
+    WHERE USERID=#{userid}
+</select>
+
+    <select id="getRecnum">
+        SELECT RECNUM
+        FROM RECRUIT
+        WHERE COMID=#{comid}
+    </select>
+    <select id="getUserSkill">
+        SELECT SKILL_CODE
+        FROM RESUME_SKILL
+        WHERE RESNUM=#{resnum}
+    </select>
+    <select id="getComSkill">
+        SELECT SKILL_CODE
+        FROM RECRUIT_SKILL
+        WHERE RECNUM=#{recnum}
+    </select>
+
+
+    <select id="getRecruit">
+        SELECT RECNUM
+        FROM RECRUIT_SKILL
+        WHERE SKILL_CODE=#{skill_code}
+    </select>
+
+    <select id="getResume">
+        SELECT RESNUM
+        FROM RESUME_SKILL
+        WHERE SKILL_CODE=#{skill_code}
+    </select>
+
+    <select id="getRecruitList">
+        SELECT REC.RECNUM RECNUM,RECTITLE,COMNAME,REC.COMID COMID
+        FROM RECRUIT  REC JOIN BUSINESS_MEMBERS BM ON REC.COMID = BM.COMID
+        WHERE REC.RECNUM =#{s}
+    </select>
+
+    <select id="getResumeList">
+        SELECT RESNUM, RESTITLE
+        FROM PERSONAL_RESUME
+        WHERE RESNUM =#{resnum}
+    </select>
+</mapper>
+
+
+
+
+
+

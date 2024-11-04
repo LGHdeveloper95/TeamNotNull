@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guguin.company.mapper.CompInfoMapper">
+
+    <select id="getTotalRecordCount" resultType="int">
+        SELECT COUNT(*) FROM COMPANY_INFO
+    </select>
+
+    <select id="getCompanyList" parameterType="com.guguin.company.vo.GridPaging" resultType="com.guguin.company.vo.CompInfoVo">
+    SELECT COMID, TITLE, CONTENT, HISTORY, PEOPLE_NUM, LINK, IMAGE_PATH
+    FROM COMPANY_INFO
+    ORDER BY COMID
+    OFFSET #{startRecord} ROWS
+    FETCH NEXT #{pageSize} ROWS ONLY
+</select>
+
+    <select id="getCompanyById" parameterType="string" resultType="com.guguin.company.vo.CompInfoVo">
+        SELECT * FROM COMPANY_INFO WHERE COMID = #{comid} 
+    </select>
+
+    <insert id="insertCompanyInfo" parameterType="com.guguin.company.vo.CompInfoVo">
+        INSERT INTO COMPANY_INFO (COMID, TITLE, CONTENT, HISTORY, PEOPLE_NUM, LINK, IMAGE_PATH)
+        VALUES (#{comid}, #{title}, #{content}, #{history}, #{peopleNum}, #{link}, #{imagePath})
+    </insert>
+
+    <update id="updateCompanyInfo" parameterType="com.guguin.company.vo.CompInfoVo">
+        UPDATE COMPANY_INFO
+        SET TITLE = #{title}, CONTENT = #{content}, HISTORY = #{history}, LINK = #{link}, IMAGE_PATH = #{imagePath}
+        WHERE COMID = #{comid}
+    </update>
+
+    <delete id="deleteCompanyInfo" parameterType="string">
+        DELETE FROM COMPANY_INFO WHERE COMID = #{comid}
+    </delete>
+    
+    <select id="getAverageStarPoint" parameterType="string" resultType="double">
+    SELECT NVL(AVG(STAR_VAL), 0) 
+    FROM STARPOINT 
+    WHERE COMID = #{comid}
+     </select>
+    
+</mapper>

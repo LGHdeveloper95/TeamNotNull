@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guguin.gusik.mapper.GusikMapper">
+
+    <select id = "getResumeList">
+        SELECT RESNUM, RESTITLE, TO_CHAR(REG_DATE, 'YYYY-MM-DD') REG_DATE
+        FROM PERSONAL_RESUME
+    </select>
+    <select id ="getResume">
+        SELECT * FROM PERSONAL_RESUME
+        WHERE RESNUM = #{ resnum }
+    </select>
+
+    <select id="getUser">
+        SELECT USERNAME,TO_CHAR(BIRTH,'YYYY-MM-DD') BIRTH,UPHONE,UADDR,EMAIL
+        FROM PERSONAL_MEMBERS
+        WHERE USERID=#{userid}
+    </select>
+
+    <select id="getUserByResnum">
+        SELECT PM.USERID AS USERID,PM.USERNAME AS USERNAME,TO_CHAR(BIRTH,'YYYY-MM-DD') BIRTH,UPHONE,UADDR,EMAIL,PM.GENDER AS GENDER
+        FROM PERSONAL_MEMBERS PM JOIN PERSONAL_RESUME PR
+        ON PM.USERID = PR.USERID
+        WHERE PR.RESNUM=#{resnum}
+    </select>
+    <select id="findBook">
+        SELECT MAX(BMID) BMID
+        FROM SCRAP
+        WHERE USERID=#{param1} AND COMID=#{param2} AND RESNUM=#{param3}
+    </select>
+
+    <insert id="insertBook">
+        INSERT INTO SCRAP(USERID,COMID,RESNUM)
+        VALUES (#{param1},#{param2},#{param3})
+    </insert>
+
+    <select id="getResumeByApplied">
+        SELECT RESNUM
+        FROM APPLIED_RESUME
+        WHERE SENDNUM = #{sendnum}
+    </select>
+    <select id="getPageList" parameterType="Map">
+        SELECT * FROM (SELECT ROWNUM AS R, T.* FROM
+            (SELECT * FROM( SELECT RESNUM, RESTITLE, TO_CHAR(REG_DATE, 'YYYY-MM-DD') REG_DATE
+                            FROM PERSONAL_RESUME) ORDER BY RESNUM DESC) T)
+        WHERE R BETWEEN #{startNo} AND #{endNo}
+    </select>
+    <select id="getCount" resultType="int">
+        SELECT count(*) FROM PERSONAL_RESUME
+    </select>
+</mapper>

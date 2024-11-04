@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guguin.commypage.mapper.ComMyPageMapper">
+
+    <select id="getApplied_resumeList">
+        SELECT SENDNUM
+            ,RESTITLE
+            ,USERID
+            ,USERNAME
+            ,PICTURE
+            ,EDU_CODE
+            ,EDU_CONTENT
+            ,LICENSE
+            ,CAREER_CODE
+            ,CAREER_CONTENT
+            ,GUGUN_CODE
+            ,NVL(PASS_CODE,2) PASS_CODE
+            ,BACKGROUND
+            ,MOTIVATION
+            ,PERSONALITY
+            ,REG_DATE
+            ,COMID
+            ,RECNUM
+            ,RESNUM
+        FROM APPLIED_RESUME
+        WHERE COMID=#{comid}
+    </select>
+    <select id="getApplied_Resume">
+        SELECT SENDNUM
+            ,RESTITLE
+            ,USERID
+            ,USERNAME
+            ,PICTURE
+            ,EDU_CODE
+            ,EDU_CONTENT
+            ,LICENSE
+            ,CAREER_CODE
+            ,CAREER_CONTENT
+            ,GUGUN_CODE
+            ,PASS_CODE
+            ,BACKGROUND
+            ,MOTIVATION
+            ,PERSONALITY
+            ,REG_DATE
+            ,COMID
+            ,RECNUM
+            ,RESNUM
+        FROM APPLIED_RESUME
+        WHERE SENDNUM=#{sendnum}
+    </select>
+    <select id="getUser">
+        SELECT PM.USERNAME USERNAME
+            ,BIRTH
+            ,UPHONE
+            ,UADDR
+            ,EMAIL
+            ,GENDER
+        FROM PERSONAL_MEMBERS PM LEFT JOIN APPLIED_RESUME AR
+        ON PM.USERID = AR.USERID
+        WHERE AR.USERID = #{userid} AND ROWNUM=1
+    </select>
+
+    <update id="updateResume">
+        UPDATE APPLIED_RESUME
+        SET PASS_CODE=#{pass_code}
+        WHERE SENDNUM=#{sendnum}
+    </update>
+
+    <select id="getCom">
+        SELECT COMID
+            ,COMNUM
+            ,COMPW
+            ,COMNAME
+            ,BOSS
+            ,CPHONE
+            ,CADDR
+            ,BOSSEMAIL
+        FROM BUSINESS_MEMBERS
+        WHERE COMID=#{comid}
+    </select>
+
+    <update id="updateCom">
+        UPDATE BUSINESS_MEMBERS
+        SET CPHONE=#{cphone},
+            CADDR=#{caddr},
+            BOSSEMAIL=#{bossemail}
+        WHERE COMID=#{comid}
+    </update>
+
+    <update id="updatePass">
+        UPDATE BUSINESS_MEMBERS
+        SET COMPW=#{compw}
+        WHERE COMID=#{comid}
+    </update>
+
+    <select id="getBook_resumeList">
+        SELECT S.RESNUM RESNUM,BMID,RESTITLE,SCRAP_DATE
+        FROM SCRAP S JOIN PERSONAL_RESUME PR ON S.RESNUM=PR.RESNUM
+        WHERE COMID=#{comid}
+    </select>
+    
+    <delete id="deleteBook">
+        DELETE SCRAP
+        WHERE BMID = #{bmid}
+    </delete>
+    <delete id="delCom">
+        DELETE FROM BUSINESS_MEMBERS
+        WHERE COMID = #{ comid }
+    </delete>
+</mapper>

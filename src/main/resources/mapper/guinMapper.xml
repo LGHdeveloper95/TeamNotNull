@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guguin.guin.mapper.GuinMapper">
+
+
+    <select id="getRecruitList" resultType="com.guguin.guin.vo.GuinVo"> 
+        SELECT BM.COMNAME AS COMNAME
+             ,RECNUM
+             ,REC.COMID  AS COMID
+             ,RECTITLE
+             ,SUBTITLE
+             ,REC.BOSS  AS BOSS
+             ,GCONTENT
+             ,REG_DATE
+             ,DEADLINE 
+             ,GUGUN_CODE
+             ,CAREER_CODE
+             ,EDU_CODE
+             ,BOOK_COUNT
+        FROM RECRUIT REC LEFT JOIN BUSINESS_MEMBERS BM
+         ON BM.COMID = REC.COMID
+    </select>
+
+    <select id="getRecruit" resultType="com.guguin.guin.vo.GuinVo">
+        SELECT BM.COMNAME AS COMNAME
+             ,RECNUM
+             ,REC.COMID  AS COMID
+             ,RECTITLE
+             ,SUBTITLE
+             ,REC.BOSS  AS BOSS
+             ,GCONTENT
+             ,REG_DATE
+             ,DEADLINE
+             ,GUGUN_CODE
+             ,CAREER_CODE
+             ,EDU_CODE
+             ,BOOK_COUNT
+        FROM RECRUIT REC LEFT JOIN BUSINESS_MEMBERS BM
+        ON BM.COMID = REC.COMID
+        WHERE  REC.RECNUM = #{recnum}
+    </select>
+
+    <select id="getUser" resultType="com.guguin.guin.vo.GuinVo">
+        SELECT USERNAME, BIRTH, UPHONE, UADDR, EMAIL
+        FROM PERSONAL_MEMBERS 
+        WHERE USERID = #{userid}
+    </select>
+
+    <select id="getResumeList" resultType="com.guguin.guin.vo.GuinVo">
+        SELECT *
+        FROM PERSONAL_RESUME
+        WHERE USERID = #{userid}
+    </select>
+
+	<select id="getComid">
+		SELECT COMID
+		FROM RECRUIT
+		WHERE RECNUM=#{recnum}
+	</select>
+
+ <select id="getPost">
+        SELECT BM.COMNAME AS COMNAME
+             ,RECNUM
+             ,REC.COMID  AS COMID
+             ,RECTITLE
+             ,SUBTITLE
+             ,REC.BOSS  AS BOSS
+             ,GCONTENT
+             ,TO_CHAR(REG_DATE,'YYYY-MM-DD') AS REG_DATE
+             ,TO_CHAR(DEADLINE,'YYYY-MM-DD') AS DEADLINE
+             ,GUGUN_CODE
+             ,REC.CAREER_CODE AS CAREER_CODE
+             ,REC.EDU_CODE AS EDU_CODE
+             ,BOOK_COUNT
+             ,CA.CAREER_NAME AS CAREER_NAME
+             ,EL.EDU_NAME AS EDU_NAME
+             ,CI.IMAGE_PATH AS IMAGE_PATH
+        FROM RECRUIT REC LEFT JOIN BUSINESS_MEMBERS BM
+        ON BM.COMID = REC.COMID JOIN CAREER CA
+        ON REC.CAREER_CODE = CA.CAREER_CODE JOIN EDU_LIST EL
+        ON REC.EDU_CODE = EL.EDU_CODE JOIN COMPANY_INFO CI
+        ON REC.COMID=CI.COMID
+        WHERE REC.RECNUM = #{recnum} AND ROWNUM=1
+        ORDER BY CI.IMAGE_PATH DESC
+
+    </select>
+
+    <select id="getCom">
+    SELECT BM.COMNUM COMNUM
+           ,BM.CPHONE CPHONE
+           ,BM.CADDR CADDR
+           ,BM.BOSSEMAIL BOSSEMAIL
+           ,BM.COMNAME COMNAME
+            ,BM.BOSS BOSS
+            ,BM.COMID COMID
+            ,CI.IMAGE_PATH AS IMAGE_PATH
+            ,TO_CHAR(SYSDATE,'YYYY-MM-DD') AS TODAY
+     FROM BUSINESS_MEMBERS BM JOIN COMPANY_INFO CI ON BM.COMID=CI.COMID
+    WHERE BM.COMID=#{comid} AND ROWNUM=1
+    ORDER BY CI.IMAGE_PATH DESC
+    </select>
+
+    <select id="getRegion">
+        SELECT SL.SIDO AS SIDO,GL.GUGUN AS GUGUN
+        FROM GUGUN_LIST GL JOIN SIDO_LIST SL
+        ON GL.SIDO_CODE = SL.SIDO_CODE
+        WHERE GL.GUGUN_CODE=#{gugun_code}
+    </select>
+
+  <select id="getComSkillList">
+        SELECT SL.SKILL AS SKILL,SL.SKILL_CODE SKILL_CODE
+        FROM SKILL_LIST SL JOIN RECRUIT_SKILL RS
+        ON SL.SKILL_CODE = RS.SKILL_CODE
+        WHERE RECNUM=#{recnum}
+
+    </select>
+
+<insert id="insertAppliedResume">
+INSERT INTO APPLIED_RESUME (
+    SENDNUM, RESTITLE, USERID, USERNAME, PICTURE, EDU_CODE, EDU_CONTENT,
+    LICENSE, CAREER_CODE, CAREER_CONTENT, GUGUN_CODE,
+    BACKGROUND, MOTIVATION, PERSONALITY, REG_DATE, COMID, RECNUM, RESNUM
+) 
+SELECT 
+    'AR' || SENDNUM_SEQ.NEXTVAL, 
+    RES.RESTITLE, RES.USERID, RES.USERNAME, RES.PICTURE, 
+    RES.EDU_CODE, RES.EDU_CONTENT, RES.LICENSE, 
+    RES.CAREER_CODE, RES.CAREER_CONTENT, 
+    RES.GUGUN_CODE, RES.BACKGROUND, 
+    RES.MOTIVATION, RES.PERSONALITY, 
+    RES.REG_DATE, REC.COMID, 
+    REC.RECNUM, RES.RESNUM
+FROM PERSONAL_RESUME RES 
+JOIN RECRUIT REC ON REC.RECNUM = #{ recnum }
+WHERE RES.RESNUM = #{ resnum }
+</insert>
+        
+        
+<insert id="addScrap" parameterType="map">
+    INSERT INTO SCRAP (USERID, RECNUM, COMID)
+    VALUES (#{userid}, #{recnum}, #{comid})
+</insert>
+        
+        
+<select id="scrapExists" parameterType="map">
+    SELECT COUNT(*) FROM SCRAP WHERE userid = #{userid} AND recnum = #{recnum}
+</select>        
+
+<select id="applyExists">
+    SELECT COUNT(*) FROM APPLIED_RESUME WHERE RECNUM = #{recnum} AND USERID = #{userid}
+</select>        
+        
+        
+            <select id="getPageList" parameterType="Map">
+        SELECT * FROM (SELECT ROWNUM AS R, T.* FROM
+            (SELECT * FROM( SELECT BM.COMNAME AS COMNAME
+                                 ,RECNUM
+                                 ,REC.COMID  AS COMID
+                                 ,RECTITLE
+                                 ,SUBTITLE
+                                 ,REC.BOSS  AS BOSS
+                                 ,GCONTENT
+                                 ,REG_DATE
+                                 ,DEADLINE
+                                 ,GUGUN_CODE
+                                 ,CAREER_CODE
+                                 ,EDU_CODE
+                                 ,BOOK_COUNT
+                            FROM RECRUIT REC LEFT JOIN BUSINESS_MEMBERS BM
+                            ON BM.COMID = REC.COMID) ORDER BY RECNUM DESC) T)
+        WHERE R BETWEEN #{startNo} AND #{endNo}
+    </select>
+    <select id="getCount" resultType="int">
+        SELECT count(*) FROM RECRUIT
+    </select>
+        
+</mapper>
